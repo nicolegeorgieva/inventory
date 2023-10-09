@@ -4,7 +4,8 @@ espressoCore = "3.5.1"
 hiltAndroid = "2.48"
 junit = "4.13.2"
 junitVersion = "1.1.5"
-kotestRunnerJunit5 = "version"
+kotestAssertionsCore = "5.7.2"
+kotestRunnerJunit5 = "5.7.2"
 ktx = "1.12.0"
 androidGradlePlugin = "8.2.0-beta01"
 kotlinPlugin = "1.8.10"
@@ -20,6 +21,7 @@ androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtim
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 junit = { module = "junit:junit", version.ref = "junit" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestAssertionsCore" }
 kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotestRunnerJunit5" }
 
 [plugins]

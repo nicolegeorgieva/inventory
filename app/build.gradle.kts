@@ -79,7 +79,7 @@ dependencies {
     kapt(libs.hilt.android.compiler)
 
     testImplementation(libs.kotest.runner.junit5)
-    testImplementation("io.kotest:kotest-assertions-core:$version")
+    testImplementation(libs.kotest.assertions.core)
 }
 
 kapt {
