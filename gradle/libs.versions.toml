@@ -1,0 +1,9 @@
+[versions]
+ktx = "1.12.0"
+androidGradlePlugin = "8.2.0-beta01"
+
+[libraries]
+androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
