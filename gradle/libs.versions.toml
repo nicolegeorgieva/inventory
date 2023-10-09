@@ -7,6 +7,8 @@ junitVersion = "1.1.5"
 kotestRunnerJunit5 = "version"
 ktx = "1.12.0"
 androidGradlePlugin = "8.2.0-beta01"
+kotlinPlugin = "1.8.10"
+daggerHiltPlugin = "2.44"
 lifecycleRuntimeKtx = "2.6.2"
 
 [libraries]
@@ -22,3 +24,5 @@ kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinPlugin" }
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHiltPlugin" }
