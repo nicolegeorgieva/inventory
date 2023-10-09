@@ -97,6 +97,8 @@ dependencies {
 
     implementation(libs.arrow.core)
     implementation(libs.arrow.fx.coroutines)
+
+    implementation(libs.kotlinx.collections.immutable)
 }
 
 kapt {
