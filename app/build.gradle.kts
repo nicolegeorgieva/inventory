@@ -80,6 +80,8 @@ dependencies {
 
     testImplementation(libs.kotest.runner.junit5)
     testImplementation(libs.kotest.assertions.core)
+
+    implementation(libs.androidx.datastore.preferences.core)
 }
 
 kapt {
