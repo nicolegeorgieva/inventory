@@ -88,6 +88,9 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler.v250)
     implementation(libs.androidx.room.ktx)
+
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.netty)
 }
 
 kapt {
