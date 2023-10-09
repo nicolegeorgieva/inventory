@@ -1,5 +1,6 @@
 [versions]
 activityCompose = "1.8.0"
+arrow = "1.2.0"
 composeBom = "2023.10.00"
 composeComposeBom = "2023.10.00"
 datastorePreferencesCore = "1.0.0"
@@ -38,6 +39,8 @@ androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx"
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-room-compiler-v250 = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }

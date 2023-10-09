@@ -92,6 +92,9 @@ dependencies {
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
     implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.arrow.core)
+    implementation(libs.arrow.fx.coroutines)
 }
 
 kapt {
