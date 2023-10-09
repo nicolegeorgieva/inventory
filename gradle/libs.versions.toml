@@ -1,51 +1,46 @@
 [versions]
-activityCompose = "1.8.0"
-arrow = "1.2.1"
-composeBom = "2023.10.00"
-composeComposeBom = "2023.10.00"
-datastorePreferencesCore = "1.0.0"
-espressoCore = "3.5.1"
-junit = "4.13.2"
-junitVersion = "1.1.5"
-kotestAssertionsCore = "5.7.2"
-kotestRunnerJunit5 = "5.7.2"
-kotlinxCollectionsImmutable = "0.3.6"
-kotlinxSerializationJson = "1.5.1"
-ktx = "1.12.0"
-androidGradlePlugin = "8.2.0-beta01"
-kotlinPlugin = "1.8.10"
-daggerHiltPlugin = "2.48"
-lifecycleRuntimeKtx = "2.6.2"
-room = "2.5.2"
-devtoolsKspPlugin = "1.8.10-1.0.9"
+kotlin = "1.9.10"
+agp = "8.1.2"
+compose = "1.5.3"
+# https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+compose-compiler = "1.5.3" # DO NOT DELETE! It's used
+ksp = "1.9.10-1.0.13"
+
+kotlin-coroutines = "1.7.3"
 ktor = "2.3.5"
+arrow = "1.2.1"
+kotest = "5.7.2"
+compose-material3 = "1.1.2"
+hilt = "2.48.1"
+room = "2.6.0-rc01"
 
 [libraries]
-androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
-androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
-androidx-compose-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeComposeBom" }
-androidx-compose-ui = { module = "androidx.compose.ui:ui" }
-androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4" }
-androidx-compose-ui-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
-androidx-compose-ui-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
-androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
-androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
-androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
-androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferencesCore" }
-androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
-androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
-androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
-androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
-arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
-arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
-junit = { module = "junit:junit", version.ref = "junit" }
-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestAssertionsCore" }
-kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotestRunnerJunit5" }
-kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+# Kotlin
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
+kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version = "0.3.6" }
+
+# Compose
+compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material3" }
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
+compose-runtime-livedate-temp = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-activity = { module = "androidx.activity:activity-compose", version = "1.8.0" }
+compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version = "2.6.2" }
+compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-coil = { module = "io.coil-kt:coil-compose", version = "2.4.0" }
+
+# Hilt
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+
+# KotlinX Serialization
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.0" }
 
 # Ktor
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
@@ -55,19 +50,30 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 
-[bundles]
-ktor = [
-    "kotlinx-serialization-json",
-    "ktor-client-okhttp",
-    "ktor-content-negotiation",
-    "ktor-serialization",
-    "ktor-client-core",
-    "ktor-client-serialization",
-    "ktor-logging"
-]
+# Testing
+mockk = { module = "io.mockk:mockk", version = "1.13.8" }
+kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
+kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "arrow" }
+kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
+kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
+cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.2.1" }
+cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.0.0" }
+
+# Local persistence
+datastore = { module = "androidx.datastore:datastore-preferences", version = "1.0.0" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+
+# Arrow
+arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 
 [plugins]
-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinPlugin" }
-dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHiltPlugin" }
-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "devtoolsKspPlugin" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
