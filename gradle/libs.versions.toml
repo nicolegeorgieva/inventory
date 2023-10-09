@@ -5,17 +5,12 @@ composeBom = "2023.10.00"
 composeComposeBom = "2023.10.00"
 datastorePreferencesCore = "1.0.0"
 espressoCore = "3.5.1"
-hiltAndroid = "2.48"
-hiltCompiler = "1.0.0"
-hiltLifecycleViewmodel = "1.0.0-alpha03"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 kotestAssertionsCore = "5.7.2"
 kotestRunnerJunit5 = "5.7.2"
 kotlinxCollectionsImmutable = "0.3.6"
 kotlinxSerializationJson = "1.5.1"
-ktorServerCore = "2.3.5"
-ktorServerNetty = "2.3.5"
 ktx = "1.12.0"
 androidGradlePlugin = "8.2.0-beta01"
 kotlinPlugin = "1.8.10"
@@ -23,6 +18,7 @@ daggerHiltPlugin = "2.48"
 lifecycleRuntimeKtx = "2.6.2"
 room = "2.5.2"
 devtoolsKspPlugin = "1.8.10-1.0.9"
+ktor = "2.3.5"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -50,8 +46,25 @@ kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.
 kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotestRunnerJunit5" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
-ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktorServerCore" }
-ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktorServerNetty" }
+
+# Ktor
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+
+[bundles]
+ktor = [
+    "kotlinx-serialization-json",
+    "ktor-client-okhttp",
+    "ktor-content-negotiation",
+    "ktor-serialization",
+    "ktor-client-core",
+    "ktor-client-serialization",
+    "ktor-logging"
+]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

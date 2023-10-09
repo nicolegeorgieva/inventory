@@ -94,4 +94,6 @@ dependencies {
     implementation(libs.arrow.fx.coroutines)
 
     implementation(libs.kotlinx.collections.immutable)
+
+    implementation(libs.bundles.ktor)
 }
