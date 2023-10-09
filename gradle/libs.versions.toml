@@ -1,6 +1,6 @@
 [versions]
 activityCompose = "1.8.0"
-arrow = "1.2.0"
+arrow = "1.2.1"
 composeBom = "2023.10.00"
 composeComposeBom = "2023.10.00"
 datastorePreferencesCore = "1.0.0"
