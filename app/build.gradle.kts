@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin)
     kotlin("kapt")
     alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.devtools.ksp)
 }
 
 android {
@@ -85,6 +86,7 @@ dependencies {
 
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler.v250)
 }
 
 kapt {
