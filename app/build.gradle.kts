@@ -82,6 +82,9 @@ dependencies {
     testImplementation(libs.kotest.assertions.core)
 
     implementation(libs.androidx.datastore.preferences.core)
+
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
 }
 
 kapt {
