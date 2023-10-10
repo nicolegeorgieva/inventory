@@ -251,4 +251,35 @@ class InventoryRepositoryTest : FreeSpec({
             )
         }
     }
+
+    "delete" {
+        // given
+        val dataSource = mockk<InventoryDataSource>()
+        val repository = InventoryRepository(dataSource, InventoryMapper())
+        val id = UUID.randomUUID()
+        val inventoryItem = InventoryItem(
+            id = id,
+            name = "Watter bottles",
+            quantity = 5,
+            imageUrl = null,
+            category = "Groceries"
+        )
+        coEvery { dataSource.delete(any()) } just runs
+
+        // when
+        repository.delete(inventoryItem)
+
+        // then
+        coVerify(exactly = 1) {
+            dataSource.delete(
+                InventoryEntity(
+                    id = id,
+                    name = "Watter bottles",
+                    quantity = 5,
+                    imageUrl = null,
+                    category = "Groceries"
+                )
+            )
+        }
+    }
 })

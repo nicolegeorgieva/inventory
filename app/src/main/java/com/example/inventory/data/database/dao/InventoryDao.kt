@@ -10,26 +10,26 @@ import java.util.UUID
 @Dao
 interface InventoryDao {
     @Query("SELECT * FROM inventory_items")
-    fun getAll(): List<InventoryEntity>
+    suspend fun getAll(): List<InventoryEntity>
 
     @Query("SELECT * FROM inventory_items WHERE category = :category")
-    fun getAllByCategory(category: String): List<InventoryEntity>
+    suspend fun getAllByCategory(category: String): List<InventoryEntity>
 
     @Query("SELECT * FROM inventory_items WHERE id = :id")
-    fun getById(id: UUID): InventoryEntity?
+    suspend fun getById(id: UUID): InventoryEntity?
 
     @Query("SELECT * FROM inventory_items ORDER BY quantity ASC")
-    fun orderByAscending(): List<InventoryEntity>
+    suspend fun orderByAscending(): List<InventoryEntity>
 
     @Query("SELECT * FROM inventory_items ORDER BY quantity DESC")
-    fun orderByDescending(): List<InventoryEntity>
+    suspend fun orderByDescending(): List<InventoryEntity>
 
     @Upsert
-    fun save(inventoryEntity: InventoryEntity)
+    suspend fun save(inventoryEntity: InventoryEntity)
 
     @Delete
-    fun delete(inventoryEntity: InventoryEntity)
+    suspend fun delete(inventoryEntity: InventoryEntity)
 
     @Query("DELETE FROM inventory_items")
-    fun deleteAll()
+    suspend fun deleteAll()
 }
