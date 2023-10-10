@@ -4,18 +4,17 @@ import com.example.inventory.data.datasource.NameDataSource
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 
 class NameRepositoryTest : FreeSpec({
-    val dataSource = mockk<NameDataSource>()
-    fun newRepository(): NameRepository {
-        return NameRepository(dataSource)
-    }
-
     "get name" - {
         "existing name" {
             // given
-            val repository = newRepository()
+            val dataSource = mockk<NameDataSource>()
+            val repository = NameRepository(dataSource)
             coEvery { dataSource.getName() } returns "Amy"
 
             // when
@@ -27,7 +26,8 @@ class NameRepositoryTest : FreeSpec({
 
         "null name" {
             // given
-            val repository = newRepository()
+            val dataSource = mockk<NameDataSource>()
+            val repository = NameRepository(dataSource)
             coEvery { dataSource.getName() } returns null
 
             // when
@@ -36,5 +36,41 @@ class NameRepositoryTest : FreeSpec({
             // then
             name shouldBe null
         }
+    }
+
+    "set name" - {
+        "valid name" {
+            // given
+            val dataSource = mockk<NameDataSource>()
+            val repository = NameRepository(dataSource)
+            coEvery { dataSource.setName(any()) } just runs
+
+            // when
+            repository.setName("  Amy  ")
+
+            // then
+            coVerify(exactly = 1) {
+                dataSource.setName("Amy")
+            }
+        }
+
+        "invalid name" {
+            // given
+            val dataSource = mockk<NameDataSource>()
+            val repository = NameRepository(dataSource)
+            coEvery { dataSource.setName(any()) } just runs
+
+            // when
+            repository.setName(" ")
+
+            // then
+            coVerify(exactly = 0) {
+                dataSource.setName(any())
+            }
+        }
+    }
+
+    "remove name" {
+
     }
 })
