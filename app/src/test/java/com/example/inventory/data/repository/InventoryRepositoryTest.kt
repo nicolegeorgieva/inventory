@@ -127,4 +127,49 @@ class InventoryRepositoryTest : FreeSpec({
             res shouldBe null
         }
     }
+
+    "orderByAscending" {
+        // given
+        val dataSource = mockk<InventoryDataSource>()
+        val repository = InventoryRepository(dataSource, InventoryMapper())
+        val id = UUID.randomUUID()
+        val id2 = UUID.randomUUID()
+        coEvery { dataSource.orderByAscending() } returns listOf(
+            InventoryEntity(
+                id = id2,
+                name = "Kitchen paper",
+                quantity = 4,
+                imageUrl = null,
+                category = "Groceries"
+            ),
+            InventoryEntity(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                imageUrl = null,
+                category = "Groceries"
+            )
+        )
+
+        // when
+        val inventoryItems = repository.orderByAscending()
+
+        // then
+        inventoryItems shouldBe listOf(
+            InventoryItem(
+                id = id2,
+                name = "Kitchen paper",
+                quantity = 4,
+                imageUrl = null,
+                category = "Groceries"
+            ),
+            InventoryItem(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                imageUrl = null,
+                category = "Groceries"
+            )
+        )
+    }
 })
