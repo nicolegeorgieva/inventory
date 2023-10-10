@@ -55,4 +55,34 @@ class InventoryRepositoryTest : FreeSpec({
             )
         )
     }
+
+    "get all by category" {
+        // given
+        val dataSource = mockk<InventoryDataSource>()
+        val id = UUID.randomUUID()
+        val repository = InventoryRepository(dataSource, InventoryMapper())
+        coEvery { dataSource.getAllByCategory("Groceries") } returns listOf(
+            InventoryEntity(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                imageUrl = null,
+                category = "Groceries"
+            )
+        )
+
+        // when
+        val res = repository.getAllByCategory("Groceries")
+
+        // then
+        res shouldBe listOf(
+            InventoryItem(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                imageUrl = null,
+                category = "Groceries"
+            )
+        )
+    }
 })
