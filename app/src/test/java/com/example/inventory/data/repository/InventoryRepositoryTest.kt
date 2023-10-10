@@ -7,7 +7,10 @@ import com.example.inventory.data.repository.mapper.InventoryMapper
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import java.util.UUID
 
 class InventoryRepositoryTest : FreeSpec({
@@ -216,5 +219,36 @@ class InventoryRepositoryTest : FreeSpec({
                 category = "Groceries"
             )
         )
+    }
+
+    "save" {
+        // given
+        val dataSource = mockk<InventoryDataSource>()
+        val repository = InventoryRepository(dataSource, InventoryMapper())
+        val id = UUID.randomUUID()
+        val inventoryItem = InventoryItem(
+            id = id,
+            name = "Watter bottles",
+            quantity = 5,
+            imageUrl = null,
+            category = "Groceries"
+        )
+        coEvery { dataSource.save(any()) } just runs
+
+        // when
+        repository.save(inventoryItem)
+
+        // then
+        coVerify(exactly = 1) {
+            dataSource.save(
+                InventoryEntity(
+                    id = id,
+                    name = "Watter bottles",
+                    quantity = 5,
+                    imageUrl = null,
+                    category = "Groceries"
+                )
+            )
+        }
     }
 })
