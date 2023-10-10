@@ -71,6 +71,17 @@ class NameRepositoryTest : FreeSpec({
     }
 
     "remove name" {
+        // given
+        val dataSource = mockk<NameDataSource>()
+        val repository = NameRepository(dataSource)
+        coEvery { dataSource.removeName() } just runs
 
+        // when
+        repository.removeName()
+
+        // then
+        coVerify(exactly = 1) {
+            dataSource.removeName()
+        }
     }
 })
