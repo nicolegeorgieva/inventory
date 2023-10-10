@@ -282,4 +282,19 @@ class InventoryRepositoryTest : FreeSpec({
             )
         }
     }
+
+    "delete all" {
+        // given
+        val dataSource = mockk<InventoryDataSource>()
+        val repository = InventoryRepository(dataSource, InventoryMapper())
+        coEvery { dataSource.deleteAll() } just runs
+
+        // when
+        repository.deleteAll()
+
+        // then
+        coVerify(exactly = 1) {
+            dataSource.deleteAll()
+        }
+    }
 })
