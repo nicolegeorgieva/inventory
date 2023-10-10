@@ -12,6 +12,9 @@ interface InventoryDao {
     @Query("SELECT * FROM inventory_items")
     fun getAll(): List<InventoryEntity>
 
+    @Query("SELECT * FROM inventory_items WHERE category = :category")
+    fun getAllByCategory(category: String): List<InventoryEntity>
+
     @Query("SELECT * FROM inventory_items WHERE id = :id")
     fun getById(id: UUID): InventoryEntity?
 

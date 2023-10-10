@@ -12,5 +12,9 @@ data class InventoryEntity(
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "quantity")
-    val quantity: Int
+    val quantity: Int,
+    @ColumnInfo(name = "image_url")
+    val imageUrl: String?,
+    @ColumnInfo(name = "category")
+    val category: String?
 )
