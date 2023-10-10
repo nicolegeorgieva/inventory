@@ -85,4 +85,46 @@ class InventoryRepositoryTest : FreeSpec({
             )
         )
     }
+
+    "get by id" - {
+        "existing inventory entity" {
+            // given
+            val dataSource = mockk<InventoryDataSource>()
+            val repository = InventoryRepository(dataSource, InventoryMapper())
+            val id = UUID.randomUUID()
+            coEvery { dataSource.getById(id) } returns InventoryEntity(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                imageUrl = null,
+                category = "Groceries"
+            )
+
+            // when
+            val inventoryItem = repository.getById(id)
+
+            // then
+            inventoryItem shouldBe InventoryItem(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                imageUrl = null,
+                category = "Groceries"
+            )
+        }
+
+        "null from the DataSource" {
+            // given
+            val dataSource = mockk<InventoryDataSource>()
+            val repository = InventoryRepository(dataSource, InventoryMapper())
+            val id = UUID.randomUUID()
+            coEvery { dataSource.getById(id) } returns null
+
+            // when
+            val res = repository.getById(id)
+
+            // then
+            res shouldBe null
+        }
+    }
 })
