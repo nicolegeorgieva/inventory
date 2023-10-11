@@ -84,11 +84,11 @@ private fun NameRow(
 
 @Preview(showBackground = true)
 @Composable
-private fun MoreMenuPreview() {
+private fun MoreMenuNullNamePreview() {
     InventoryTheme {
         MoreMenuUi(
             navController = null,
-            uiState = MoreMenuState(name = "Amy"),
+            uiState = MoreMenuState(name = null),
             onEvent = {}
         )
     }
@@ -96,11 +96,11 @@ private fun MoreMenuPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun MoreMenuPreview2() {
+private fun MoreMenuExistingNamePreview() {
     InventoryTheme {
         MoreMenuUi(
             navController = null,
-            uiState = MoreMenuState(name = ""),
+            uiState = MoreMenuState(name = "Amy"),
             onEvent = {}
         )
     }

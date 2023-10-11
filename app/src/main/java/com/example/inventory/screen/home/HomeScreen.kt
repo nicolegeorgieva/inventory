@@ -142,12 +142,27 @@ private fun EmptyInventory() {
 
 @Preview(showBackground = true)
 @Composable
-private fun HomeUiPreview() {
+private fun HomeGenericEmptyPreview() {
     InventoryTheme {
         HomeUi(
             navController = null,
             uiState = HomeState(
                 name = null,
+                inventoryList = null
+            ),
+            onEvent = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HomePersonalizedEmptyPreview() {
+    InventoryTheme {
+        HomeUi(
+            navController = null,
+            uiState = HomeState(
+                name = "Amy",
                 inventoryList = null
             ),
             onEvent = {}
