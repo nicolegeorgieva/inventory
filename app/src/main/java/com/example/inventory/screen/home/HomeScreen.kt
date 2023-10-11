@@ -65,9 +65,9 @@ private fun HomeUi(
                 title = {
                     Text(
                         text = if (uiState.name == null) {
-                            "Hi"
+                            stringResource(R.string.home_generic_greeting)
                         } else {
-                            "${stringResource(R.string.home_greeting)}, ${uiState.name}"
+                            "${stringResource(R.string.home_personalized_greeting)}, ${uiState.name}"
                         },
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
