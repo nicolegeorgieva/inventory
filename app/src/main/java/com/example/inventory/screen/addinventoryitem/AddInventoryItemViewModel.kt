@@ -18,8 +18,8 @@ class AddInventoryItemViewModel @Inject constructor(
     ComposeViewModel<AddInventoryItemState, AddInventoryItemEvent>() {
 
     private val name = mutableStateOf<String?>(null)
-    private val quantity = mutableStateOf<Int?>(null)
-    private val minQuantityTarget = mutableStateOf<Int?>(null)
+    private val quantity = mutableStateOf<String?>(null)
+    private val minQuantityTarget = mutableStateOf<String?>(null)
     private val category = mutableStateOf<String?>(null)
     private val description = mutableStateOf<String?>(null)
     private val image = mutableStateOf<String?>(null)
@@ -42,12 +42,12 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getQuantity(): Int? {
+    private fun getQuantity(): String? {
         return quantity.value
     }
 
     @Composable
-    private fun getMinQuantityTarget(): Int? {
+    private fun getMinQuantityTarget(): String? {
         return minQuantityTarget.value
     }
 
@@ -93,7 +93,7 @@ class AddInventoryItemViewModel @Inject constructor(
         image.value = newImage
     }
 
-    private fun setMinQuantityTarget(newMinQuantityTarget: Int) {
+    private fun setMinQuantityTarget(newMinQuantityTarget: String) {
         minQuantityTarget.value = newMinQuantityTarget
     }
 
@@ -101,23 +101,25 @@ class AddInventoryItemViewModel @Inject constructor(
         name.value = newName
     }
 
-    private fun setQuantity(newQuantity: Int) {
+    private fun setQuantity(newQuantity: String) {
         quantity.value = newQuantity
     }
 
     private fun addInventoryItem() {
-        viewModelScope.launch {
-            inventoryRepository.save(
-                InventoryItem(
-                    id = UUID.randomUUID(),
-                    name = getName(),
-                    quantity = getQuantity(),
-                    minQuantityTarget = getMinQuantityTarget(),
-                    category = getCategory(),
-                    description = getDescription(),
-                    imageUrl = getImage()
+        if (name.value != null && quantity.value != null && minQuantityTarget.value != null) {
+            viewModelScope.launch {
+                inventoryRepository.save(
+                    InventoryItem(
+                        id = UUID.randomUUID(),
+                        name = name.value ?: "",
+                        quantity = quantity.value?.toIntOrNull() ?: 0,
+                        minQuantityTarget = minQuantityTarget.value?.toIntOrNull() ?: 0,
+                        category = category.value ?: "",
+                        description = description.value ?: "",
+                        imageUrl = image.value ?: ""
+                    )
                 )
-            )
+            }
         }
     }
 }

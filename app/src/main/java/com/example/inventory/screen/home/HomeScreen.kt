@@ -91,7 +91,7 @@ private fun HomeUi(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    /* Do something! */
+                    navController?.navigate("addInventoryItem")
                 }
             ) {
                 Icon(
