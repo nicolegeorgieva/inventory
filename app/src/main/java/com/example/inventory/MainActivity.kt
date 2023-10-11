@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.inventory.screen.addinventoryitem.AddInventoryItemScreen
 import com.example.inventory.screen.home.HomeScreen
 import com.example.inventory.screen.moremenu.MoreMenuScreen
 import com.example.inventory.ui.theme.InventoryTheme
@@ -31,6 +32,9 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "home") {
                         composable("home") { HomeScreen(navController) }
                         composable("moreMenu") { MoreMenuScreen(navController) }
+                        composable("addInventoryItem") {
+                            AddInventoryItemScreen(navController)
+                        }
                     }
                 }
             }

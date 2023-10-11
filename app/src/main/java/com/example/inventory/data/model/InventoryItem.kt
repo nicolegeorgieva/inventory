@@ -6,6 +6,8 @@ data class InventoryItem(
     val id: UUID,
     val name: String,
     val quantity: Int,
+    val minQuantityTarget: Int,
+    val category: String?,
+    val description: String?,
     val imageUrl: String?,
-    val category: String?
 )

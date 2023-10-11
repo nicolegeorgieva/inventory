@@ -10,8 +10,10 @@ class InventoryMapper @Inject constructor() {
             id = entity.id,
             name = entity.name,
             quantity = entity.quantity,
+            minQuantityTarget = entity.minQuantityTarget,
+            category = entity.category,
+            description = entity.description,
             imageUrl = entity.imageUrl,
-            category = entity.category
         )
     }
 
@@ -20,8 +22,10 @@ class InventoryMapper @Inject constructor() {
             id = item.id,
             name = item.name,
             quantity = item.quantity,
-            imageUrl = item.imageUrl,
-            category = item.category
+            minQuantityTarget = item.minQuantityTarget,
+            category = item.category,
+            description = item.description,
+            imageUrl = item.imageUrl
         )
     }
 }

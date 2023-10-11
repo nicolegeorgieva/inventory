@@ -1,0 +1,3 @@
+package com.example.inventory.screen.addinventoryitem
+
+sealed interface AddInventoryItemEvent
