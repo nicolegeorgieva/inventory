@@ -4,4 +4,5 @@
     <string name="home_menu">Menu</string>
     <string name="home_add">Add</string>
     <string name="home_empty_inventory">Your inventory is empty</string>
+    <string name="back">Back</string>
 </resources>

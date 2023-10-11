@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -37,11 +38,12 @@ import com.example.inventory.R
 import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     val viewModel: HomeViewModel = hiltViewModel()
     val uiState = viewModel.uiState()
 
     HomeUi(
+        navController = navController,
         uiState = uiState,
         onEvent = viewModel::onEvent
     )
@@ -49,7 +51,8 @@ fun HomeScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeUi(
+private fun HomeUi(
+    navController: NavController?,
     uiState: HomeState,
     onEvent: (HomeEvent) -> Unit
 ) {
@@ -69,7 +72,7 @@ fun HomeUi(
                 actions = {
                     IconButton(
                         onClick = {
-                            /* doSomething() */
+                            navController?.navigate("more")
                         }
                     ) {
                         Icon(
@@ -105,7 +108,7 @@ fun HomeUi(
 }
 
 @Composable
-fun EmptyInventory() {
+private fun EmptyInventory() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -135,9 +138,10 @@ fun EmptyInventory() {
 
 @Preview(showBackground = true)
 @Composable
-fun HomeUiPreview() {
+private fun HomeUiPreview() {
     InventoryTheme {
         HomeUi(
+            navController = null,
             uiState = HomeState(name = null, inventoryList = null),
             onEvent = {}
         )

@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.inventory.screen.home.HomeScreen
+import com.example.inventory.screen.moremenu.MoreMenuScreen
 import com.example.inventory.ui.theme.InventoryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +29,8 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
 
                     NavHost(navController = navController, startDestination = "home") {
-                        composable("home") { HomeScreen() }
+                        composable("home") { HomeScreen(navController) }
+                        composable("more") { MoreMenuScreen(navController) }
                     }
                 }
             }
