@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.compose.viewmodel)
     implementation(libs.compose.tooling)
     implementation(libs.compose.coil)
+    implementation(libs.compose.navigation)
     // endregion
 
     // region AndroidX
