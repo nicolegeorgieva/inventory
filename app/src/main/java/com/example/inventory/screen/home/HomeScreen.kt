@@ -41,6 +41,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.inventory.R
 import com.example.inventory.ui.theme.InventoryTheme
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -158,7 +159,7 @@ private fun EmptyInventory() {
 private fun InventoryItemRow(itemName: String, quantity: String) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.Bottom,
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(text = itemName)
@@ -217,6 +218,29 @@ private fun HomePersonalizedEmptyPreview() {
             uiState = HomeState(
                 name = "Amy",
                 inventoryList = null
+            ),
+            onEvent = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HomePersonalizedInventoryPreview() {
+    InventoryTheme {
+        HomeUi(
+            navController = null,
+            uiState = HomeState(
+                name = "Amy",
+                inventoryList = persistentListOf(
+                    InventoryUi(
+                        id = "",
+                        name = "Water bottles",
+                        quantity = "5",
+                        imageUrl = null,
+                        category = null
+                    )
+                )
             ),
             onEvent = {}
         )
