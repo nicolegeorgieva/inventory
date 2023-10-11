@@ -111,8 +111,10 @@ class InventoryRepositoryTest : FreeSpec({
                 id = id,
                 name = "Watter bottles",
                 quantity = 5,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             )
 
             // when
@@ -123,8 +125,10 @@ class InventoryRepositoryTest : FreeSpec({
                 id = id,
                 name = "Watter bottles",
                 quantity = 5,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             )
         }
 
@@ -151,18 +155,22 @@ class InventoryRepositoryTest : FreeSpec({
         val id2 = UUID.randomUUID()
         coEvery { dataSource.orderByAscending() } returns listOf(
             InventoryEntity(
-                id = id2,
-                name = "Kitchen paper",
-                quantity = 4,
-                imageUrl = null,
-                category = "Groceries"
-            ),
-            InventoryEntity(
                 id = id,
                 name = "Watter bottles",
                 quantity = 5,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
+            ),
+            InventoryEntity(
+                id = id2,
+                name = "Kitchen paper",
+                quantity = 4,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             )
         )
 
@@ -175,15 +183,19 @@ class InventoryRepositoryTest : FreeSpec({
                 id = id2,
                 name = "Kitchen paper",
                 quantity = 4,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             ),
             InventoryItem(
                 id = id,
                 name = "Watter bottles",
                 quantity = 5,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             )
         )
     }
@@ -196,18 +208,22 @@ class InventoryRepositoryTest : FreeSpec({
         val id2 = UUID.randomUUID()
         coEvery { dataSource.orderByDescending() } returns listOf(
             InventoryEntity(
-                id = id,
-                name = "Watter bottles",
-                quantity = 5,
-                imageUrl = null,
-                category = "Groceries"
-            ),
-            InventoryEntity(
                 id = id2,
                 name = "Kitchen paper",
                 quantity = 4,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
+            ),
+            InventoryEntity(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             )
         )
 
@@ -220,15 +236,19 @@ class InventoryRepositoryTest : FreeSpec({
                 id = id,
                 name = "Watter bottles",
                 quantity = 5,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             ),
             InventoryItem(
                 id = id2,
                 name = "Kitchen paper",
                 quantity = 4,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             )
         )
     }
@@ -242,8 +262,10 @@ class InventoryRepositoryTest : FreeSpec({
             id = id,
             name = "Watter bottles",
             quantity = 5,
-            imageUrl = null,
-            category = "Groceries"
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = null,
+            imageUrl = null
         )
         coEvery { dataSource.save(any()) } just runs
 
@@ -257,8 +279,10 @@ class InventoryRepositoryTest : FreeSpec({
                     id = id,
                     name = "Watter bottles",
                     quantity = 5,
-                    imageUrl = null,
-                    category = "Groceries"
+                    minQuantityTarget = 5,
+                    category = "Groceries",
+                    description = null,
+                    imageUrl = null
                 )
             )
         }
@@ -273,8 +297,10 @@ class InventoryRepositoryTest : FreeSpec({
             id = id,
             name = "Watter bottles",
             quantity = 5,
-            imageUrl = null,
-            category = "Groceries"
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = null,
+            imageUrl = null
         )
         coEvery { dataSource.delete(any()) } just runs
 
@@ -288,8 +314,10 @@ class InventoryRepositoryTest : FreeSpec({
                     id = id,
                     name = "Watter bottles",
                     quantity = 5,
-                    imageUrl = null,
-                    category = "Groceries"
+                    minQuantityTarget = 5,
+                    category = "Groceries",
+                    description = null,
+                    imageUrl = null
                 )
             )
         }

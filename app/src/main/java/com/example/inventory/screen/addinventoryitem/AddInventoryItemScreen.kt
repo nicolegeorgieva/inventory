@@ -25,7 +25,14 @@ private fun AddInventoryItemUi(
 private fun EmptyStatePreview() {
     AddInventoryItemUi(
         navController = null,
-        uiState = AddInventoryItemState(),
+        uiState = AddInventoryItemState(
+            name = null,
+            quantity = null,
+            minQuantityTarget = null,
+            category = null,
+            description = null,
+            image = null
+        ),
         onEvent = {}
     )
 }
