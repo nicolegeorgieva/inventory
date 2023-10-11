@@ -6,7 +6,7 @@ import androidx.compose.runtime.Immutable
 data class InventoryUi(
     val id: String,
     val name: String,
-    val quantity: Int,
+    val quantity: String,
     val imageUrl: String?,
     val category: String?
 )

@@ -2,13 +2,17 @@ package com.example.inventory.screen.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
@@ -24,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -105,8 +110,17 @@ private fun HomeUi(
             LazyColumn(
                 modifier = Modifier.padding(12.dp),
                 contentPadding = innerPadding
-            ) {}
-            EmptyInventory()
+            ) {
+                if (uiState.inventoryList != null) {
+                    items(uiState.inventoryList) { item ->
+                        InventoryItemRow(itemName = item.name, quantity = item.quantity)
+                    }
+                } else {
+                    item {
+                        EmptyInventory()
+                    }
+                }
+            }
         }
     )
 }
@@ -136,6 +150,45 @@ private fun EmptyInventory() {
                 .aspectRatio(1f),
             composition = composition,
             iterations = Int.MAX_VALUE
+        )
+    }
+}
+
+@Composable
+private fun InventoryItemRow(itemName: String, quantity: String) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(text = itemName)
+
+        Text(text = quantity)
+
+        AddOrRemoveQuantityButton(
+            imageVector = Icons.Filled.AddCircle,
+            contentDescription = "Add"
+        ) {}
+
+        AddOrRemoveQuantityButton(
+            imageVector = Icons.Filled.Clear,
+            contentDescription = "Remove"
+        ) {}
+    }
+}
+
+@Composable
+private fun AddOrRemoveQuantityButton(
+    imageVector: ImageVector,
+    contentDescription: String,
+    onClick: () -> Unit
+) {
+    IconButton(
+        onClick = onClick
+    ) {
+        Icon(
+            imageVector = imageVector,
+            contentDescription = contentDescription
         )
     }
 }
