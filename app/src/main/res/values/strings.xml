@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Inventory</string>
+    <string name="home_greeting">Hi</string>
+    <string name="home_menu">Menu</string>
+    <string name="home_add">Add</string>
+    <string name="home_empty_inventory">Your inventory is empty</string>
 </resources>

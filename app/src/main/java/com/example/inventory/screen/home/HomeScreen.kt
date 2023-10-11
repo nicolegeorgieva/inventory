@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,7 +61,7 @@ fun HomeUi(
             MediumTopAppBar(
                 title = {
                     Text(
-                        "Hi",
+                        stringResource(R.string.home_greeting),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -73,7 +74,7 @@ fun HomeUi(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Menu,
-                            contentDescription = "Menu"
+                            contentDescription = stringResource(R.string.home_menu)
                         )
                     }
                 },
@@ -88,7 +89,7 @@ fun HomeUi(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Add"
+                    contentDescription = stringResource(R.string.home_add)
                 )
             }
         },
@@ -97,8 +98,7 @@ fun HomeUi(
             LazyColumn(
                 modifier = Modifier.padding(12.dp),
                 contentPadding = innerPadding
-            ) {
-            }
+            ) {}
             EmptyInventory()
         }
     )
@@ -114,12 +114,15 @@ fun EmptyInventory() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Your inventory is empty",
+            text = stringResource(R.string.home_empty_inventory),
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.headlineSmall
         )
 
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.empty_inventory))
+        val composition by rememberLottieComposition(
+            LottieCompositionSpec.RawRes(R.raw.empty_inventory)
+        )
+
         LottieAnimation(
             modifier = Modifier
                 .fillMaxWidth()
