@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(navController = navController, startDestination = "home") {
                         composable("home") { HomeScreen(navController) }
-                        composable("more") { MoreMenuScreen(navController) }
+                        composable("moreMenu") { MoreMenuScreen(navController) }
                     }
                 }
             }

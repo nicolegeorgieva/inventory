@@ -76,7 +76,7 @@ private fun HomeUi(
                 actions = {
                     IconButton(
                         onClick = {
-                            navController?.navigate("more")
+                            navController?.navigate("moreMenu")
                         }
                     ) {
                         Icon(

@@ -40,17 +40,17 @@ class MoreMenuViewModel @Inject constructor(
 
     private fun setName(newName: String) {
         if (newName.isBlank()) {
+            name.value = null
+
             viewModelScope.launch {
                 nameRepository.removeName()
             }
-
-            name.value = null
         } else {
+            name.value = newName
+
             viewModelScope.launch {
                 nameRepository.setName(newName)
             }
-
-            name.value = newName
         }
     }
 }
