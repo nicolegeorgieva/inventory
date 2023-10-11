@@ -16,8 +16,10 @@ class InventoryMapperTest : FreeSpec({
             id = id,
             name = "Watter bottles",
             quantity = 5,
-            imageUrl = null,
-            category = "Groceries"
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = null,
+            imageUrl = null
         )
 
         // when
@@ -28,8 +30,10 @@ class InventoryMapperTest : FreeSpec({
             id = id,
             name = "Watter bottles",
             quantity = 5,
-            imageUrl = null,
-            category = "Groceries"
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = null,
+            imageUrl = null
         )
     }
 
@@ -40,8 +44,10 @@ class InventoryMapperTest : FreeSpec({
             id = id,
             name = "Watter bottles",
             quantity = 5,
-            imageUrl = null,
-            category = "Groceries"
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = null,
+            imageUrl = null
         )
 
         // when
@@ -52,8 +58,10 @@ class InventoryMapperTest : FreeSpec({
             id = id,
             name = "Watter bottles",
             quantity = 5,
-            imageUrl = null,
-            category = "Groceries"
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = null,
+            imageUrl = null
         )
     }
 })

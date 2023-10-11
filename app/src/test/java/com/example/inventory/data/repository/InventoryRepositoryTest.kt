@@ -25,15 +25,19 @@ class InventoryRepositoryTest : FreeSpec({
                 id = id,
                 name = "Watter bottles",
                 quantity = 5,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             ),
             InventoryEntity(
                 id = id2,
                 name = "Kitchen paper",
                 quantity = 4,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             )
         )
 
@@ -46,15 +50,19 @@ class InventoryRepositoryTest : FreeSpec({
                 id = id,
                 name = "Watter bottles",
                 quantity = 5,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             ),
             InventoryItem(
                 id = id2,
                 name = "Kitchen paper",
                 quantity = 4,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             )
         )
     }
@@ -69,8 +77,10 @@ class InventoryRepositoryTest : FreeSpec({
                 id = id,
                 name = "Watter bottles",
                 quantity = 5,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             )
         )
 
@@ -83,8 +93,10 @@ class InventoryRepositoryTest : FreeSpec({
                 id = id,
                 name = "Watter bottles",
                 quantity = 5,
-                imageUrl = null,
-                category = "Groceries"
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             )
         )
     }
