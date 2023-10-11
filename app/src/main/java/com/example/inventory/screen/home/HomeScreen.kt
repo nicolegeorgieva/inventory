@@ -64,7 +64,11 @@ private fun HomeUi(
             MediumTopAppBar(
                 title = {
                     Text(
-                        stringResource(R.string.home_greeting),
+                        text = if (uiState.name == null) {
+                            "Hi"
+                        } else {
+                            "${stringResource(R.string.home_greeting)}, ${uiState.name}"
+                        },
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )

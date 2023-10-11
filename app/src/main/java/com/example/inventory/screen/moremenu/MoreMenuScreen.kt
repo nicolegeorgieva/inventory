@@ -52,7 +52,7 @@ private fun MoreMenuUi(
 
         item {
             NameRow(
-                nameValue = uiState.name,
+                nameValue = uiState.name ?: "",
                 onNameChange = {
                     onEvent(MoreMenuEvent.ChangeName(it))
                 }

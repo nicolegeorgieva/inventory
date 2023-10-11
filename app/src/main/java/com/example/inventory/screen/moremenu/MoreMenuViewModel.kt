@@ -1,24 +1,34 @@
 package com.example.inventory.screen.moremenu
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.viewModelScope
 import com.example.inventory.ComposeViewModel
+import com.example.inventory.data.repository.NameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MoreMenuViewModel @Inject constructor() : ComposeViewModel<MoreMenuState, MoreMenuEvent>() {
-    private val name = mutableStateOf("")
+class MoreMenuViewModel @Inject constructor(
+    private val nameRepository: NameRepository
+) : ComposeViewModel<MoreMenuState, MoreMenuEvent>() {
+    private val name = mutableStateOf<String?>(null)
 
     @Composable
     override fun uiState(): MoreMenuState {
+        LaunchedEffect(Unit) {
+            name.value = nameRepository.getName()
+        }
+
         return MoreMenuState(
             name = getName()
         )
     }
 
     @Composable
-    private fun getName(): String {
+    private fun getName(): String? {
         return name.value
     }
 
@@ -29,6 +39,18 @@ class MoreMenuViewModel @Inject constructor() : ComposeViewModel<MoreMenuState, 
     }
 
     private fun setName(newName: String) {
-        name.value = newName
+        if (newName.isBlank()) {
+            viewModelScope.launch {
+                nameRepository.removeName()
+            }
+
+            name.value = null
+        } else {
+            viewModelScope.launch {
+                nameRepository.setName(newName)
+            }
+
+            name.value = newName
+        }
     }
 }

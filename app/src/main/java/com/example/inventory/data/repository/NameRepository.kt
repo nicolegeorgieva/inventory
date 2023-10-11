@@ -15,8 +15,6 @@ class NameRepository @Inject constructor(
     }
 
     suspend fun setName(newName: String) {
-        if (newName.isBlank()) return
-
         withContext(Dispatchers.IO) {
             nameDataSource.setName(newName.trim())
         }

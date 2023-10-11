@@ -1,19 +1,27 @@
 package com.example.inventory.screen.home
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import com.example.inventory.ComposeViewModel
+import com.example.inventory.data.repository.NameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ComposeViewModel<HomeState, HomeEvent>() {
+class HomeViewModel @Inject constructor(
+    private val nameRepository: NameRepository
+) : ComposeViewModel<HomeState, HomeEvent>() {
     private val name = mutableStateOf<String?>(null)
     private val inventoryList = mutableStateOf<ImmutableList<InventoryUi>?>(null)
 
     @Composable
     override fun uiState(): HomeState {
+        LaunchedEffect(Unit) {
+            name.value = nameRepository.getName()
+        }
+
         return HomeState(
             name = getName(),
             inventoryList = getInventoryList()
