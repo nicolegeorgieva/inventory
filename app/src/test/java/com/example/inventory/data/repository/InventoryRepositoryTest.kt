@@ -155,18 +155,18 @@ class InventoryRepositoryTest : FreeSpec({
         val id2 = UUID.randomUUID()
         coEvery { dataSource.orderByAscending() } returns listOf(
             InventoryEntity(
-                id = id,
-                name = "Watter bottles",
-                quantity = 5,
+                id = id2,
+                name = "Kitchen paper",
+                quantity = 4,
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
                 imageUrl = null
             ),
             InventoryEntity(
-                id = id2,
-                name = "Kitchen paper",
-                quantity = 4,
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
@@ -208,18 +208,18 @@ class InventoryRepositoryTest : FreeSpec({
         val id2 = UUID.randomUUID()
         coEvery { dataSource.orderByDescending() } returns listOf(
             InventoryEntity(
-                id = id2,
-                name = "Kitchen paper",
-                quantity = 4,
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
                 imageUrl = null
             ),
             InventoryEntity(
-                id = id,
-                name = "Watter bottles",
-                quantity = 5,
+                id = id2,
+                name = "Kitchen paper",
+                quantity = 4,
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
