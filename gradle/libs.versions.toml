@@ -33,6 +33,7 @@ compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose",
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-coil = { module = "io.coil-kt:coil-compose", version = "2.4.0" }
 compose-navigation = { module = "androidx.navigation:navigation-compose", version = "2.7.4" }
+compose-lottie = { module = "com.airbnb.android:lottie-compose", version = "6.1.0" }
 
 # AndroidX
 androidx-activity = { module = "androidx.activity:activity-ktx", version = "1.8.0" }

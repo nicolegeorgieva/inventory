@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.compose.tooling)
     implementation(libs.compose.coil)
     implementation(libs.compose.navigation)
+    implementation(libs.compose.lottie)
     // endregion
 
     // region AndroidX
