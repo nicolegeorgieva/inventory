@@ -89,6 +89,7 @@ dependencies {
     // region Hilt
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
     // endregion
 
     // region KotlinX Serialization

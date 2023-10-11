@@ -2,6 +2,6 @@ package com.example.inventory.screen.home
 
 import kotlinx.collections.immutable.ImmutableList
 
-data class HomeUi(
+data class HomeState(
     val inventoryList: ImmutableList<String>
 )
