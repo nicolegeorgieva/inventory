@@ -142,7 +142,10 @@ private fun HomeUiPreview() {
     InventoryTheme {
         HomeUi(
             navController = null,
-            uiState = HomeState(name = null, inventoryList = null),
+            uiState = HomeState(
+                name = null,
+                inventoryList = null
+            ),
             onEvent = {}
         )
     }

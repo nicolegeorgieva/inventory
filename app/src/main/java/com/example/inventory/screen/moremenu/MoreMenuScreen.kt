@@ -12,10 +12,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.inventory.R
 import com.example.inventory.component.BackButton
 import com.example.inventory.ui.theme.InventoryTheme
 
@@ -68,7 +70,7 @@ private fun NameRow(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = "Name")
+        Text(text = stringResource(R.string.more_menu_name_label))
 
         Spacer(modifier = Modifier.width(8.dp))
 
