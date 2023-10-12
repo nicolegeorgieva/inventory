@@ -53,8 +53,12 @@ class InventoryRepository @Inject constructor(
     }
 
     suspend fun save(inventoryItem: InventoryItem) {
-        withContext(Dispatchers.IO) {
-            dataSource.save(mapper.domainToEntity(inventoryItem))
+        val checkExistingName = getAll().filter { it.name == inventoryItem.name }
+
+        if (checkExistingName.isEmpty()) {
+            withContext(Dispatchers.IO) {
+                dataSource.save(mapper.domainToEntity(inventoryItem))
+            }
         }
     }
 

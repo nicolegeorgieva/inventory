@@ -253,38 +253,63 @@ class InventoryRepositoryTest : FreeSpec({
         )
     }
 
-    "save" {
-        // given
-        val dataSource = mockk<InventoryDataSource>()
-        val repository = InventoryRepository(dataSource, InventoryMapper())
-        val id = UUID.randomUUID()
-        val inventoryItem = InventoryItem(
-            id = id,
-            name = "Watter bottles",
-            quantity = 5,
-            minQuantityTarget = 5,
-            category = "Groceries",
-            description = null,
-            imageUrl = null
-        )
-        coEvery { dataSource.save(any()) } just runs
-
-        // when
-        repository.save(inventoryItem)
-
-        // then
-        coVerify(exactly = 1) {
-            dataSource.save(
-                InventoryEntity(
-                    id = id,
-                    name = "Watter bottles",
-                    quantity = 5,
-                    minQuantityTarget = 5,
-                    category = "Groceries",
-                    description = null,
-                    imageUrl = null
-                )
+    "save" - {
+        "unique item" {
+            // given
+            val dataSource = mockk<InventoryDataSource>()
+            val repository = InventoryRepository(dataSource, InventoryMapper())
+            val id = UUID.randomUUID()
+            val inventoryItem = InventoryItem(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
             )
+            coEvery { dataSource.save(any()) } just runs
+
+            // when
+            repository.save(inventoryItem)
+
+            // then
+            coVerify(exactly = 1) {
+                dataSource.save(
+                    InventoryEntity(
+                        id = id,
+                        name = "Watter bottles",
+                        quantity = 5,
+                        minQuantityTarget = 5,
+                        category = "Groceries",
+                        description = null,
+                        imageUrl = null
+                    )
+                )
+            }
+        }
+
+        "existing item name" {
+            // given
+            val dataSource = mockk<InventoryDataSource>()
+            val repository = InventoryRepository(dataSource, InventoryMapper())
+            val id = UUID.randomUUID()
+            val inventoryItem = InventoryItem(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
+            )
+            coEvery { }
+
+            // when
+            repository.save()
+
+
+            // then
         }
     }
 
