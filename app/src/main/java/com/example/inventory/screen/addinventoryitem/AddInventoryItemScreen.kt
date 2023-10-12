@@ -1,24 +1,35 @@
 package com.example.inventory.screen.addinventoryitem
 
+import android.graphics.BitmapFactory
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -166,13 +177,7 @@ private fun Content(
         }
 
         item(key = "image") {
-            InputRow(
-                label = "Image",
-                input = uiState.image ?: "",
-                onInputChange = {
-                    onEvent(AddInventoryItemEvent.SetImage(it))
-                }
-            )
+            ItemImage(uiState = uiState) {}
         }
     }
 }
@@ -193,6 +198,57 @@ private fun InputRow(
             label = {
                 Text(text = label)
             }
+        )
+    }
+}
+
+@Composable
+private fun ItemImage(
+    uiState: AddInventoryItemState,
+    onClick: () -> Unit
+) {
+    if (uiState.image == null) {
+        AddImage(onClick = onClick)
+    } else {
+        ImageFromPath(path = uiState.image)
+    }
+}
+
+@Composable
+private fun AddImage(onClick: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Add image")
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedIconButton(
+            modifier = Modifier.size(120.dp),
+            shape = RectangleShape,
+            onClick = onClick
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.AddCircle,
+                contentDescription = "Add image"
+            )
+        }
+    }
+}
+
+@Composable
+private fun ImageFromPath(path: String) {
+    val bitmap = BitmapFactory.decodeFile(path)
+    val imageBitmap = bitmap.asImageBitmap()
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            modifier = Modifier.size(120.dp),
+            bitmap = imageBitmap,
+            contentDescription = "Item image"
         )
     }
 }

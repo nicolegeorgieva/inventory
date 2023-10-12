@@ -13,7 +13,7 @@ class InventoryMapper @Inject constructor() {
             minQuantityTarget = entity.minQuantityTarget,
             category = entity.category,
             description = entity.description,
-            imageUrl = entity.imageUrl,
+            imageUrl = entity.image,
         )
     }
 
@@ -25,7 +25,7 @@ class InventoryMapper @Inject constructor() {
             minQuantityTarget = item.minQuantityTarget,
             category = item.category,
             description = item.description,
-            imageUrl = item.imageUrl
+            image = item.imageUrl
         )
     }
 }

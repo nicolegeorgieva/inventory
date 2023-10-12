@@ -20,5 +20,5 @@ data class InventoryEntity(
     @ColumnInfo(name = "description")
     val description: String?,
     @ColumnInfo(name = "image_url")
-    val imageUrl: String?
+    val image: String?
 )

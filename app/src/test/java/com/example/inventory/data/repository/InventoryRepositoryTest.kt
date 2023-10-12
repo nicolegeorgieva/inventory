@@ -28,7 +28,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                image = null
             ),
             InventoryEntity(
                 id = id2,
@@ -37,7 +37,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                image = null
             )
         )
 
@@ -80,7 +80,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                image = null
             )
         )
 
@@ -114,7 +114,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                image = null
             )
 
             // when
@@ -161,7 +161,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                image = null
             ),
             InventoryEntity(
                 id = id,
@@ -170,7 +170,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                image = null
             )
         )
 
@@ -214,7 +214,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                image = null
             ),
             InventoryEntity(
                 id = id2,
@@ -223,7 +223,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                image = null
             )
         )
 
@@ -276,7 +276,7 @@ class InventoryRepositoryTest : FreeSpec({
                     minQuantityTarget = 4,
                     category = "Groceries",
                     description = null,
-                    imageUrl = null
+                    image = null
                 )
             )
             coEvery { dataSource.save(any()) } just runs
@@ -294,7 +294,7 @@ class InventoryRepositoryTest : FreeSpec({
                         minQuantityTarget = 5,
                         category = "Groceries",
                         description = null,
-                        imageUrl = null
+                        image = null
                     )
                 )
             }
@@ -321,7 +321,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                image = null
             )
             coEvery { dataSource.getAll() } returns listOf(inventoryEntity)
             coEvery { dataSource.save(any()) } just runs
@@ -365,7 +365,7 @@ class InventoryRepositoryTest : FreeSpec({
                     minQuantityTarget = 5,
                     category = "Groceries",
                     description = null,
-                    imageUrl = null
+                    image = null
                 )
             )
         }
