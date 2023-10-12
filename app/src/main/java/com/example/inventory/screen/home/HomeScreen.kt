@@ -55,7 +55,6 @@ fun HomeScreen(navController: NavController) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeUi(
     navController: NavController?,
@@ -65,46 +64,10 @@ private fun HomeUi(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
-            MediumTopAppBar(
-                title = {
-                    Text(
-                        text = if (uiState.name == null) {
-                            stringResource(R.string.home_generic_greeting)
-                        } else {
-                            "${stringResource(R.string.home_personalized_greeting)}, ${uiState.name}"
-                        },
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
-                            navController?.navigate("moreMenu")
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = stringResource(R.string.home_menu)
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
+            TopAppBar(uiState = uiState, navController = navController)
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    navController?.navigate("addInventoryItem")
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.home_add)
-                )
-            }
+            AddButton(navController = navController)
         },
         floatingActionButtonPosition = FabPosition.Center,
         content = { innerPadding ->
@@ -126,31 +89,59 @@ private fun HomeUi(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EmptyInventory() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(12.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+private fun TopAppBar(uiState: HomeState, navController: NavController?) {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
+    MediumTopAppBar(
+        title = {
+            GreetingMessage(uiState = uiState)
+        },
+        actions = {
+            MoreMenuButton(navController = navController)
+        },
+        scrollBehavior = scrollBehavior
+    )
+}
+
+@Composable
+private fun GreetingMessage(uiState: HomeState) {
+    Text(
+        text = if (uiState.name == null) {
+            stringResource(R.string.home_generic_greeting)
+        } else {
+            "${stringResource(R.string.home_personalized_greeting)}, ${uiState.name}"
+        },
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+@Composable
+private fun MoreMenuButton(navController: NavController?) {
+    IconButton(
+        onClick = {
+            navController?.navigate("moreMenu")
+        }
     ) {
-        Text(
-            text = stringResource(R.string.home_empty_inventory),
-            fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.headlineSmall
+        Icon(
+            imageVector = Icons.Filled.Menu,
+            contentDescription = stringResource(R.string.home_menu)
         )
+    }
+}
 
-        val composition by rememberLottieComposition(
-            LottieCompositionSpec.RawRes(R.raw.empty_inventory)
-        )
-
-        LottieAnimation(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1f),
-            composition = composition,
-            iterations = Int.MAX_VALUE
+@Composable
+private fun AddButton(navController: NavController?) {
+    FloatingActionButton(
+        onClick = {
+            navController?.navigate("addInventoryItem")
+        }
+    ) {
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = stringResource(R.string.home_add)
         )
     }
 }
@@ -192,6 +183,45 @@ private fun AddOrRemoveQuantityButton(
             contentDescription = contentDescription
         )
     }
+}
+
+@Composable
+private fun EmptyInventory() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(12.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        EmptyInventoryMessage()
+
+        LottieAnimation()
+    }
+}
+
+@Composable
+private fun EmptyInventoryMessage() {
+    Text(
+        text = stringResource(R.string.home_empty_inventory),
+        fontWeight = FontWeight.Bold,
+        style = MaterialTheme.typography.headlineSmall
+    )
+}
+
+@Composable
+private fun LottieAnimation() {
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(R.raw.empty_inventory)
+    )
+
+    LottieAnimation(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(1f),
+        composition = composition,
+        iterations = Int.MAX_VALUE
+    )
 }
 
 @Preview(showBackground = true)
