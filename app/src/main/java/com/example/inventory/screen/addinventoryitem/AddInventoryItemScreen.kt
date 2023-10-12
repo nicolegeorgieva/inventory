@@ -1,7 +1,5 @@
 package com.example.inventory.screen.addinventoryitem
 
-import android.graphics.BitmapFactory
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -39,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.inventory.R
 import com.example.inventory.component.BackButton
 import com.example.inventory.ui.theme.InventoryTheme
@@ -130,7 +128,7 @@ private fun Content(
     ) {
         item(key = "name") {
             InputRow(
-                label = "Name",
+                label = stringResource(R.string.name_label),
                 input = uiState.name ?: "",
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetName(it))
@@ -140,7 +138,7 @@ private fun Content(
 
         item(key = "quantity") {
             InputRow(
-                label = "Quantity",
+                label = stringResource(R.string.quantity_label),
                 keyboardType = KeyboardType.Number,
                 input = uiState.quantity ?: "",
                 onInputChange = {
@@ -151,7 +149,7 @@ private fun Content(
 
         item(key = "min quantity target") {
             InputRow(
-                label = "Min Quantity Target",
+                label = stringResource(R.string.min_quantity_target_label),
                 keyboardType = KeyboardType.Number,
                 input = uiState.minQuantityTarget ?: "",
                 onInputChange = {
@@ -162,7 +160,7 @@ private fun Content(
 
         item(key = "category") {
             InputRow(
-                label = "Category",
+                label = stringResource(R.string.category_label),
                 input = uiState.category ?: "",
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetCategory(it))
@@ -173,7 +171,7 @@ private fun Content(
         item(key = "description") {
             InputRow(
                 modifier = Modifier.height(124.dp),
-                label = "Description...",
+                label = stringResource(R.string.description_label),
                 input = uiState.description ?: "",
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetDescription(it))
@@ -229,7 +227,7 @@ private fun AddImage(onClick: () -> Unit) {
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Add image")
+        Text(text = stringResource(R.string.add_image_label))
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -240,7 +238,7 @@ private fun AddImage(onClick: () -> Unit) {
         ) {
             Icon(
                 imageVector = Icons.Outlined.AddCircle,
-                contentDescription = "Add image"
+                contentDescription = stringResource(R.string.add_image_label)
             )
         }
     }
@@ -248,16 +246,13 @@ private fun AddImage(onClick: () -> Unit) {
 
 @Composable
 private fun ImageFromPath(path: String) {
-    val bitmap = BitmapFactory.decodeFile(path)
-    val imageBitmap = bitmap.asImageBitmap()
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
+        AsyncImage(
             modifier = Modifier.size(224.dp),
-            bitmap = imageBitmap,
-            contentDescription = "Item image"
+            model = path,
+            contentDescription = stringResource(R.string.item_image)
         )
     }
 }

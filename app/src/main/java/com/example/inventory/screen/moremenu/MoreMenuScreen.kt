@@ -70,7 +70,7 @@ private fun NameRow(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = stringResource(R.string.more_menu_name_label))
+        Text(text = stringResource(R.string.name_label))
 
         Spacer(modifier = Modifier.width(8.dp))
 
