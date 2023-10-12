@@ -117,7 +117,7 @@ private fun HomeUi(
                         InventoryItemRow(itemName = item.name, quantity = item.quantity)
                     }
                 } else {
-                    item {
+                    item("empty inventory state") {
                         EmptyInventory()
                     }
                 }

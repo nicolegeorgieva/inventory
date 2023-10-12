@@ -44,13 +44,13 @@ private fun MoreMenuUi(
             .fillMaxSize()
             .padding(12.dp)
     ) {
-        item {
+        item("back button") {
             BackButton {
                 navController?.popBackStack()
             }
         }
 
-        item {
+        item("name input row") {
             NameRow(
                 nameValue = uiState.name ?: "",
                 onNameChange = {
