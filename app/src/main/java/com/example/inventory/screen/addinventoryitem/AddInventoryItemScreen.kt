@@ -1,5 +1,13 @@
 package com.example.inventory.screen.addinventoryitem
 
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,6 +23,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.AddCircle
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
@@ -25,9 +34,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -59,6 +74,51 @@ private fun AddInventoryItemUi(
     uiState: AddInventoryItemState,
     onEvent: (AddInventoryItemEvent) -> Unit
 ) {
+    // WIP: Pick image logic
+    var imageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+    val context = LocalContext.current
+    val bitmap = remember {
+        mutableStateOf<Bitmap?>(null)
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract =
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        imageUri = uri
+    }
+    Column() {
+        Button(onClick = {
+            launcher.launch("image/*")
+        }) {
+            Text(text = "Pick image")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        imageUri?.let {
+            if (Build.VERSION.SDK_INT < 28) {
+                bitmap.value = MediaStore.Images
+                    .Media.getBitmap(context.contentResolver, it)
+            } else {
+                val source = ImageDecoder
+                    .createSource(context.contentResolver, it)
+                bitmap.value = ImageDecoder.decodeBitmap(source)
+            }
+
+            bitmap.value?.let { btm ->
+                Image(
+                    bitmap = btm.asImageBitmap(),
+                    contentDescription = null,
+                    modifier = Modifier.size(400.dp)
+                )
+            }
+        }
+    }
+    //
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -74,7 +134,10 @@ private fun AddInventoryItemUi(
             Content(
                 innerPadding = innerPadding,
                 uiState = uiState,
-                onEvent = onEvent
+                onEvent = onEvent,
+                set = {
+                    onEvent(AddInventoryItemEvent.SetImage(imageUri.toString()))
+                }
             )
         }
     )
@@ -119,7 +182,8 @@ private fun AddButton(onEvent: (AddInventoryItemEvent) -> Unit) {
 private fun Content(
     innerPadding: PaddingValues,
     uiState: AddInventoryItemState,
-    onEvent: (AddInventoryItemEvent) -> Unit
+    onEvent: (AddInventoryItemEvent) -> Unit,
+    set: () -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.padding(top = 12.dp),
@@ -180,7 +244,7 @@ private fun Content(
         }
 
         item(key = "image") {
-            ItemImage(uiState = uiState) {}
+            ItemImage(uiState = uiState, onClick = set)
         }
     }
 }
