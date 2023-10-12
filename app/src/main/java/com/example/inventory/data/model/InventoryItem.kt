@@ -9,5 +9,5 @@ data class InventoryItem(
     val minQuantityTarget: Int,
     val category: String?,
     val description: String?,
-    val imageUrl: String?,
+    val imagePath: String?,
 )

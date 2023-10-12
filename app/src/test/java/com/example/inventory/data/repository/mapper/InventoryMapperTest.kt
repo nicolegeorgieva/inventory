@@ -19,7 +19,7 @@ class InventoryMapperTest : FreeSpec({
             minQuantityTarget = 5,
             category = "Groceries",
             description = null,
-            image = null
+            imagePath = null
         )
 
         // when
@@ -33,7 +33,7 @@ class InventoryMapperTest : FreeSpec({
             minQuantityTarget = 5,
             category = "Groceries",
             description = null,
-            imageUrl = null
+            imagePath = null
         )
     }
 
@@ -47,7 +47,7 @@ class InventoryMapperTest : FreeSpec({
             minQuantityTarget = 5,
             category = "Groceries",
             description = null,
-            imageUrl = null
+            imagePath = null
         )
 
         // when
@@ -61,7 +61,7 @@ class InventoryMapperTest : FreeSpec({
             minQuantityTarget = 5,
             category = "Groceries",
             description = null,
-            image = null
+            imagePath = null
         )
     }
 })

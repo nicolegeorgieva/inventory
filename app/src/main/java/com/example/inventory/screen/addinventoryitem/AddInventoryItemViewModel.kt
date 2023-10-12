@@ -32,7 +32,7 @@ class AddInventoryItemViewModel @Inject constructor(
             minQuantityTarget = getMinQuantityTarget(),
             category = getCategory(),
             description = getDescription(),
-            image = getImage()
+            imagePath = getImage()
         )
     }
 
@@ -116,7 +116,7 @@ class AddInventoryItemViewModel @Inject constructor(
                         minQuantityTarget = minQuantityTarget.value?.toIntOrNull() ?: 0,
                         category = category.value ?: "",
                         description = description.value ?: "",
-                        imageUrl = image.value ?: ""
+                        imagePath = image.value ?: ""
                     )
                 )
             }

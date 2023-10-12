@@ -28,7 +28,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                image = null
+                imagePath = null
             ),
             InventoryEntity(
                 id = id2,
@@ -37,7 +37,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                image = null
+                imagePath = null
             )
         )
 
@@ -53,7 +53,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                imagePath = null
             ),
             InventoryItem(
                 id = id2,
@@ -62,7 +62,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                imagePath = null
             )
         )
     }
@@ -80,7 +80,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                image = null
+                imagePath = null
             )
         )
 
@@ -96,7 +96,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                imagePath = null
             )
         )
     }
@@ -114,7 +114,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                image = null
+                imagePath = null
             )
 
             // when
@@ -128,7 +128,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                imagePath = null
             )
         }
 
@@ -161,7 +161,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                image = null
+                imagePath = null
             ),
             InventoryEntity(
                 id = id,
@@ -170,7 +170,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                image = null
+                imagePath = null
             )
         )
 
@@ -186,7 +186,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                imagePath = null
             ),
             InventoryItem(
                 id = id,
@@ -195,7 +195,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                imagePath = null
             )
         )
     }
@@ -214,7 +214,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                image = null
+                imagePath = null
             ),
             InventoryEntity(
                 id = id2,
@@ -223,7 +223,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                image = null
+                imagePath = null
             )
         )
 
@@ -239,7 +239,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                imagePath = null
             ),
             InventoryItem(
                 id = id2,
@@ -248,7 +248,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                imagePath = null
             )
         )
     }
@@ -266,7 +266,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                imagePath = null
             )
             coEvery { dataSource.getAll() } returns listOf(
                 InventoryEntity(
@@ -276,7 +276,7 @@ class InventoryRepositoryTest : FreeSpec({
                     minQuantityTarget = 4,
                     category = "Groceries",
                     description = null,
-                    image = null
+                    imagePath = null
                 )
             )
             coEvery { dataSource.save(any()) } just runs
@@ -294,7 +294,7 @@ class InventoryRepositoryTest : FreeSpec({
                         minQuantityTarget = 5,
                         category = "Groceries",
                         description = null,
-                        image = null
+                        imagePath = null
                     )
                 )
             }
@@ -312,7 +312,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                imageUrl = null
+                imagePath = null
             )
             val inventoryEntity = InventoryEntity(
                 id = id,
@@ -321,7 +321,7 @@ class InventoryRepositoryTest : FreeSpec({
                 minQuantityTarget = 5,
                 category = "Groceries",
                 description = null,
-                image = null
+                imagePath = null
             )
             coEvery { dataSource.getAll() } returns listOf(inventoryEntity)
             coEvery { dataSource.save(any()) } just runs
@@ -348,7 +348,7 @@ class InventoryRepositoryTest : FreeSpec({
             minQuantityTarget = 5,
             category = "Groceries",
             description = null,
-            imageUrl = null
+            imagePath = null
         )
         coEvery { dataSource.delete(any()) } just runs
 
@@ -365,7 +365,7 @@ class InventoryRepositoryTest : FreeSpec({
                     minQuantityTarget = 5,
                     category = "Groceries",
                     description = null,
-                    image = null
+                    imagePath = null
                 )
             )
         }

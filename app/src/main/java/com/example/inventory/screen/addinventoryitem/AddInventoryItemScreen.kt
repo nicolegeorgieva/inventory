@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.AddCircle
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -139,6 +141,7 @@ private fun Content(
         item(key = "quantity") {
             InputRow(
                 label = "Quantity",
+                keyboardType = KeyboardType.Number,
                 input = uiState.quantity ?: "",
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetQuantity(it))
@@ -149,6 +152,7 @@ private fun Content(
         item(key = "min quantity target") {
             InputRow(
                 label = "Min Quantity Target",
+                keyboardType = KeyboardType.Number,
                 input = uiState.minQuantityTarget ?: "",
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetMinQuantityTarget(it))
@@ -168,6 +172,7 @@ private fun Content(
 
         item(key = "description") {
             InputRow(
+                modifier = Modifier.height(124.dp),
                 label = "Description...",
                 input = uiState.description ?: "",
                 onInputChange = {
@@ -184,6 +189,8 @@ private fun Content(
 
 @Composable
 private fun InputRow(
+    modifier: Modifier = Modifier,
+    keyboardType: KeyboardType = KeyboardType.Text,
     label: String,
     input: String,
     onInputChange: (String) -> Unit
@@ -193,6 +200,8 @@ private fun InputRow(
         horizontalArrangement = Arrangement.Center
     ) {
         TextField(
+            modifier = modifier,
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
             value = input,
             onValueChange = onInputChange,
             label = {
@@ -207,10 +216,10 @@ private fun ItemImage(
     uiState: AddInventoryItemState,
     onClick: () -> Unit
 ) {
-    if (uiState.image == null) {
+    if (uiState.imagePath == null) {
         AddImage(onClick = onClick)
     } else {
-        ImageFromPath(path = uiState.image)
+        ImageFromPath(path = uiState.imagePath)
     }
 }
 
@@ -225,7 +234,7 @@ private fun AddImage(onClick: () -> Unit) {
         Spacer(modifier = Modifier.height(12.dp))
 
         OutlinedIconButton(
-            modifier = Modifier.size(120.dp),
+            modifier = Modifier.size(224.dp),
             shape = RectangleShape,
             onClick = onClick
         ) {
@@ -246,7 +255,7 @@ private fun ImageFromPath(path: String) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            modifier = Modifier.size(120.dp),
+            modifier = Modifier.size(224.dp),
             bitmap = imageBitmap,
             contentDescription = "Item image"
         )
@@ -265,7 +274,7 @@ private fun EmptyStatePreview() {
                 minQuantityTarget = null,
                 category = null,
                 description = null,
-                image = null
+                imagePath = null
             ),
             onEvent = {}
         )
@@ -284,7 +293,7 @@ private fun FilledStatePreview() {
                 minQuantityTarget = "5",
                 category = "Groceries",
                 description = null,
-                image = null
+                imagePath = null
             ),
             onEvent = {}
         )

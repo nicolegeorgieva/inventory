@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
                     id = it.id.toString(),
                     name = it.name,
                     quantity = it.quantity.toString(),
-                    imageUrl = it.imageUrl,
+                    imageUrl = it.imagePath,
                     category = it.category
                 )
             }.toImmutableList()
