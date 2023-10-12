@@ -268,6 +268,17 @@ class InventoryRepositoryTest : FreeSpec({
                 description = null,
                 imageUrl = null
             )
+            coEvery { dataSource.getAll() } returns listOf(
+                InventoryEntity(
+                    id = UUID.randomUUID(),
+                    name = "Kitchen roll",
+                    quantity = 4,
+                    minQuantityTarget = 4,
+                    category = "Groceries",
+                    description = null,
+                    imageUrl = null
+                )
+            )
             coEvery { dataSource.save(any()) } just runs
 
             // when
@@ -303,13 +314,25 @@ class InventoryRepositoryTest : FreeSpec({
                 description = null,
                 imageUrl = null
             )
-            coEvery { }
+            val inventoryEntity = InventoryEntity(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imageUrl = null
+            )
+            coEvery { dataSource.getAll() } returns listOf(inventoryEntity)
+            coEvery { dataSource.save(any()) } just runs
 
             // when
-            repository.save()
-
+            repository.save(inventoryItem)
 
             // then
+            coVerify(exactly = 0) {
+                dataSource.save(any())
+            }
         }
     }
 
