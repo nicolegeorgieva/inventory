@@ -239,6 +239,69 @@ private fun HomePersonalizedInventoryPreview() {
                         quantity = "5",
                         imageUrl = null,
                         category = null
+                    ),
+                    InventoryUi(
+                        id = "",
+                        name = "Kitchen roll",
+                        quantity = "4",
+                        imageUrl = null,
+                        category = null
+                    ),
+                    InventoryUi(
+                        id = "",
+                        name = "Soap",
+                        quantity = "6",
+                        imageUrl = null,
+                        category = null
+                    ),
+                    InventoryUi(
+                        id = "",
+                        name = "Shampoo",
+                        quantity = "2",
+                        imageUrl = null,
+                        category = null
+                    ),
+                    InventoryUi(
+                        id = "",
+                        name = "Liquid laundry detergent",
+                        quantity = "1",
+                        imageUrl = null,
+                        category = null
+                    ),
+                    InventoryUi(
+                        id = "",
+                        name = "Dishwasher tablets pack",
+                        quantity = "1",
+                        imageUrl = null,
+                        category = null
+                    ),
+                    InventoryUi(
+                        id = "",
+                        name = "Shower gel",
+                        quantity = "3",
+                        imageUrl = null,
+                        category = null
+                    ),
+                    InventoryUi(
+                        id = "",
+                        name = "Glass cleaner",
+                        quantity = "1",
+                        imageUrl = null,
+                        category = null
+                    ),
+                    InventoryUi(
+                        id = "",
+                        name = "Floor cleaner",
+                        quantity = "1",
+                        imageUrl = null,
+                        category = null
+                    ),
+                    InventoryUi(
+                        id = "",
+                        name = "Cotton buds pack",
+                        quantity = "3",
+                        imageUrl = null,
+                        category = null
                     )
                 )
             ),
