@@ -1,5 +1,6 @@
 package com.example.inventory.screen.addinventoryitem
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,7 +43,6 @@ fun AddInventoryItemScreen(navController: NavController) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddInventoryItemUi(
     navController: NavController?,
@@ -52,104 +52,128 @@ private fun AddInventoryItemUi(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
-            MediumTopAppBar(
-                title = {
-                    Text(
-                        text = "Create Inventory Item",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                actions = {
-                    BackButton {
-                        navController?.popBackStack()
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
+            TopAppBar(navController = navController)
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    onEvent(AddInventoryItemEvent.AddInventoryItem)
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.home_add)
-                )
-            }
+            AddButton(onEvent = onEvent)
         },
         floatingActionButtonPosition = FabPosition.End,
         content = { innerPadding ->
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = innerPadding
-            ) {
-                item(key = "name") {
-                    InputRow(
-                        label = "Name",
-                        input = uiState.name ?: "",
-                        onInputChange = {
-                            onEvent(AddInventoryItemEvent.SetName(it))
-                        }
-                    )
-                }
-
-                item(key = "quantity") {
-                    InputRow(
-                        label = "Quantity",
-                        input = uiState.quantity ?: "",
-                        onInputChange = {
-                            onEvent(AddInventoryItemEvent.SetQuantity(it))
-                        }
-                    )
-                }
-
-                item(key = "min quantity target") {
-                    InputRow(
-                        label = "Min Quantity Target",
-                        input = uiState.minQuantityTarget ?: "",
-                        onInputChange = {
-                            onEvent(AddInventoryItemEvent.SetMinQuantityTarget(it))
-                        }
-                    )
-                }
-
-                item(key = "category") {
-                    InputRow(
-                        label = "Category",
-                        input = uiState.category ?: "",
-                        onInputChange = {
-                            onEvent(AddInventoryItemEvent.SetCategory(it))
-                        }
-                    )
-                }
-
-                item(key = "description") {
-                    InputRow(
-                        label = "Description",
-                        input = uiState.description ?: "",
-                        onInputChange = {
-                            onEvent(AddInventoryItemEvent.SetDescription(it))
-                        }
-                    )
-                }
-
-                item(key = "image") {
-                    InputRow(
-                        label = "Image",
-                        input = uiState.image ?: "",
-                        onInputChange = {
-                            onEvent(AddInventoryItemEvent.SetImage(it))
-                        }
-                    )
-                }
-            }
+            Content(
+                innerPadding = innerPadding,
+                uiState = uiState,
+                onEvent = onEvent
+            )
         }
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TopAppBar(navController: NavController?) {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
+    MediumTopAppBar(
+        title = {
+            Text(
+                text = stringResource(R.string.add_inventory_item_title),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        actions = {
+            BackButton {
+                navController?.popBackStack()
+            }
+        },
+        scrollBehavior = scrollBehavior
+    )
+}
+
+@Composable
+private fun AddButton(onEvent: (AddInventoryItemEvent) -> Unit) {
+    FloatingActionButton(
+        onClick = {
+            onEvent(AddInventoryItemEvent.AddInventoryItem)
+        }
+    ) {
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = stringResource(R.string.home_add)
+        )
+    }
+}
+
+@Composable
+private fun Content(
+    innerPadding: PaddingValues,
+    uiState: AddInventoryItemState,
+    onEvent: (AddInventoryItemEvent) -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = innerPadding
+    ) {
+        item(key = "name") {
+            InputRow(
+                label = "Name",
+                input = uiState.name ?: "",
+                onInputChange = {
+                    onEvent(AddInventoryItemEvent.SetName(it))
+                }
+            )
+        }
+
+        item(key = "quantity") {
+            InputRow(
+                label = "Quantity",
+                input = uiState.quantity ?: "",
+                onInputChange = {
+                    onEvent(AddInventoryItemEvent.SetQuantity(it))
+                }
+            )
+        }
+
+        item(key = "min quantity target") {
+            InputRow(
+                label = "Min Quantity Target",
+                input = uiState.minQuantityTarget ?: "",
+                onInputChange = {
+                    onEvent(AddInventoryItemEvent.SetMinQuantityTarget(it))
+                }
+            )
+        }
+
+        item(key = "category") {
+            InputRow(
+                label = "Category",
+                input = uiState.category ?: "",
+                onInputChange = {
+                    onEvent(AddInventoryItemEvent.SetCategory(it))
+                }
+            )
+        }
+
+        item(key = "description") {
+            InputRow(
+                label = "Description",
+                input = uiState.description ?: "",
+                onInputChange = {
+                    onEvent(AddInventoryItemEvent.SetDescription(it))
+                }
+            )
+        }
+
+        item(key = "image") {
+            InputRow(
+                label = "Image",
+                input = uiState.image ?: "",
+                onInputChange = {
+                    onEvent(AddInventoryItemEvent.SetImage(it))
+                }
+            )
+        }
+    }
 }
 
 @Composable
