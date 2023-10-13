@@ -27,12 +27,11 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -117,7 +116,8 @@ private fun AddButton(onEvent: (AddInventoryItemEvent) -> Unit) {
     FloatingActionButton(
         onClick = {
             onEvent(AddInventoryItemEvent.AddInventoryItem)
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.primary
     ) {
         Icon(
             imageVector = Icons.Default.Add,
@@ -230,7 +230,7 @@ private fun InputRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
-        TextField(
+        OutlinedTextField(
             modifier = modifier,
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
             value = input,
@@ -298,9 +298,12 @@ private fun AddImage(
         Spacer(modifier = Modifier.height(12.dp))
 
         if (selectedTabIndex.intValue == 0) {
-            OutlinedIconButton(
+            FilledIconButton(
                 modifier = Modifier.size(196.dp),
                 shape = RectangleShape,
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                ),
                 onClick = onAddImageClick
             ) {
                 Icon(
@@ -309,9 +312,10 @@ private fun AddImage(
                 )
             }
         } else {
-            TextField(
+            OutlinedTextField(
                 value = linkValue,
-                onValueChange = onLinkValueChange
+                onValueChange = onLinkValueChange,
+                label = { Text(text = "Image url") }
             )
         }
     }
