@@ -29,9 +29,13 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -245,7 +249,11 @@ private fun ItemImage(
     onRemoveImageClick: () -> Unit
 ) {
     if (uiState.imagePath == null) {
-        AddImage(onAddImageClick = onAddImageClick)
+        AddImage(
+            onAddImageClick = onAddImageClick,
+            linkValue = "",
+            onLinkValueChange = {}
+        )
     } else {
         ImageFromPath(
             path = uiState.imagePath,
@@ -255,23 +263,55 @@ private fun ItemImage(
 }
 
 @Composable
-private fun AddImage(onAddImageClick: () -> Unit) {
+private fun AddImage(
+    onAddImageClick: () -> Unit,
+    linkValue: String,
+    onLinkValueChange: (String) -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = stringResource(R.string.add_image_label))
 
+        Spacer(modifier = Modifier.height(6.dp))
+
+        val tabs = remember { listOf("From files", "From link") }
+        val selectedTabIndex = remember { mutableIntStateOf(0) }
+
+        TabRow(selectedTabIndex = selectedTabIndex.intValue) {
+            tabs.forEachIndexed { index, title ->
+                Tab(
+                    selected = selectedTabIndex.intValue == index,
+                    onClick = { selectedTabIndex.intValue = index },
+                    text = {
+                        Text(
+                            text = title,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                )
+            }
+        }
+
         Spacer(modifier = Modifier.height(12.dp))
 
-        OutlinedIconButton(
-            modifier = Modifier.size(224.dp),
-            shape = RectangleShape,
-            onClick = onAddImageClick
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.AddCircle,
-                contentDescription = stringResource(R.string.add_image_label)
+        if (selectedTabIndex.intValue == 0) {
+            OutlinedIconButton(
+                modifier = Modifier.size(196.dp),
+                shape = RectangleShape,
+                onClick = onAddImageClick
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.AddCircle,
+                    contentDescription = stringResource(R.string.add_image_label)
+                )
+            }
+        } else {
+            TextField(
+                value = linkValue,
+                onValueChange = onLinkValueChange
             )
         }
     }
@@ -285,7 +325,7 @@ private fun ImageFromPath(path: String, onRemoveImageClick: () -> Unit) {
         verticalAlignment = Alignment.Top
     ) {
         AsyncImage(
-            modifier = Modifier.size(224.dp),
+            modifier = Modifier.size(196.dp),
             model = path,
             contentDescription = stringResource(R.string.item_image)
         )
