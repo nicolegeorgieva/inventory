@@ -29,10 +29,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -130,14 +128,14 @@ private fun Content(
     onEvent: (AddInventoryItemEvent) -> Unit
 ) {
     //The URI of the photo that the user has picked
-    var photoUri: Uri? by remember { mutableStateOf(null) }
+    val photoUri = remember { mutableStateOf<Uri?>(null) }
 
     //The launcher for the PickVisualMedia contract.
     //When .launch()ed, this will display the photo picker.
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             //When the user has selected a photo, its URI is returned here
-            photoUri = uri
+            photoUri.value = uri
         }
 
     LazyColumn(
@@ -205,6 +203,10 @@ private fun Content(
                         mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
                     )
                 )
+
+                if (photoUri.value != null) {
+                    onEvent(AddInventoryItemEvent.SetImage(photoUri.value.toString()))
+                }
             })
         }
     }

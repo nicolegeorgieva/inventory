@@ -22,7 +22,7 @@ class AddInventoryItemViewModel @Inject constructor(
     private val minQuantityTarget = mutableStateOf<String?>(null)
     private val category = mutableStateOf<String?>(null)
     private val description = mutableStateOf<String?>(null)
-    private val image = mutableStateOf<String?>(null)
+    private val imagePath = mutableStateOf<String?>(null)
 
     @Composable
     override fun uiState(): AddInventoryItemState {
@@ -32,7 +32,7 @@ class AddInventoryItemViewModel @Inject constructor(
             minQuantityTarget = getMinQuantityTarget(),
             category = getCategory(),
             description = getDescription(),
-            imagePath = getImage()
+            imagePath = getImagePath()
         )
     }
 
@@ -62,8 +62,8 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getImage(): String? {
-        return image.value
+    private fun getImagePath(): String? {
+        return imagePath.value
     }
 
     override fun onEvent(event: AddInventoryItemEvent) {
@@ -90,7 +90,7 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     private fun setImage(newImage: String) {
-        image.value = newImage
+        imagePath.value = newImage
     }
 
     private fun setMinQuantityTarget(newMinQuantityTarget: String) {
@@ -116,7 +116,7 @@ class AddInventoryItemViewModel @Inject constructor(
                         minQuantityTarget = minQuantityTarget.value?.toIntOrNull() ?: 0,
                         category = category.value ?: "",
                         description = description.value ?: "",
-                        imagePath = image.value ?: ""
+                        imagePath = imagePath.value ?: ""
                     )
                 )
             }
