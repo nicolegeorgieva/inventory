@@ -5,16 +5,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.inventory.ComposeViewModel
+import com.example.inventory.IdProvider
 import com.example.inventory.data.model.InventoryItem
 import com.example.inventory.data.repository.InventoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class AddInventoryItemViewModel @Inject constructor(
-    private val inventoryRepository: InventoryRepository
+    private val inventoryRepository: InventoryRepository,
+    private val idProvider: IdProvider
 ) :
     ComposeViewModel<AddInventoryItemState, AddInventoryItemEvent>() {
 
@@ -111,7 +112,7 @@ class AddInventoryItemViewModel @Inject constructor(
             viewModelScope.launch {
                 inventoryRepository.save(
                     InventoryItem(
-                        id = UUID.randomUUID(),
+                        id = idProvider.generateId(),
                         name = name.value ?: "",
                         quantity = quantity.value?.toIntOrNull() ?: 0,
                         minQuantityTarget = minQuantityTarget.value?.toIntOrNull() ?: 0,
