@@ -75,7 +75,7 @@ private fun HomeUi(
                 modifier = Modifier.padding(12.dp),
                 contentPadding = innerPadding
             ) {
-                if (uiState.inventoryList != null) {
+                if (!uiState.inventoryList.isNullOrEmpty()) {
                     items(uiState.inventoryList) { item ->
                         InventoryItemRow(itemName = item.name, quantity = item.quantity)
                     }
