@@ -1,5 +1,9 @@
 package com.example.inventory.screen.addinventoryitem
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,6 +29,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -121,6 +129,17 @@ private fun Content(
     uiState: AddInventoryItemState,
     onEvent: (AddInventoryItemEvent) -> Unit
 ) {
+    //The URI of the photo that the user has picked
+    var photoUri: Uri? by remember { mutableStateOf(null) }
+
+    //The launcher for the PickVisualMedia contract.
+    //When .launch()ed, this will display the photo picker.
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            //When the user has selected a photo, its URI is returned here
+            photoUri = uri
+        }
+
     LazyColumn(
         modifier = Modifier.padding(top = 12.dp),
         contentPadding = innerPadding,
@@ -180,7 +199,13 @@ private fun Content(
         }
 
         item(key = "image") {
-            ItemImage(uiState = uiState, onClick = {})
+            ItemImage(uiState = uiState, onClick = {
+                launcher.launch(
+                    PickVisualMediaRequest(
+                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
+                )
+            })
         }
     }
 }
