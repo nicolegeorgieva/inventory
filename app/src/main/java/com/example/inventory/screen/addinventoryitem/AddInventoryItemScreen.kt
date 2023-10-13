@@ -145,7 +145,7 @@ private fun Content(
     ) {
         item(key = "name") {
             InputRow(
-                label = stringResource(R.string.name_label),
+                label = stringResource(R.string.name_required_label),
                 input = uiState.name ?: "",
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetName(it))
@@ -155,7 +155,7 @@ private fun Content(
 
         item(key = "quantity") {
             InputRow(
-                label = stringResource(R.string.quantity_label),
+                label = stringResource(R.string.quantity_required_label),
                 keyboardType = KeyboardType.Number,
                 input = uiState.quantity ?: "",
                 onInputChange = {
@@ -166,7 +166,7 @@ private fun Content(
 
         item(key = "min quantity target") {
             InputRow(
-                label = stringResource(R.string.min_quantity_target_label),
+                label = stringResource(R.string.min_quantity_target_required_label),
                 keyboardType = KeyboardType.Number,
                 input = uiState.minQuantityTarget ?: "",
                 onInputChange = {

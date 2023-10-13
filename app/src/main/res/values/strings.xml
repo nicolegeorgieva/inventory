@@ -8,10 +8,11 @@
     <string name="back">Back</string>
     <string name="name_label">Name</string>
     <string name="add_inventory_item_title">Create Inventory Item</string>
-    <string name="quantity_label">Quantity</string>
-    <string name="min_quantity_target_label">Min Quantity Target</string>
+    <string name="name_required_label">Name*</string>
+    <string name="quantity_required_label">Quantity*</string>
+    <string name="min_quantity_target_required_label">Min Quantity Target*</string>
     <string name="category_label">Category</string>
-    <string name="description_label">Description...</string>
+    <string name="description_label">Description…</string>
     <string name="add_image_label">Add image</string>
     <string name="item_image">Item image</string>
 </resources>
