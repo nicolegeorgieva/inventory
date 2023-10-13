@@ -134,7 +134,7 @@ private fun Content(
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             // When the user has selected a photo, its URI is returned here
             if (uri != null) {
-                onEvent(AddInventoryItemEvent.SetImage(uri.toString()))
+                onEvent(AddInventoryItemEvent.SetImage(uri))
             }
         }
 
@@ -198,14 +198,15 @@ private fun Content(
 
         item(key = "image") {
             ItemImage(
-                uiState = uiState, onClick = {
+                uiState = uiState,
+                onAddImageClick = {
                     launcher.launch(
                         PickVisualMediaRequest(
                             mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
                         )
                     )
                 },
-                onClearClick = {
+                onRemoveImageClick = {
                     onEvent(AddInventoryItemEvent.SetImage(null))
                 }
             )
@@ -240,18 +241,21 @@ private fun InputRow(
 @Composable
 private fun ItemImage(
     uiState: AddInventoryItemState,
-    onClick: () -> Unit,
-    onClearClick: () -> Unit
+    onAddImageClick: () -> Unit,
+    onRemoveImageClick: () -> Unit
 ) {
     if (uiState.imagePath == null) {
-        AddImage(onClick = onClick)
+        AddImage(onAddImageClick = onAddImageClick)
     } else {
-        ImageFromPath(path = uiState.imagePath, onClearClick = onClearClick)
+        ImageFromPath(
+            path = uiState.imagePath,
+            onRemoveImageClick = onRemoveImageClick
+        )
     }
 }
 
 @Composable
-private fun AddImage(onClick: () -> Unit) {
+private fun AddImage(onAddImageClick: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -263,7 +267,7 @@ private fun AddImage(onClick: () -> Unit) {
         OutlinedIconButton(
             modifier = Modifier.size(224.dp),
             shape = RectangleShape,
-            onClick = onClick
+            onClick = onAddImageClick
         ) {
             Icon(
                 imageVector = Icons.Outlined.AddCircle,
@@ -274,7 +278,7 @@ private fun AddImage(onClick: () -> Unit) {
 }
 
 @Composable
-private fun ImageFromPath(path: String, onClearClick: () -> Unit) {
+private fun ImageFromPath(path: String, onRemoveImageClick: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
@@ -287,14 +291,14 @@ private fun ImageFromPath(path: String, onClearClick: () -> Unit) {
         )
 
         FilledIconButton(
-            onClick = onClearClick,
+            onClick = onRemoveImageClick,
             colors = IconButtonDefaults.iconButtonColors(
                 contentColor = MaterialTheme.colorScheme.onBackground
             )
         ) {
             Icon(
                 imageVector = Icons.Outlined.Clear,
-                contentDescription = "Remove image"
+                contentDescription = stringResource(R.string.add_inventory_item_remove_image)
             )
         }
     }

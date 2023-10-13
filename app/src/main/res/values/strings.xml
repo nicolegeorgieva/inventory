@@ -15,4 +15,5 @@
     <string name="description_label">Description…</string>
     <string name="add_image_label">Add image</string>
     <string name="item_image">Item image</string>
+    <string name="add_inventory_item_remove_image">Remove image</string>
 </resources>
