@@ -1,5 +1,6 @@
 package com.example.inventory.screen.addinventoryitem
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
@@ -89,8 +90,8 @@ class AddInventoryItemViewModel @Inject constructor(
         description.value = newDescription
     }
 
-    private fun setImage(newImage: String?) {
-        imagePath.value = newImage
+    private fun setImage(newImage: Uri?) {
+        imagePath.value = newImage?.toString()
     }
 
     private fun setMinQuantityTarget(newMinQuantityTarget: String) {
