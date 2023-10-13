@@ -18,11 +18,15 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.AddCircle
+import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -193,13 +197,18 @@ private fun Content(
         }
 
         item(key = "image") {
-            ItemImage(uiState = uiState, onClick = {
-                launcher.launch(
-                    PickVisualMediaRequest(
-                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+            ItemImage(
+                uiState = uiState, onClick = {
+                    launcher.launch(
+                        PickVisualMediaRequest(
+                            mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
                     )
-                )
-            })
+                },
+                onClearClick = {
+                    onEvent(AddInventoryItemEvent.SetImage(null))
+                }
+            )
         }
     }
 }
@@ -231,12 +240,13 @@ private fun InputRow(
 @Composable
 private fun ItemImage(
     uiState: AddInventoryItemState,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onClearClick: () -> Unit
 ) {
     if (uiState.imagePath == null) {
         AddImage(onClick = onClick)
     } else {
-        ImageFromPath(path = uiState.imagePath)
+        ImageFromPath(path = uiState.imagePath, onClearClick = onClearClick)
     }
 }
 
@@ -264,15 +274,29 @@ private fun AddImage(onClick: () -> Unit) {
 }
 
 @Composable
-private fun ImageFromPath(path: String) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+private fun ImageFromPath(path: String, onClearClick: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.Top
     ) {
         AsyncImage(
             modifier = Modifier.size(224.dp),
             model = path,
             contentDescription = stringResource(R.string.item_image)
         )
+
+        FilledIconButton(
+            onClick = onClearClick,
+            colors = IconButtonDefaults.iconButtonColors(
+                contentColor = MaterialTheme.colorScheme.onBackground
+            )
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Clear,
+                contentDescription = "Remove image"
+            )
+        }
     }
 }
 

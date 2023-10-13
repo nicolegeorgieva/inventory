@@ -89,7 +89,7 @@ class AddInventoryItemViewModel @Inject constructor(
         description.value = newDescription
     }
 
-    private fun setImage(newImage: String) {
+    private fun setImage(newImage: String?) {
         imagePath.value = newImage
     }
 
