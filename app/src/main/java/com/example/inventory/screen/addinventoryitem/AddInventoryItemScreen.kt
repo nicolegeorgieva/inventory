@@ -270,66 +270,100 @@ private fun AddImage(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = stringResource(R.string.add_image_label))
-
-        Spacer(modifier = Modifier.height(6.dp))
-
-        TabRow(selectedTabIndex = selectedTabIndex) {
-            tabs.forEachIndexed { index, title ->
-                Tab(
-                    selected = selectedTabIndex == index,
-                    onClick = { onTabChange(index) },
-                    text = {
-                        Text(
-                            text = title,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                )
-            }
-        }
+        AddImageSection(
+            selectedTabIndex = selectedTabIndex,
+            tabs = tabs,
+            onTabChange = onTabChange
+        )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         if (selectedTabIndex == 0) {
-            FilledIconButton(
-                modifier = Modifier.size(196.dp),
-                shape = RectangleShape,
-                colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer
-                ),
-                onClick = onAddImageClick
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.AddCircle,
-                    contentDescription = stringResource(R.string.add_image_label)
-                )
-            }
+            AddImageFromFiles(onAddImageClick = onAddImageClick)
         } else {
-            InputRow(
-                input = linkValue,
-                onInputChange = onLinkValueChange,
-                imeAction = ImeAction.Done,
-                label = "Image url"
+            AddImageFromLink(
+                linkValue = linkValue,
+                onLinkValueChange = onLinkValueChange,
+                onLinkImageVisibleChange = onLinkImageVisibleChange
             )
-
-            if (linkValue.isNotBlank()) {
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Button(
-                    onClick = {
-                        onLinkImageVisibleChange(true)
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                ) {
-                    Text("Add")
-                }
-            }
         }
+    }
+}
+
+@Composable
+private fun AddImageSection(
+    selectedTabIndex: Int,
+    tabs: List<String>,
+    onTabChange: (Int) -> Unit
+) {
+    Text(text = stringResource(R.string.add_image_label))
+
+    Spacer(modifier = Modifier.height(6.dp))
+
+    TabsRow(
+        selectedTabIndex = selectedTabIndex,
+        tabs = tabs,
+        onTabChange = onTabChange
+    )
+}
+
+@Composable
+private fun TabsRow(
+    selectedTabIndex: Int,
+    tabs: List<String>,
+    onTabChange: (Int) -> Unit
+) {
+    TabRow(selectedTabIndex = selectedTabIndex) {
+        tabs.forEachIndexed { index, title ->
+            Tab(
+                selected = selectedTabIndex == index,
+                onClick = { onTabChange(index) },
+                text = {
+                    Text(
+                        text = title,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun AddImageFromFiles(onAddImageClick: () -> Unit) {
+    FilledIconButton(
+        modifier = Modifier.size(196.dp),
+        shape = RectangleShape,
+        colors = IconButtonDefaults.filledIconButtonColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
+        ),
+        onClick = onAddImageClick
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.AddCircle,
+            contentDescription = stringResource(R.string.add_image_label)
+        )
+    }
+}
+
+@Composable
+private fun AddImageFromLink(
+    linkValue: String,
+    onLinkValueChange: (String) -> Unit,
+    onLinkImageVisibleChange: (Boolean) -> Unit
+) {
+    InputRow(
+        input = linkValue,
+        onInputChange = onLinkValueChange,
+        imeAction = ImeAction.Done,
+        label = "Image url"
+    )
+
+    if (linkValue.isNotBlank()) {
+        Spacer(modifier = Modifier.height(8.dp))
+
+        AddImageUrlButton(onLinkImageVisibleChange = onLinkImageVisibleChange)
     }
 }
 
@@ -358,6 +392,21 @@ private fun InputRow(
                 Text(text = label)
             }
         )
+    }
+}
+
+@Composable
+private fun AddImageUrlButton(onLinkImageVisibleChange: (Boolean) -> Unit) {
+    Button(
+        onClick = {
+            onLinkImageVisibleChange(true)
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+        )
+    ) {
+        Text("Add")
     }
 }
 
