@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -77,7 +78,11 @@ private fun HomeUi(
             ) {
                 if (!uiState.inventoryList.isNullOrEmpty()) {
                     items(uiState.inventoryList) { item ->
-                        InventoryItemRow(itemName = item.name, quantity = item.quantity)
+                        InventoryItemRow(
+                            itemName = item.name,
+                            quantity = item.quantity,
+                            image = item.imagePath ?: ""
+                        )
                     }
                 } else {
                     item("empty inventory state") {
@@ -147,12 +152,14 @@ private fun AddButton(navController: NavController?) {
 }
 
 @Composable
-private fun InventoryItemRow(itemName: String, quantity: String) {
+private fun InventoryItemRow(itemName: String, quantity: String, image: String) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        AsyncImage(model = image, contentDescription = null)
+
         Text(text = itemName)
 
         Text(text = quantity)
@@ -267,70 +274,70 @@ private fun HomePersonalizedInventoryPreview() {
                         id = "",
                         name = "Water bottles",
                         quantity = "5",
-                        imageUrl = null,
+                        imagePath = null,
                         category = null
                     ),
                     InventoryUi(
                         id = "",
                         name = "Kitchen roll",
                         quantity = "4",
-                        imageUrl = null,
+                        imagePath = null,
                         category = null
                     ),
                     InventoryUi(
                         id = "",
                         name = "Soap",
                         quantity = "6",
-                        imageUrl = null,
+                        imagePath = null,
                         category = null
                     ),
                     InventoryUi(
                         id = "",
                         name = "Shampoo",
                         quantity = "2",
-                        imageUrl = null,
+                        imagePath = null,
                         category = null
                     ),
                     InventoryUi(
                         id = "",
                         name = "Liquid laundry detergent",
                         quantity = "1",
-                        imageUrl = null,
+                        imagePath = null,
                         category = null
                     ),
                     InventoryUi(
                         id = "",
                         name = "Dishwasher tablets pack",
                         quantity = "1",
-                        imageUrl = null,
+                        imagePath = null,
                         category = null
                     ),
                     InventoryUi(
                         id = "",
                         name = "Shower gel",
                         quantity = "3",
-                        imageUrl = null,
+                        imagePath = null,
                         category = null
                     ),
                     InventoryUi(
                         id = "",
                         name = "Glass cleaner",
                         quantity = "1",
-                        imageUrl = null,
+                        imagePath = null,
                         category = null
                     ),
                     InventoryUi(
                         id = "",
                         name = "Floor cleaner",
                         quantity = "1",
-                        imageUrl = null,
+                        imagePath = null,
                         category = null
                     ),
                     InventoryUi(
                         id = "",
                         name = "Cotton buds pack",
                         quantity = "3",
-                        imageUrl = null,
+                        imagePath = null,
                         category = null
                     )
                 )

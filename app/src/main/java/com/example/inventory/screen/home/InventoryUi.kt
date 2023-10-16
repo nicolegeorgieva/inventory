@@ -7,6 +7,6 @@ data class InventoryUi(
     val id: String,
     val name: String,
     val quantity: String,
-    val imageUrl: String?,
+    val imagePath: String?,
     val category: String?
 )

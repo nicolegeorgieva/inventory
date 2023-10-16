@@ -78,7 +78,10 @@ private fun AddInventoryItemUi(
             TopAppBar(navController = navController)
         },
         floatingActionButton = {
-            AddButton(onEvent = onEvent)
+            AddButton(
+                navController = navController,
+                onEvent = onEvent
+            )
         },
         floatingActionButtonPosition = FabPosition.End,
         content = { innerPadding ->
@@ -113,10 +116,14 @@ private fun TopAppBar(navController: NavController?) {
 }
 
 @Composable
-private fun AddButton(onEvent: (AddInventoryItemEvent) -> Unit) {
+private fun AddButton(
+    navController: NavController?,
+    onEvent: (AddInventoryItemEvent) -> Unit
+) {
     FloatingActionButton(
         onClick = {
             onEvent(AddInventoryItemEvent.AddInventoryItem)
+            navController?.navigate("home")
         },
         containerColor = MaterialTheme.colorScheme.primary
     ) {
