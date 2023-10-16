@@ -35,8 +35,6 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -207,6 +205,9 @@ private fun Content(
         item(key = "image") {
             ItemImage(
                 uiState = uiState,
+                onTabChange = {
+                    onEvent(AddInventoryItemEvent.OnTabChange(it))
+                },
                 onAddImageClick = {
                     launcher.launch(
                         PickVisualMediaRequest(
@@ -219,6 +220,9 @@ private fun Content(
                 },
                 onRemoveImageClick = {
                     onEvent(AddInventoryItemEvent.SetImage(null))
+                },
+                onLinkImageVisibleChange = {
+                    onEvent(AddInventoryItemEvent.OnLinkImageVisibleChange(it))
                 }
             )
         }
@@ -228,15 +232,21 @@ private fun Content(
 @Composable
 private fun ItemImage(
     uiState: AddInventoryItemState,
+    onTabChange: (Int) -> Unit,
     onAddImageClick: () -> Unit,
     onLinkValueChange: (String) -> Unit,
+    onLinkImageVisibleChange: (Boolean) -> Unit,
     onRemoveImageClick: () -> Unit
 ) {
     if (uiState.imagePath == null) {
         AddImage(
             onAddImageClick = onAddImageClick,
+            onTabChange = onTabChange,
+            selectedTabIndex = uiState.selectedTabIndex,
+            tabs = uiState.tabs,
             linkValue = uiState.link ?: "",
-            onLinkValueChange = onLinkValueChange
+            onLinkValueChange = onLinkValueChange,
+            onLinkImageVisibleChange = onLinkImageVisibleChange
         )
     } else {
         ImageFromPath(
@@ -250,7 +260,11 @@ private fun ItemImage(
 private fun AddImage(
     onAddImageClick: () -> Unit,
     linkValue: String,
-    onLinkValueChange: (String) -> Unit
+    onLinkValueChange: (String) -> Unit,
+    selectedTabIndex: Int,
+    tabs: List<String>,
+    onTabChange: (Int) -> Unit,
+    onLinkImageVisibleChange: (Boolean) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -260,14 +274,11 @@ private fun AddImage(
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        val tabs = remember { listOf("From files", "From link") }
-        val selectedTabIndex = remember { mutableIntStateOf(0) }
-
-        TabRow(selectedTabIndex = selectedTabIndex.intValue) {
+        TabRow(selectedTabIndex = selectedTabIndex) {
             tabs.forEachIndexed { index, title ->
                 Tab(
-                    selected = selectedTabIndex.intValue == index,
-                    onClick = { selectedTabIndex.intValue = index },
+                    selected = selectedTabIndex == index,
+                    onClick = { onTabChange(index) },
                     text = {
                         Text(
                             text = title,
@@ -281,7 +292,7 @@ private fun AddImage(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        if (selectedTabIndex.intValue == 0) {
+        if (selectedTabIndex == 0) {
             FilledIconButton(
                 modifier = Modifier.size(196.dp),
                 shape = RectangleShape,
@@ -307,7 +318,9 @@ private fun AddImage(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Button(
-                    onClick = { },
+                    onClick = {
+                        onLinkImageVisibleChange(true)
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer
@@ -388,6 +401,9 @@ private fun EmptyStatePreview() {
                 category = null,
                 description = null,
                 link = null,
+                linkImageVisible = false,
+                tabs = listOf("From files", "From link"),
+                selectedTabIndex = 0,
                 imagePath = null
             ),
             onEvent = {}
@@ -408,6 +424,9 @@ private fun FilledStatePreview() {
                 category = "Groceries",
                 description = null,
                 link = null,
+                linkImageVisible = false,
+                tabs = listOf("From files", "From link"),
+                selectedTabIndex = 1,
                 imagePath = null
             ),
             onEvent = {}

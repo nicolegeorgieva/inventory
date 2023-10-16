@@ -2,6 +2,7 @@ package com.example.inventory.screen.addinventoryitem
 
 import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.inventory.ComposeViewModel
@@ -25,7 +26,10 @@ class AddInventoryItemViewModel @Inject constructor(
     private val category = mutableStateOf<String?>(null)
     private val description = mutableStateOf<String?>(null)
     private val link = mutableStateOf<String?>(null)
+    private val linkImageVisible = mutableStateOf(false)
     private val imagePath = mutableStateOf<String?>(null)
+    private val tabs = mutableStateOf(listOf("From files", "From link"))
+    private val selectedTabIndex = mutableIntStateOf(0)
 
     @Composable
     override fun uiState(): AddInventoryItemState {
@@ -35,7 +39,10 @@ class AddInventoryItemViewModel @Inject constructor(
             minQuantityTarget = getMinQuantityTarget(),
             category = getCategory(),
             description = getDescription(),
+            tabs = getTabs(),
+            selectedTabIndex = getSelectedTabIndex(),
             link = getLink(),
+            linkImageVisible = getLinkImageState(),
             imagePath = getImagePath()
         )
     }
@@ -66,6 +73,16 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     @Composable
+    private fun getTabs(): List<String> {
+        return tabs.value
+    }
+
+    @Composable
+    private fun getSelectedTabIndex(): Int {
+        return selectedTabIndex.value
+    }
+
+    @Composable
     private fun getLink(): String? {
         return link.value
     }
@@ -73,6 +90,11 @@ class AddInventoryItemViewModel @Inject constructor(
     @Composable
     private fun getImagePath(): String? {
         return imagePath.value
+    }
+
+    @Composable
+    private fun getLinkImageState(): Boolean {
+        return linkImageVisible.value
     }
 
     override fun onEvent(event: AddInventoryItemEvent) {
@@ -88,6 +110,11 @@ class AddInventoryItemViewModel @Inject constructor(
             is AddInventoryItemEvent.SetQuantity -> setQuantity(event.newQuantity)
             AddInventoryItemEvent.AddInventoryItem -> addInventoryItem()
             is AddInventoryItemEvent.OnLinkValueChange -> onLinkValueChange(event.link)
+            is AddInventoryItemEvent.OnLinkImageVisibleChange -> onLinkImageVisibleChange(
+                event.visible
+            )
+
+            is AddInventoryItemEvent.OnTabChange -> onTabChange(event.selectedTabIndex)
         }
     }
 
@@ -97,6 +124,10 @@ class AddInventoryItemViewModel @Inject constructor(
 
     private fun setDescription(newDescription: String) {
         description.value = newDescription
+    }
+
+    private fun onTabChange(index: Int) {
+        selectedTabIndex.intValue = index
     }
 
     private fun setImage(newImage: Uri?) {
@@ -117,6 +148,10 @@ class AddInventoryItemViewModel @Inject constructor(
 
     private fun onLinkValueChange(linkValue: String?) {
         link.value = linkValue
+    }
+
+    private fun onLinkImageVisibleChange(visible: Boolean) {
+        linkImageVisible.value = visible
     }
 
     private fun addInventoryItem() {
