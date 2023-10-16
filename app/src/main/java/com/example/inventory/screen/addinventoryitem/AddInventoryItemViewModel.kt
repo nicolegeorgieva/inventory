@@ -127,6 +127,7 @@ class AddInventoryItemViewModel @Inject constructor(
 
     private fun setLinkImage(newImage: String?) {
         imagePath.value = newImage
+        link.value = null
     }
 
     private fun setMinQuantityTarget(newMinQuantityTarget: String) {
