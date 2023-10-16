@@ -150,8 +150,9 @@ private fun Content(
     ) {
         item(key = "name") {
             InputRow(
-                label = stringResource(R.string.name_required_label),
+                label = stringResource(R.string.name_label),
                 input = uiState.name ?: "",
+                supportingText = stringResource(R.string.required_label),
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetName(it))
                 }
@@ -160,9 +161,10 @@ private fun Content(
 
         item(key = "quantity") {
             InputRow(
-                label = stringResource(R.string.quantity_required_label),
+                label = stringResource(R.string.quantity_label),
                 keyboardType = KeyboardType.Number,
                 input = uiState.quantity ?: "",
+                supportingText = stringResource(R.string.required_label),
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetQuantity(it))
                 }
@@ -171,9 +173,10 @@ private fun Content(
 
         item(key = "min quantity target") {
             InputRow(
-                label = stringResource(R.string.min_quantity_target_required_label),
+                label = stringResource(R.string.min_quantity_target_label),
                 keyboardType = KeyboardType.Number,
                 input = uiState.minQuantityTarget ?: "",
+                supportingText = stringResource(R.string.required_label),
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetMinQuantityTarget(it))
                 }
@@ -376,6 +379,7 @@ private fun InputRow(
     imeAction: ImeAction = ImeAction.Next,
     label: String,
     input: String,
+    supportingText: String? = null,
     onInputChange: (String) -> Unit
 ) {
     Row(
@@ -392,7 +396,15 @@ private fun InputRow(
             onValueChange = onInputChange,
             label = {
                 Text(text = label)
-            }
+            },
+            supportingText = if (supportingText != null) {
+                {
+                    Text(
+                        text = supportingText,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            } else null
         )
     }
 }
