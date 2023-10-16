@@ -195,7 +195,7 @@ private fun Content(
                 modifier = Modifier.height(124.dp),
                 label = stringResource(R.string.description_label),
                 input = uiState.description ?: "",
-                imeAction = ImeAction.Done,
+                imeAction = ImeAction.Default,
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetDescription(it))
                 }
