@@ -39,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -194,6 +195,7 @@ private fun Content(
                 modifier = Modifier.height(124.dp),
                 label = stringResource(R.string.description_label),
                 input = uiState.description ?: "",
+                imeAction = ImeAction.Done,
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetDescription(it))
                 }
@@ -222,6 +224,7 @@ private fun Content(
 private fun InputRow(
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next,
     label: String,
     input: String,
     onInputChange: (String) -> Unit
@@ -232,7 +235,10 @@ private fun InputRow(
     ) {
         OutlinedTextField(
             modifier = modifier,
-            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType,
+                imeAction = imeAction
+            ),
             value = input,
             onValueChange = onInputChange,
             label = {
