@@ -3,12 +3,15 @@ package com.example.inventory.screen.home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.viewModelScope
 import com.example.inventory.ComposeViewModel
 import com.example.inventory.data.repository.InventoryRepository
 import com.example.inventory.data.repository.NameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,6 +54,29 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onEvent(event: HomeEvent) {
-        TODO("Not yet implemented")
+        when (event) {
+            is HomeEvent.AddQuantity -> onAddQuantity(event.id)
+            is HomeEvent.RemoveQuantity -> onRemoveQuantity(event.id)
+        }
+    }
+
+    private fun onAddQuantity(id: String) {
+        viewModelScope.launch {
+            val inventoryItem = inventoryRepository.getById(UUID.fromString(id))
+
+            if (inventoryItem != null) {
+                inventoryRepository.save(inventoryItem.copy(quantity = inventoryItem.quantity + 1))
+            }
+        }
+    }
+
+    private fun onRemoveQuantity(id: String) {
+        viewModelScope.launch {
+            val inventoryItem = inventoryRepository.getById(UUID.fromString(id))
+
+            if (inventoryItem != null) {
+                inventoryRepository.save(inventoryItem.copy(quantity = inventoryItem.quantity - 1))
+            }
+        }
     }
 }

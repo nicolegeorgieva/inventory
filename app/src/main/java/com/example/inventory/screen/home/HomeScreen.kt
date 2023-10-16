@@ -83,7 +83,13 @@ private fun HomeUi(
                         InventoryItemRow(
                             itemName = item.name,
                             quantity = item.quantity,
-                            image = item.imagePath ?: ""
+                            image = item.imagePath ?: "",
+                            onAddQuantity = {
+                                onEvent(HomeEvent.AddQuantity(item.id))
+                            },
+                            onRemoveQuantity = {
+                                onEvent(HomeEvent.RemoveQuantity(item.id))
+                            },
                         )
                     }
                 } else {
@@ -154,7 +160,13 @@ private fun AddButton(navController: NavController?) {
 }
 
 @Composable
-private fun InventoryItemRow(itemName: String, quantity: String, image: String) {
+private fun InventoryItemRow(
+    itemName: String,
+    quantity: String,
+    image: String,
+    onAddQuantity: () -> Unit,
+    onRemoveQuantity: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -174,13 +186,15 @@ private fun InventoryItemRow(itemName: String, quantity: String, image: String) 
 
         AddOrRemoveQuantityButton(
             imageVector = Icons.Filled.AddCircle,
-            contentDescription = "Add"
-        ) {}
+            contentDescription = "Add",
+            onClick = onAddQuantity
+        )
 
         AddOrRemoveQuantityButton(
             imageVector = Icons.Filled.Clear,
-            contentDescription = "Remove"
-        ) {}
+            contentDescription = "Remove",
+            onClick = onRemoveQuantity
+        )
     }
 }
 
