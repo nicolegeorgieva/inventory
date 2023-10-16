@@ -139,7 +139,7 @@ private fun Content(
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             // When the user has selected a photo, its URI is returned here
             if (uri != null) {
-                onEvent(AddInventoryItemEvent.SetImage(uri))
+                onEvent(AddInventoryItemEvent.SetFileImage(uri))
             }
         }
 
@@ -219,10 +219,10 @@ private fun Content(
                     onEvent(AddInventoryItemEvent.OnLinkValueChange(it))
                 },
                 onRemoveImageClick = {
-                    onEvent(AddInventoryItemEvent.SetImage(null))
+                    onEvent(AddInventoryItemEvent.SetFileImage(null))
                 },
-                onLinkImageVisibleChange = {
-                    onEvent(AddInventoryItemEvent.OnLinkImageVisibleChange(it))
+                onAddLinkImageClick = {
+                    onEvent(AddInventoryItemEvent.SetLinkImage(it))
                 }
             )
         }
@@ -235,7 +235,7 @@ private fun ItemImage(
     onTabChange: (Int) -> Unit,
     onAddImageClick: () -> Unit,
     onLinkValueChange: (String) -> Unit,
-    onLinkImageVisibleChange: (Boolean) -> Unit,
+    onAddLinkImageClick: (String) -> Unit,
     onRemoveImageClick: () -> Unit
 ) {
     if (uiState.imagePath == null) {
@@ -246,7 +246,7 @@ private fun ItemImage(
             tabs = uiState.tabs,
             linkValue = uiState.link ?: "",
             onLinkValueChange = onLinkValueChange,
-            onLinkImageVisibleChange = onLinkImageVisibleChange
+            onAddLinkImageClick = onAddLinkImageClick
         )
     } else {
         ImageFromPath(
@@ -259,12 +259,12 @@ private fun ItemImage(
 @Composable
 private fun AddImage(
     onAddImageClick: () -> Unit,
+    onAddLinkImageClick: (String) -> Unit,
     linkValue: String,
     onLinkValueChange: (String) -> Unit,
     selectedTabIndex: Int,
     tabs: List<String>,
-    onTabChange: (Int) -> Unit,
-    onLinkImageVisibleChange: (Boolean) -> Unit
+    onTabChange: (Int) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -284,7 +284,7 @@ private fun AddImage(
             AddImageFromLink(
                 linkValue = linkValue,
                 onLinkValueChange = onLinkValueChange,
-                onLinkImageVisibleChange = onLinkImageVisibleChange
+                onAddLinkImage = onAddLinkImageClick
             )
         }
     }
@@ -351,7 +351,7 @@ private fun AddImageFromFiles(onAddImageClick: () -> Unit) {
 private fun AddImageFromLink(
     linkValue: String,
     onLinkValueChange: (String) -> Unit,
-    onLinkImageVisibleChange: (Boolean) -> Unit
+    onAddLinkImage: (String) -> Unit
 ) {
     InputRow(
         input = linkValue,
@@ -363,7 +363,9 @@ private fun AddImageFromLink(
     if (linkValue.isNotBlank()) {
         Spacer(modifier = Modifier.height(8.dp))
 
-        AddImageUrlButton(onLinkImageVisibleChange = onLinkImageVisibleChange)
+        AddImageUrlButton(onAddLinkImage = {
+            onAddLinkImage(linkValue)
+        })
     }
 }
 
@@ -396,11 +398,9 @@ private fun InputRow(
 }
 
 @Composable
-private fun AddImageUrlButton(onLinkImageVisibleChange: (Boolean) -> Unit) {
+private fun AddImageUrlButton(onAddLinkImage: () -> Unit) {
     Button(
-        onClick = {
-            onLinkImageVisibleChange(true)
-        },
+        onClick = onAddLinkImage,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
             contentColor = MaterialTheme.colorScheme.onSecondaryContainer
@@ -450,7 +450,6 @@ private fun EmptyStatePreview() {
                 category = null,
                 description = null,
                 link = null,
-                linkImageVisible = false,
                 tabs = listOf("From files", "From link"),
                 selectedTabIndex = 0,
                 imagePath = null
@@ -473,7 +472,6 @@ private fun FilledStatePreview() {
                 category = "Groceries",
                 description = null,
                 link = null,
-                linkImageVisible = false,
                 tabs = listOf("From files", "From link"),
                 selectedTabIndex = 1,
                 imagePath = null

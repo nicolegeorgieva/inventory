@@ -9,8 +9,8 @@ sealed interface AddInventoryItemEvent {
     data class SetCategory(val newCategory: String) : AddInventoryItemEvent
     data class SetDescription(val newDescription: String) : AddInventoryItemEvent
     data class OnTabChange(val selectedTabIndex: Int) : AddInventoryItemEvent
-    data class SetImage(val newImage: Uri?) : AddInventoryItemEvent
+    data class SetFileImage(val newImage: Uri?) : AddInventoryItemEvent
+    data class SetLinkImage(val newImage: String?) : AddInventoryItemEvent
     data class OnLinkValueChange(val link: String?) : AddInventoryItemEvent
-    data class OnLinkImageVisibleChange(val visible: Boolean) : AddInventoryItemEvent
     data object AddInventoryItem : AddInventoryItemEvent
 }

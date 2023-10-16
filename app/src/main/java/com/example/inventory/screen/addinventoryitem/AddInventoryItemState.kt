@@ -9,6 +9,5 @@ data class AddInventoryItemState(
     val tabs: List<String>,
     val selectedTabIndex: Int,
     val imagePath: String?,
-    val link: String?,
-    val linkImageVisible: Boolean
+    val link: String?
 )
