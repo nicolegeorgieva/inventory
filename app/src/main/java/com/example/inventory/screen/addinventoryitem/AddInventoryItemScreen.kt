@@ -212,6 +212,9 @@ private fun Content(
                         )
                     )
                 },
+                onLinkValueChange = {
+                    onEvent(AddInventoryItemEvent.OnLinkValueChange(it))
+                },
                 onRemoveImageClick = {
                     onEvent(AddInventoryItemEvent.SetImage(null))
                 }
@@ -221,44 +224,17 @@ private fun Content(
 }
 
 @Composable
-private fun InputRow(
-    modifier: Modifier = Modifier,
-    keyboardType: KeyboardType = KeyboardType.Text,
-    imeAction: ImeAction = ImeAction.Next,
-    label: String,
-    input: String,
-    onInputChange: (String) -> Unit
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        OutlinedTextField(
-            modifier = modifier,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType,
-                imeAction = imeAction
-            ),
-            value = input,
-            onValueChange = onInputChange,
-            label = {
-                Text(text = label)
-            }
-        )
-    }
-}
-
-@Composable
 private fun ItemImage(
     uiState: AddInventoryItemState,
     onAddImageClick: () -> Unit,
+    onLinkValueChange: (String) -> Unit,
     onRemoveImageClick: () -> Unit
 ) {
     if (uiState.imagePath == null) {
         AddImage(
             onAddImageClick = onAddImageClick,
-            linkValue = "",
-            onLinkValueChange = {}
+            linkValue = uiState.link ?: "",
+            onLinkValueChange = onLinkValueChange
         )
     } else {
         ImageFromPath(
@@ -318,12 +294,41 @@ private fun AddImage(
                 )
             }
         } else {
-            OutlinedTextField(
-                value = linkValue,
-                onValueChange = onLinkValueChange,
-                label = { Text(text = "Image url") }
+            InputRow(
+                input = linkValue,
+                onInputChange = onLinkValueChange,
+                imeAction = ImeAction.Done,
+                label = "Image url"
             )
         }
+    }
+}
+
+@Composable
+private fun InputRow(
+    modifier: Modifier = Modifier,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next,
+    label: String,
+    input: String,
+    onInputChange: (String) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        OutlinedTextField(
+            modifier = modifier,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType,
+                imeAction = imeAction
+            ),
+            value = input,
+            onValueChange = onInputChange,
+            label = {
+                Text(text = label)
+            }
+        )
     }
 }
 
@@ -366,6 +371,7 @@ private fun EmptyStatePreview() {
                 minQuantityTarget = null,
                 category = null,
                 description = null,
+                link = null,
                 imagePath = null
             ),
             onEvent = {}
@@ -385,6 +391,7 @@ private fun FilledStatePreview() {
                 minQuantityTarget = "5",
                 category = "Groceries",
                 description = null,
+                link = null,
                 imagePath = null
             ),
             onEvent = {}

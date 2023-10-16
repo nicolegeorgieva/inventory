@@ -24,6 +24,7 @@ class AddInventoryItemViewModel @Inject constructor(
     private val minQuantityTarget = mutableStateOf<String?>(null)
     private val category = mutableStateOf<String?>(null)
     private val description = mutableStateOf<String?>(null)
+    private val link = mutableStateOf<String?>(null)
     private val imagePath = mutableStateOf<String?>(null)
 
     @Composable
@@ -34,6 +35,7 @@ class AddInventoryItemViewModel @Inject constructor(
             minQuantityTarget = getMinQuantityTarget(),
             category = getCategory(),
             description = getDescription(),
+            link = getLink(),
             imagePath = getImagePath()
         )
     }
@@ -64,6 +66,11 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     @Composable
+    private fun getLink(): String? {
+        return link.value
+    }
+
+    @Composable
     private fun getImagePath(): String? {
         return imagePath.value
     }
@@ -80,6 +87,7 @@ class AddInventoryItemViewModel @Inject constructor(
             is AddInventoryItemEvent.SetName -> setName(event.newName)
             is AddInventoryItemEvent.SetQuantity -> setQuantity(event.newQuantity)
             AddInventoryItemEvent.AddInventoryItem -> addInventoryItem()
+            is AddInventoryItemEvent.OnLinkValueChange -> onLinkValueChange(event.link)
         }
     }
 
@@ -105,6 +113,10 @@ class AddInventoryItemViewModel @Inject constructor(
 
     private fun setQuantity(newQuantity: String) {
         quantity.value = newQuantity
+    }
+
+    private fun onLinkValueChange(linkValue: String?) {
+        link.value = linkValue
     }
 
     private fun addInventoryItem() {

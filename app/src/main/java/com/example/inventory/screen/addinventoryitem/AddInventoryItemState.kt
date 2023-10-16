@@ -6,5 +6,6 @@ data class AddInventoryItemState(
     val minQuantityTarget: String?,
     val category: String?,
     val description: String?,
+    val link: String?,
     val imagePath: String?
 )
