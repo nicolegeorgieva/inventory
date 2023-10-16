@@ -21,8 +21,6 @@ import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingActionButton
@@ -41,7 +39,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,7 +46,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.inventory.R
-import com.example.inventory.component.BackButton
+import com.example.inventory.component.TopBar
 import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
@@ -75,7 +72,10 @@ private fun AddInventoryItemUi(
             .fillMaxSize()
             .padding(12.dp),
         topBar = {
-            TopAppBar(navController = navController)
+            TopBar(
+                title = stringResource(R.string.add_inventory_item_title),
+                navController = navController
+            )
         },
         floatingActionButton = {
             AddButton(
@@ -90,27 +90,6 @@ private fun AddInventoryItemUi(
                 uiState = uiState,
                 onEvent = onEvent
             )
-        }
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TopAppBar(navController: NavController?) {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.add_inventory_item_title),
-                textAlign = TextAlign.Center,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        },
-        navigationIcon = {
-            BackButton {
-                navController?.popBackStack()
-            }
         }
     )
 }
