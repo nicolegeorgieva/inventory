@@ -14,7 +14,7 @@ import com.example.inventory.ui.theme.InventoryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(
+fun CustomTopAppBar(
     navController: NavController?,
     title: String
 ) {
@@ -38,9 +38,9 @@ fun TopBar(
 
 @Preview
 @Composable
-private fun TopBarPreview() {
+private fun CustomTopAppBarPreview() {
     InventoryTheme {
-        TopBar(
+        CustomTopAppBar(
             navController = null,
             title = "Settings"
         )

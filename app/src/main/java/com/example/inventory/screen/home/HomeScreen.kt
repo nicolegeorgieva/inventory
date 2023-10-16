@@ -22,10 +22,9 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -67,7 +66,7 @@ private fun HomeUi(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(uiState = uiState, navController = navController)
+            HomeTopAppBar(uiState = uiState, navController = navController)
         },
         floatingActionButton = {
             AddButton(navController = navController)
@@ -99,17 +98,17 @@ private fun HomeUi(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBar(uiState: HomeState, navController: NavController?) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
-    MediumTopAppBar(
+private fun HomeTopAppBar(
+    uiState: HomeState,
+    navController: NavController?
+) {
+    TopAppBar(
         title = {
             GreetingMessage(uiState = uiState)
         },
         actions = {
             MoreMenuButton(navController = navController)
-        },
-        scrollBehavior = scrollBehavior
+        }
     )
 }
 

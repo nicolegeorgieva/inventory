@@ -46,7 +46,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.inventory.R
-import com.example.inventory.component.TopBar
+import com.example.inventory.component.CustomTopAppBar
 import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
@@ -72,7 +72,7 @@ private fun AddInventoryItemUi(
             .fillMaxSize()
             .padding(12.dp),
         topBar = {
-            TopBar(
+            CustomTopAppBar(
                 title = stringResource(R.string.add_inventory_item_title),
                 navController = navController
             )

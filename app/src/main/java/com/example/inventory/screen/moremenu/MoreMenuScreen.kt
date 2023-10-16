@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.inventory.R
-import com.example.inventory.component.TopBar
+import com.example.inventory.component.CustomTopAppBar
 import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
@@ -44,7 +44,7 @@ private fun MoreMenuUi(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopBar(
+            CustomTopAppBar(
                 title = stringResource(R.string.more_menu_settings_title),
                 navController = navController
             )
