@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -74,6 +76,7 @@ private fun HomeUi(
         content = { innerPadding ->
             LazyColumn(
                 modifier = Modifier.padding(12.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = innerPadding
             ) {
                 if (!uiState.inventoryList.isNullOrEmpty()) {
@@ -154,11 +157,17 @@ private fun AddButton(navController: NavController?) {
 @Composable
 private fun InventoryItemRow(itemName: String, quantity: String, image: String) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(64.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        AsyncImage(model = image, contentDescription = null)
+        AsyncImage(
+            modifier = Modifier.size(64.dp),
+            model = image,
+            contentDescription = null
+        )
 
         Text(text = itemName)
 
