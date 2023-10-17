@@ -29,6 +29,7 @@ class AddInventoryItemViewModel @Inject constructor(
     private val imagePath = mutableStateOf<String?>(null)
     private val tabs = mutableStateOf(listOf("From files", "From link"))
     private val selectedTabIndex = mutableIntStateOf(0)
+    private val addButtonEnabled = mutableStateOf(false)
 
     @Composable
     override fun uiState(): AddInventoryItemState {
@@ -41,7 +42,8 @@ class AddInventoryItemViewModel @Inject constructor(
             tabs = getTabs(),
             selectedTabIndex = getSelectedTabIndex(),
             link = getLink(),
-            imagePath = getImagePath()
+            imagePath = getImagePath(),
+            addButtonEnabled = getAddButtonEnabledState()
         )
     }
 
@@ -90,6 +92,11 @@ class AddInventoryItemViewModel @Inject constructor(
         return imagePath.value
     }
 
+    @Composable
+    private fun getAddButtonEnabledState(): Boolean {
+        return addButtonEnabled.value
+    }
+
     override fun onEvent(event: AddInventoryItemEvent) {
         when (event) {
             is AddInventoryItemEvent.SetCategory -> setCategory(event.newCategory)
@@ -130,16 +137,28 @@ class AddInventoryItemViewModel @Inject constructor(
         link.value = null
     }
 
-    private fun setMinQuantityTarget(newMinQuantityTarget: String) {
-        minQuantityTarget.value = newMinQuantityTarget
-    }
-
     private fun setName(newName: String) {
         name.value = newName
+
+        if (!quantity.value.isNullOrBlank() && !minQuantityTarget.value.isNullOrBlank()) {
+            addButtonEnabled.value = true
+        }
     }
 
     private fun setQuantity(newQuantity: String) {
         quantity.value = newQuantity
+
+        if (!name.value.isNullOrBlank() && !minQuantityTarget.value.isNullOrBlank()) {
+            addButtonEnabled.value = true
+        }
+    }
+
+    private fun setMinQuantityTarget(newMinQuantityTarget: String) {
+        minQuantityTarget.value = newMinQuantityTarget
+
+        if (!name.value.isNullOrBlank() && !quantity.value.isNullOrBlank()) {
+            addButtonEnabled.value = true
+        }
     }
 
     private fun onLinkValueChange(linkValue: String?) {

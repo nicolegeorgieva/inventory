@@ -79,6 +79,7 @@ private fun AddInventoryItemUi(
         },
         floatingActionButton = {
             AddButton(
+                enabled = uiState.addButtonEnabled,
                 navController = navController,
                 onEvent = onEvent
             )
@@ -97,14 +98,23 @@ private fun AddInventoryItemUi(
 @Composable
 private fun AddButton(
     navController: NavController?,
+    enabled: Boolean,
     onEvent: (AddInventoryItemEvent) -> Unit
 ) {
     FloatingActionButton(
-        onClick = {
-            onEvent(AddInventoryItemEvent.AddInventoryItem)
-            navController?.navigate("home")
+        onClick = if (enabled) {
+            {
+                onEvent(AddInventoryItemEvent.AddInventoryItem)
+                navController?.navigate("home")
+            }
+        } else {
+            {}
         },
-        containerColor = MaterialTheme.colorScheme.primary
+        containerColor = if (enabled) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            MaterialTheme.colorScheme.surface
+        }
     ) {
         Icon(
             imageVector = Icons.Default.Add,
@@ -450,7 +460,8 @@ private fun EmptyStatePreview() {
                 link = null,
                 tabs = listOf("From files", "From link"),
                 selectedTabIndex = 0,
-                imagePath = null
+                imagePath = null,
+                addButtonEnabled = false
             ),
             onEvent = {}
         )
@@ -472,7 +483,8 @@ private fun FilledStatePreview() {
                 link = null,
                 tabs = listOf("From files", "From link"),
                 selectedTabIndex = 1,
-                imagePath = null
+                imagePath = null,
+                addButtonEnabled = true
             ),
             onEvent = {}
         )
