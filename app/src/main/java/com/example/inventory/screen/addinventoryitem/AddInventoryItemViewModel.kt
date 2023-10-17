@@ -180,8 +180,8 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     private fun validateAddItemInput(): Boolean {
-        return if (!name.value.isNullOrBlank() || !quantity.value.isNullOrBlank() ||
-            !minQuantityTarget.value.isNullOrBlank()
+        return if (name.value.isNullOrBlank() || quantity.value.isNullOrBlank() ||
+            minQuantityTarget.value.isNullOrBlank()
         ) {
             false
         } else {
