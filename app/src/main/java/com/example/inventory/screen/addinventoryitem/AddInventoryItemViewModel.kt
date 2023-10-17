@@ -173,17 +173,12 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     private fun validateAddItemInput(): Boolean {
-        return if (name.value.isNullOrBlank() || quantity.value.isNullOrBlank() ||
-            minQuantityTarget.value.isNullOrBlank()
-        ) {
-            false
-        } else {
-            !(quantity.value?.isNotANumber() == true ||
-                    minQuantityTarget.value?.isNotANumber() == true)
-        }
+        return !name.value.isNullOrBlank() &&
+                quantity.value.isValidIntNumber() &&
+                minQuantityTarget.value.isValidIntNumber()
     }
 
-    private fun String?.isNotANumber(): Boolean {
-        return this?.toIntOrNull() == null
+    private fun String?.isValidIntNumber(): Boolean {
+        return this?.toIntOrNull() != null && this.isNotBlank()
     }
 }

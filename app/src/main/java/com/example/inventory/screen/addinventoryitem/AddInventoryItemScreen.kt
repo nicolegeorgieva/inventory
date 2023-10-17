@@ -48,6 +48,7 @@ import coil.compose.AsyncImage
 import com.example.inventory.R
 import com.example.inventory.component.CustomTopAppBar
 import com.example.inventory.ui.theme.InventoryTheme
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun AddInventoryItemScreen(navController: NavController) {
@@ -294,7 +295,7 @@ private fun TabsRow(
     selectedTabIndex: Int,
     onTabChange: (Int) -> Unit
 ) {
-    val tabs = listOf(
+    val tabs = persistentListOf(
         stringResource(R.string.from_files_tab),
         stringResource(R.string.from_link_tab)
     )
