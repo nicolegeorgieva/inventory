@@ -6,9 +6,13 @@ import javax.inject.Singleton
 
 @Singleton
 class Navigator @Inject constructor() {
-    val navigationEvents = MutableSharedFlow<String>()
+    val navigationEvents = MutableSharedFlow<NavigationEvent>()
 
     suspend fun navigate(route: String) {
-        navigationEvents.emit(route)
+        navigationEvents.emit(NavigationEvent.Route(route))
+    }
+
+    suspend fun back() {
+        navigationEvents.emit(NavigationEvent.Back)
     }
 }

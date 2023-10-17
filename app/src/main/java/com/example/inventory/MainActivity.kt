@@ -37,8 +37,11 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
 
                     LaunchedEffect(Unit) {
-                        navigator.navigationEvents.collectLatest { route ->
-                            navController.navigate(route)
+                        navigator.navigationEvents.collectLatest { event ->
+                            when (event) {
+                                NavigationEvent.Back -> navController.popBackStack()
+                                is NavigationEvent.Route -> navController.navigate(event.route)
+                            }
                         }
                     }
 

@@ -1,7 +1,6 @@
 package com.example.inventory.screen.addinventoryitem
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -160,7 +159,6 @@ class AddInventoryItemViewModel @Inject constructor(
         if (!name.value.isNullOrBlank() && !quantity.value.isNullOrBlank() &&
             !minQuantityTarget.value.isNullOrBlank()
         ) {
-            Log.d("requirements", "${name.value}")
             viewModelScope.launch {
                 inventoryRepository.save(
                     InventoryItem(
@@ -174,10 +172,9 @@ class AddInventoryItemViewModel @Inject constructor(
                     )
                 )
 
-                navigator.navigate("home")
+                navigator.back()
             }
         } else {
-            Log.d("requirements", "else")
             addWithoutRequired.value = true
         }
     }
