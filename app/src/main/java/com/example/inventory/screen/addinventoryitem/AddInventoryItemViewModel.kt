@@ -173,7 +173,9 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     private fun addInventoryItem() {
-        if (name.value != null && quantity.value != null && minQuantityTarget.value != null) {
+        if (!name.value.isNullOrBlank() && !quantity.value.isNullOrBlank() &&
+            !minQuantityTarget.value.isNullOrBlank()
+        ) {
             viewModelScope.launch {
                 inventoryRepository.save(
                     InventoryItem(

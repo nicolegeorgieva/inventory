@@ -81,7 +81,8 @@ private fun AddInventoryItemUi(
             AddButton(
                 enabled = uiState.addButtonEnabled,
                 navController = navController,
-                onEvent = onEvent
+                onEvent = onEvent,
+                addWithoutRequired = uiState.addWithoutRequired
             )
         },
         floatingActionButtonPosition = FabPosition.End,
@@ -99,13 +100,14 @@ private fun AddInventoryItemUi(
 private fun AddButton(
     navController: NavController?,
     enabled: Boolean,
+    addWithoutRequired: Boolean,
     onEvent: (AddInventoryItemEvent) -> Unit
 ) {
     FloatingActionButton(
         onClick = {
             onEvent(AddInventoryItemEvent.AddInventoryItem)
 
-            if (enabled) {
+            if (!addWithoutRequired) {
                 navController?.navigate("home")
             }
         },
