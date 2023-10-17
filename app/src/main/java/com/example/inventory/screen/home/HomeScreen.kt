@@ -1,5 +1,8 @@
 package com.example.inventory.screen.home
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,10 +15,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -170,36 +175,68 @@ private fun InventoryItemRow(
     onAddQuantity: () -> Unit,
     onRemoveQuantity: () -> Unit
 ) {
-    Row(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(64.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
+            .height(64.dp)
+            .border(
+                border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.onBackground),
+                shape = RoundedCornerShape(4.dp)
+            ),
+        shape = RoundedCornerShape(4.dp)
     ) {
-        AsyncImage(
-            modifier = Modifier.size(64.dp),
-            model = image,
-            contentDescription = stringResource(R.string.item_image)
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            val modifier = Modifier
+                .size(64.dp)
+                .background(MaterialTheme.colorScheme.background)
+                .border(
+                    border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.onBackground),
+                    shape = RoundedCornerShape(
+                        topStart = 4.dp,
+                        topEnd = 0.dp,
+                        bottomStart = 4.dp,
+                        bottomEnd = 0.dp
+                    )
+                )
+                .padding(4.dp)
 
-        Text(text = itemName)
+            if (image.isNotBlank()) {
+                AsyncImage(
+                    modifier = modifier,
+                    model = image,
+                    contentDescription = stringResource(R.string.item_image)
+                )
+            } else {
+                Icon(
+                    modifier = modifier,
+                    painter = painterResource(id = R.drawable.baseline_inventory_24),
+                    contentDescription = stringResource(R.string.item_image),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
 
-        Spacer(modifier = Modifier.weight(1f))
+            Text(text = itemName)
 
-        RemoveQuantityButton(
-            imagePainter = painterResource(id = R.drawable.baseline_remove_circle_24),
-            contentDescription = stringResource(R.string.remove),
-            onClick = onRemoveQuantity
-        )
+            Spacer(modifier = Modifier.weight(1f))
 
-        Text(text = quantity)
+            RemoveQuantityButton(
+                imagePainter = painterResource(id = R.drawable.baseline_remove_circle_24),
+                contentDescription = stringResource(R.string.remove),
+                onClick = onRemoveQuantity
+            )
 
-        AddQuantityButton(
-            imageVector = Icons.Filled.AddCircle,
-            contentDescription = stringResource(R.string.add),
-            onClick = onAddQuantity
-        )
+            Text(text = quantity)
+
+            AddQuantityButton(
+                imageVector = Icons.Filled.AddCircle,
+                contentDescription = stringResource(R.string.add),
+                onClick = onAddQuantity
+            )
+        }
     }
 }
 
