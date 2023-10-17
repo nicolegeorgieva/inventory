@@ -134,14 +134,26 @@ class AddInventoryItemViewModel @Inject constructor(
 
     private fun setName(newName: String) {
         name.value = newName
+
+        val validateInput = validateAddItemInput()
+
+        addWithoutRequired.value = !validateInput
     }
 
     private fun setQuantity(newQuantity: String) {
         quantity.value = newQuantity
+
+        val validateInput = validateAddItemInput()
+
+        addWithoutRequired.value = !validateInput
     }
 
     private fun setMinQuantityTarget(newMinQuantityTarget: String) {
         minQuantityTarget.value = newMinQuantityTarget
+
+        val validateInput = validateAddItemInput()
+
+        addWithoutRequired.value = !validateInput
     }
 
     private fun onLinkValueChange(linkValue: String?) {
