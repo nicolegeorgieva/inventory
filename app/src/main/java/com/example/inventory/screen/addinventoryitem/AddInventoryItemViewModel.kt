@@ -156,9 +156,9 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     private fun addInventoryItem() {
-        if (!name.value.isNullOrBlank() && !quantity.value.isNullOrBlank() &&
-            !minQuantityTarget.value.isNullOrBlank()
-        ) {
+        val validateInput = validateAddItemInput()
+
+        if (validateInput) {
             viewModelScope.launch {
                 inventoryRepository.save(
                     InventoryItem(
@@ -177,5 +177,20 @@ class AddInventoryItemViewModel @Inject constructor(
         } else {
             addWithoutRequired.value = true
         }
+    }
+
+    private fun validateAddItemInput(): Boolean {
+        return if (!name.value.isNullOrBlank() || !quantity.value.isNullOrBlank() ||
+            !minQuantityTarget.value.isNullOrBlank()
+        ) {
+            false
+        } else {
+            !(quantity.value?.isNotANumber() == true ||
+                    minQuantityTarget.value?.isNotANumber() == true)
+        }
+    }
+
+    private fun String?.isNotANumber(): Boolean {
+        return this?.toIntOrNull() == null
     }
 }

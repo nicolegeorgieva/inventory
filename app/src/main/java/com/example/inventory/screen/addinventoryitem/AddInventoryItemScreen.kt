@@ -146,7 +146,8 @@ private fun Content(
                 label = stringResource(R.string.quantity_label),
                 keyboardType = KeyboardType.Number,
                 input = uiState.quantity ?: "",
-                supportingText = stringResource(R.string.required_label),
+                supportingText = "${stringResource(R.string.required_label)}. " +
+                        "Must be an integer number (1, 2, 3, ...).",
                 addWithoutRequired = uiState.addWithoutRequired,
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetQuantity(it))
@@ -159,7 +160,8 @@ private fun Content(
                 label = stringResource(R.string.min_quantity_target_label),
                 keyboardType = KeyboardType.Number,
                 input = uiState.minQuantityTarget ?: "",
-                supportingText = stringResource(R.string.required_label),
+                supportingText = "${stringResource(R.string.required_label)}. " +
+                        "Must be an integer number (1, 2, 3, ...).",
                 addWithoutRequired = uiState.addWithoutRequired,
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetMinQuantityTarget(it))
