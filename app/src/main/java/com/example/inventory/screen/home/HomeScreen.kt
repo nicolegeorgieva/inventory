@@ -150,7 +150,8 @@ private fun AddButton(navController: NavController?) {
     FloatingActionButton(
         onClick = {
             navController?.navigate("addInventoryItem")
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.primary
     ) {
         Icon(
             imageVector = Icons.Default.Add,
