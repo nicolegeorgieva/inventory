@@ -151,7 +151,7 @@ class AddInventoryItemViewModel @Inject constructor(
 
         if (validateInput) {
             viewModelScope.launch {
-                inventoryRepository.save(
+                inventoryRepository.add(
                     InventoryItem(
                         id = idProvider.generateId(),
                         name = name.value ?: "",

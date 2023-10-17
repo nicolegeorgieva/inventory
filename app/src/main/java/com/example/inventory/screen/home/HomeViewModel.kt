@@ -26,15 +26,7 @@ class HomeViewModel @Inject constructor(
     override fun uiState(): HomeState {
         LaunchedEffect(Unit) {
             name.value = nameRepository.getName()
-            inventoryList.value = inventoryRepository.getAll().map {
-                InventoryUi(
-                    id = it.id.toString(),
-                    name = it.name,
-                    quantity = it.quantity.toString(),
-                    imagePath = it.imagePath,
-                    category = it.category
-                )
-            }.toImmutableList()
+            refreshInventoryList()
         }
 
         return HomeState(
@@ -65,8 +57,18 @@ class HomeViewModel @Inject constructor(
             val inventoryItem = inventoryRepository.getById(UUID.fromString(id))
 
             if (inventoryItem != null) {
-                inventoryRepository.save(inventoryItem.copy(quantity = inventoryItem.quantity + 1))
+                inventoryRepository.update(inventoryItem.copy(quantity = inventoryItem.quantity + 1))
             }
+
+            inventoryList.value = inventoryRepository.getAll().map {
+                InventoryUi(
+                    id = it.id.toString(),
+                    name = it.name,
+                    quantity = it.quantity.toString(),
+                    imagePath = it.imagePath,
+                    category = it.category
+                )
+            }.toImmutableList()
         }
     }
 
@@ -75,8 +77,22 @@ class HomeViewModel @Inject constructor(
             val inventoryItem = inventoryRepository.getById(UUID.fromString(id))
 
             if (inventoryItem != null) {
-                inventoryRepository.save(inventoryItem.copy(quantity = inventoryItem.quantity - 1))
+                inventoryRepository.update(inventoryItem.copy(quantity = inventoryItem.quantity - 1))
             }
+
+            refreshInventoryList()
         }
+    }
+
+    private suspend fun refreshInventoryList() {
+        inventoryList.value = inventoryRepository.getAll().map {
+            InventoryUi(
+                id = it.id.toString(),
+                name = it.name,
+                quantity = it.quantity.toString(),
+                imagePath = it.imagePath,
+                category = it.category
+            )
+        }.toImmutableList()
     }
 }

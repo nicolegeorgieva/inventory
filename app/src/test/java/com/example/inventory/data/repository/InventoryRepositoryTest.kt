@@ -282,7 +282,7 @@ class InventoryRepositoryTest : FreeSpec({
             coEvery { dataSource.save(any()) } just runs
 
             // when
-            repository.save(inventoryItem)
+            repository.add(inventoryItem)
 
             // then
             coVerify(exactly = 1) {
@@ -327,7 +327,7 @@ class InventoryRepositoryTest : FreeSpec({
             coEvery { dataSource.save(any()) } just runs
 
             // when
-            repository.save(inventoryItem)
+            repository.add(inventoryItem)
 
             // then
             coVerify(exactly = 0) {

@@ -3,6 +3,7 @@ package com.example.inventory.screen.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
@@ -29,7 +29,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -178,29 +180,31 @@ private fun InventoryItemRow(
         AsyncImage(
             modifier = Modifier.size(64.dp),
             model = image,
-            contentDescription = null
+            contentDescription = stringResource(R.string.item_image)
         )
 
         Text(text = itemName)
 
+        Spacer(modifier = Modifier.weight(1f))
+
+        RemoveQuantityButton(
+            imagePainter = painterResource(id = R.drawable.baseline_remove_circle_24),
+            contentDescription = stringResource(R.string.remove),
+            onClick = onRemoveQuantity
+        )
+
         Text(text = quantity)
 
-        AddOrRemoveQuantityButton(
+        AddQuantityButton(
             imageVector = Icons.Filled.AddCircle,
             contentDescription = stringResource(R.string.add),
             onClick = onAddQuantity
-        )
-
-        AddOrRemoveQuantityButton(
-            imageVector = Icons.Filled.Clear,
-            contentDescription = stringResource(R.string.remove),
-            onClick = onRemoveQuantity
         )
     }
 }
 
 @Composable
-private fun AddOrRemoveQuantityButton(
+private fun AddQuantityButton(
     imageVector: ImageVector,
     contentDescription: String,
     onClick: () -> Unit
@@ -210,6 +214,22 @@ private fun AddOrRemoveQuantityButton(
     ) {
         Icon(
             imageVector = imageVector,
+            contentDescription = contentDescription
+        )
+    }
+}
+
+@Composable
+private fun RemoveQuantityButton(
+    imagePainter: Painter,
+    contentDescription: String,
+    onClick: () -> Unit
+) {
+    IconButton(
+        onClick = onClick
+    ) {
+        Icon(
+            painter = imagePainter,
             contentDescription = contentDescription
         )
     }

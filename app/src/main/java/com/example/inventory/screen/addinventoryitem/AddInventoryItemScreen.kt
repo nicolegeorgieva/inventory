@@ -337,7 +337,7 @@ private fun ImageFromPath(path: String, onRemoveImageClick: () -> Unit) {
 
 @Preview
 @Composable
-private fun EmptyStatePreview() {
+private fun AddWithoutRequiredPreview() {
     InventoryTheme {
         AddInventoryItemUi(
             navController = null,

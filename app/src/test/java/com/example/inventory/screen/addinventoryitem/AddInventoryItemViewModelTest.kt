@@ -65,7 +65,7 @@ class AddInventoryItemViewModelTest : FreeSpec({
                 description = "",
                 imagePath = ""
             )
-            coEvery { repository.save(any()) } just runs
+            coEvery { repository.add(any()) } just runs
             coEvery { idProvider.generateId() } returns id
 
             // when
@@ -79,7 +79,7 @@ class AddInventoryItemViewModelTest : FreeSpec({
             // then
             viewModel.runTest(events = events) {
                 coVerify(exactly = 1) {
-                    repository.save(inventoryItem)
+                    repository.add(inventoryItem)
                 }
             }
         }
