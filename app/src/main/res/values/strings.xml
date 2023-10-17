@@ -20,4 +20,6 @@
     <string name="add">Add</string>
     <string name="remove">Remove</string>
     <string name="required_integer_number_label">*required. Must be an integer number (1, 2, 3, ...).</string>
+    <string name="from_files_tab">From files</string>
+    <string name="from_link_tab">From link</string>
 </resources>

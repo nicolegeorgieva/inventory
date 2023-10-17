@@ -230,7 +230,6 @@ private fun ItemImage(
             onAddImageClick = onAddImageClick,
             onTabChange = onTabChange,
             selectedTabIndex = uiState.selectedTabIndex,
-            tabs = uiState.tabs,
             linkValue = uiState.link ?: "",
             onLinkValueChange = onLinkValueChange,
             onAddLinkImageClick = onAddLinkImageClick
@@ -250,7 +249,6 @@ private fun AddImage(
     linkValue: String,
     onLinkValueChange: (String) -> Unit,
     selectedTabIndex: Int,
-    tabs: List<String>,
     onTabChange: (Int) -> Unit
 ) {
     Column(
@@ -259,7 +257,6 @@ private fun AddImage(
     ) {
         AddImageSection(
             selectedTabIndex = selectedTabIndex,
-            tabs = tabs,
             onTabChange = onTabChange
         )
 
@@ -280,7 +277,6 @@ private fun AddImage(
 @Composable
 private fun AddImageSection(
     selectedTabIndex: Int,
-    tabs: List<String>,
     onTabChange: (Int) -> Unit
 ) {
     Text(text = stringResource(R.string.add_image_label))
@@ -289,7 +285,6 @@ private fun AddImageSection(
 
     TabsRow(
         selectedTabIndex = selectedTabIndex,
-        tabs = tabs,
         onTabChange = onTabChange
     )
 }
@@ -297,14 +292,20 @@ private fun AddImageSection(
 @Composable
 private fun TabsRow(
     selectedTabIndex: Int,
-    tabs: List<String>,
     onTabChange: (Int) -> Unit
 ) {
+    val tabs = listOf(
+        stringResource(R.string.from_files_tab),
+        stringResource(R.string.from_link_tab)
+    )
+
     TabRow(selectedTabIndex = selectedTabIndex) {
         tabs.forEachIndexed { index, title ->
             Tab(
                 selected = selectedTabIndex == index,
-                onClick = { onTabChange(index) },
+                onClick = {
+                    onTabChange(index)
+                },
                 text = {
                     Text(
                         text = title,
@@ -451,7 +452,6 @@ private fun EmptyStatePreview() {
                 category = null,
                 description = null,
                 link = null,
-                tabs = listOf("From files", "From link"),
                 selectedTabIndex = 0,
                 imagePath = null,
                 addWithoutRequired = true
@@ -474,7 +474,6 @@ private fun FilledStatePreview() {
                 category = "Groceries",
                 description = null,
                 link = null,
-                tabs = listOf("From files", "From link"),
                 selectedTabIndex = 1,
                 imagePath = null,
                 addWithoutRequired = false

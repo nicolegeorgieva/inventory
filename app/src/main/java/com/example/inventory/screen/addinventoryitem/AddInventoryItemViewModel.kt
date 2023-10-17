@@ -29,7 +29,6 @@ class AddInventoryItemViewModel @Inject constructor(
     private val description = mutableStateOf<String?>(null)
     private val link = mutableStateOf<String?>(null)
     private val imagePath = mutableStateOf<String?>(null)
-    private val tabs = mutableStateOf(listOf("From files", "From link"))
     private val selectedTabIndex = mutableIntStateOf(0)
     private val addWithoutRequired = mutableStateOf(false)
 
@@ -41,7 +40,6 @@ class AddInventoryItemViewModel @Inject constructor(
             minQuantityTarget = getMinQuantityTarget(),
             category = getCategory(),
             description = getDescription(),
-            tabs = getTabs(),
             selectedTabIndex = getSelectedTabIndex(),
             link = getLink(),
             imagePath = getImagePath(),
@@ -72,11 +70,6 @@ class AddInventoryItemViewModel @Inject constructor(
     @Composable
     private fun getDescription(): String? {
         return description.value
-    }
-
-    @Composable
-    private fun getTabs(): List<String> {
-        return tabs.value
     }
 
     @Composable
