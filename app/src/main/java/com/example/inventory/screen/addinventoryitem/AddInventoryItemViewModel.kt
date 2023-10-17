@@ -2,7 +2,6 @@ package com.example.inventory.screen.addinventoryitem
 
 import android.net.Uri
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.inventory.ComposeViewModel
@@ -29,7 +28,6 @@ class AddInventoryItemViewModel @Inject constructor(
     private val description = mutableStateOf<String?>(null)
     private val link = mutableStateOf<String?>(null)
     private val imagePath = mutableStateOf<String?>(null)
-    private val selectedTabIndex = mutableIntStateOf(0)
     private val addWithoutRequired = mutableStateOf(false)
 
     @Composable
@@ -40,7 +38,6 @@ class AddInventoryItemViewModel @Inject constructor(
             minQuantityTarget = getMinQuantityTarget(),
             category = getCategory(),
             description = getDescription(),
-            selectedTabIndex = getSelectedTabIndex(),
             link = getLink(),
             imagePath = getImagePath(),
             addWithoutRequired = getAddWithoutRequiredState()
@@ -73,11 +70,6 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getSelectedTabIndex(): Int {
-        return selectedTabIndex.intValue
-    }
-
-    @Composable
     private fun getLink(): String? {
         return link.value
     }
@@ -105,8 +97,6 @@ class AddInventoryItemViewModel @Inject constructor(
             is AddInventoryItemEvent.SetQuantity -> setQuantity(event.newQuantity)
             AddInventoryItemEvent.AddInventoryItem -> addInventoryItem()
             is AddInventoryItemEvent.OnLinkValueChange -> onLinkValueChange(event.link)
-
-            is AddInventoryItemEvent.OnTabChange -> onTabChange(event.selectedTabIndex)
             is AddInventoryItemEvent.SetLinkImage -> setLinkImage(event.newImage)
         }
     }
@@ -117,10 +107,6 @@ class AddInventoryItemViewModel @Inject constructor(
 
     private fun setDescription(newDescription: String) {
         description.value = newDescription
-    }
-
-    private fun onTabChange(index: Int) {
-        selectedTabIndex.intValue = index
     }
 
     private fun setFileImage(newImage: Uri?) {

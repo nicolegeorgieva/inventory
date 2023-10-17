@@ -1,8 +1,5 @@
 package com.example.inventory.screen.addinventoryitem
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -29,17 +25,13 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,7 +40,6 @@ import coil.compose.AsyncImage
 import com.example.inventory.R
 import com.example.inventory.component.CustomTopAppBar
 import com.example.inventory.ui.theme.InventoryTheme
-import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun AddInventoryItemScreen(navController: NavController) {
@@ -115,16 +106,6 @@ private fun Content(
     uiState: AddInventoryItemState,
     onEvent: (AddInventoryItemEvent) -> Unit
 ) {
-    // The launcher for the PickVisualMedia contract.
-    // When .launch()ed, this will display the photo picker.
-    val launcher =
-        rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            // When the user has selected a photo, its URI is returned here
-            if (uri != null) {
-                onEvent(AddInventoryItemEvent.SetFileImage(uri))
-            }
-        }
-
     LazyColumn(
         modifier = Modifier.padding(top = 12.dp),
         contentPadding = innerPadding,
@@ -193,16 +174,6 @@ private fun Content(
         item(key = "image") {
             ItemImage(
                 uiState = uiState,
-                onTabChange = {
-                    onEvent(AddInventoryItemEvent.OnTabChange(it))
-                },
-                onAddImageClick = {
-                    launcher.launch(
-                        PickVisualMediaRequest(
-                            mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-                        )
-                    )
-                },
                 onLinkValueChange = {
                     onEvent(AddInventoryItemEvent.OnLinkValueChange(it))
                 },
@@ -220,17 +191,12 @@ private fun Content(
 @Composable
 private fun ItemImage(
     uiState: AddInventoryItemState,
-    onTabChange: (Int) -> Unit,
-    onAddImageClick: () -> Unit,
     onLinkValueChange: (String) -> Unit,
     onAddLinkImageClick: (String) -> Unit,
     onRemoveImageClick: () -> Unit
 ) {
     if (uiState.imagePath == null) {
-        AddImage(
-            onAddImageClick = onAddImageClick,
-            onTabChange = onTabChange,
-            selectedTabIndex = uiState.selectedTabIndex,
+        AddImageSection(
             linkValue = uiState.link ?: "",
             onLinkValueChange = onLinkValueChange,
             onAddLinkImageClick = onAddLinkImageClick
@@ -244,94 +210,23 @@ private fun ItemImage(
 }
 
 @Composable
-private fun AddImage(
-    onAddImageClick: () -> Unit,
-    onAddLinkImageClick: (String) -> Unit,
+private fun AddImageSection(
     linkValue: String,
     onLinkValueChange: (String) -> Unit,
-    selectedTabIndex: Int,
-    onTabChange: (Int) -> Unit
+    onAddLinkImageClick: (String) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AddImageSection(
-            selectedTabIndex = selectedTabIndex,
-            onTabChange = onTabChange
-        )
+        Text(text = stringResource(R.string.add_image_label))
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
-        if (selectedTabIndex == 0) {
-            AddImageFromFiles(onAddImageClick = onAddImageClick)
-        } else {
-            AddImageFromLink(
-                linkValue = linkValue,
-                onLinkValueChange = onLinkValueChange,
-                onAddLinkImage = onAddLinkImageClick
-            )
-        }
-    }
-}
-
-@Composable
-private fun AddImageSection(
-    selectedTabIndex: Int,
-    onTabChange: (Int) -> Unit
-) {
-    Text(text = stringResource(R.string.add_image_label))
-
-    Spacer(modifier = Modifier.height(6.dp))
-
-    TabsRow(
-        selectedTabIndex = selectedTabIndex,
-        onTabChange = onTabChange
-    )
-}
-
-@Composable
-private fun TabsRow(
-    selectedTabIndex: Int,
-    onTabChange: (Int) -> Unit
-) {
-    val tabs = persistentListOf(
-        stringResource(R.string.from_files_tab),
-        stringResource(R.string.from_link_tab)
-    )
-
-    TabRow(selectedTabIndex = selectedTabIndex) {
-        tabs.forEachIndexed { index, title ->
-            Tab(
-                selected = selectedTabIndex == index,
-                onClick = {
-                    onTabChange(index)
-                },
-                text = {
-                    Text(
-                        text = title,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-            )
-        }
-    }
-}
-
-@Composable
-private fun AddImageFromFiles(onAddImageClick: () -> Unit) {
-    FilledIconButton(
-        modifier = Modifier.size(196.dp),
-        shape = RectangleShape,
-        colors = IconButtonDefaults.filledIconButtonColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
-        ),
-        onClick = onAddImageClick
-    ) {
-        Icon(
-            imageVector = Icons.Outlined.AddCircle,
-            contentDescription = stringResource(R.string.add_image_label)
+        AddImageFromLink(
+            linkValue = linkValue,
+            onLinkValueChange = onLinkValueChange,
+            onAddLinkImage = onAddLinkImageClick
         )
     }
 }
@@ -453,7 +348,6 @@ private fun EmptyStatePreview() {
                 category = null,
                 description = null,
                 link = null,
-                selectedTabIndex = 0,
                 imagePath = null,
                 addWithoutRequired = true
             ),
@@ -475,7 +369,6 @@ private fun FilledStatePreview() {
                 category = "Groceries",
                 description = null,
                 link = null,
-                selectedTabIndex = 1,
                 imagePath = null,
                 addWithoutRequired = false
             ),
