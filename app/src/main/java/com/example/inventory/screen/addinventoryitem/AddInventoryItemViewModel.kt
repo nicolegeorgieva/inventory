@@ -1,12 +1,14 @@
 package com.example.inventory.screen.addinventoryitem
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.inventory.ComposeViewModel
 import com.example.inventory.IdProvider
+import com.example.inventory.Navigator
 import com.example.inventory.data.model.InventoryItem
 import com.example.inventory.data.repository.InventoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddInventoryItemViewModel @Inject constructor(
     private val inventoryRepository: InventoryRepository,
-    private val idProvider: IdProvider
+    private val idProvider: IdProvider,
+    private val navigator: Navigator
 ) :
     ComposeViewModel<AddInventoryItemState, AddInventoryItemEvent>() {
 
@@ -29,7 +32,6 @@ class AddInventoryItemViewModel @Inject constructor(
     private val imagePath = mutableStateOf<String?>(null)
     private val tabs = mutableStateOf(listOf("From files", "From link"))
     private val selectedTabIndex = mutableIntStateOf(0)
-    private val addButtonEnabled = mutableStateOf(false)
     private val addWithoutRequired = mutableStateOf(false)
 
     @Composable
@@ -44,7 +46,6 @@ class AddInventoryItemViewModel @Inject constructor(
             selectedTabIndex = getSelectedTabIndex(),
             link = getLink(),
             imagePath = getImagePath(),
-            addButtonEnabled = getAddButtonEnabledState(),
             addWithoutRequired = getAddWithoutRequiredState()
         )
     }
@@ -95,11 +96,6 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getAddButtonEnabledState(): Boolean {
-        return addButtonEnabled.value
-    }
-
-    @Composable
     private fun getAddWithoutRequiredState(): Boolean {
         return addWithoutRequired.value
     }
@@ -146,26 +142,14 @@ class AddInventoryItemViewModel @Inject constructor(
 
     private fun setName(newName: String) {
         name.value = newName
-
-        if (!quantity.value.isNullOrBlank() && !minQuantityTarget.value.isNullOrBlank()) {
-            addButtonEnabled.value = true
-        }
     }
 
     private fun setQuantity(newQuantity: String) {
         quantity.value = newQuantity
-
-        if (!name.value.isNullOrBlank() && !minQuantityTarget.value.isNullOrBlank()) {
-            addButtonEnabled.value = true
-        }
     }
 
     private fun setMinQuantityTarget(newMinQuantityTarget: String) {
         minQuantityTarget.value = newMinQuantityTarget
-
-        if (!name.value.isNullOrBlank() && !quantity.value.isNullOrBlank()) {
-            addButtonEnabled.value = true
-        }
     }
 
     private fun onLinkValueChange(linkValue: String?) {
@@ -176,6 +160,7 @@ class AddInventoryItemViewModel @Inject constructor(
         if (!name.value.isNullOrBlank() && !quantity.value.isNullOrBlank() &&
             !minQuantityTarget.value.isNullOrBlank()
         ) {
+            Log.d("requirements", "${name.value}")
             viewModelScope.launch {
                 inventoryRepository.save(
                     InventoryItem(
@@ -188,8 +173,11 @@ class AddInventoryItemViewModel @Inject constructor(
                         imagePath = imagePath.value ?: ""
                     )
                 )
+
+                navigator.navigate("home")
             }
         } else {
+            Log.d("requirements", "else")
             addWithoutRequired.value = true
         }
     }

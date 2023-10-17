@@ -78,12 +78,7 @@ private fun AddInventoryItemUi(
             )
         },
         floatingActionButton = {
-            AddButton(
-                enabled = uiState.addButtonEnabled,
-                navController = navController,
-                onEvent = onEvent,
-                addWithoutRequired = uiState.addWithoutRequired
-            )
+            AddButton(onEvent = onEvent)
         },
         floatingActionButtonPosition = FabPosition.End,
         content = { innerPadding ->
@@ -98,24 +93,13 @@ private fun AddInventoryItemUi(
 
 @Composable
 private fun AddButton(
-    navController: NavController?,
-    enabled: Boolean,
-    addWithoutRequired: Boolean,
     onEvent: (AddInventoryItemEvent) -> Unit
 ) {
     FloatingActionButton(
         onClick = {
             onEvent(AddInventoryItemEvent.AddInventoryItem)
-
-            if (!addWithoutRequired) {
-                navController?.navigate("home")
-            }
         },
-        containerColor = if (enabled) {
-            MaterialTheme.colorScheme.primary
-        } else {
-            MaterialTheme.colorScheme.surface
-        }
+        containerColor = MaterialTheme.colorScheme.primary
     ) {
         Icon(
             imageVector = Icons.Default.Add,
@@ -470,7 +454,6 @@ private fun EmptyStatePreview() {
                 tabs = listOf("From files", "From link"),
                 selectedTabIndex = 0,
                 imagePath = null,
-                addButtonEnabled = false,
                 addWithoutRequired = true
             ),
             onEvent = {}
@@ -494,7 +477,6 @@ private fun FilledStatePreview() {
                 tabs = listOf("From files", "From link"),
                 selectedTabIndex = 1,
                 imagePath = null,
-                addButtonEnabled = true,
                 addWithoutRequired = false
             ),
             onEvent = {}

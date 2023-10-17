@@ -10,6 +10,5 @@ data class AddInventoryItemState(
     val selectedTabIndex: Int,
     val imagePath: String?,
     val link: String?,
-    val addButtonEnabled: Boolean,
     val addWithoutRequired: Boolean
 )
