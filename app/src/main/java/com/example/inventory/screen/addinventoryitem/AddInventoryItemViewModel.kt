@@ -30,6 +30,7 @@ class AddInventoryItemViewModel @Inject constructor(
     private val tabs = mutableStateOf(listOf("From files", "From link"))
     private val selectedTabIndex = mutableIntStateOf(0)
     private val addButtonEnabled = mutableStateOf(false)
+    private val addWithoutRequired = mutableStateOf(false)
 
     @Composable
     override fun uiState(): AddInventoryItemState {
@@ -43,7 +44,8 @@ class AddInventoryItemViewModel @Inject constructor(
             selectedTabIndex = getSelectedTabIndex(),
             link = getLink(),
             imagePath = getImagePath(),
-            addButtonEnabled = getAddButtonEnabledState()
+            addButtonEnabled = getAddButtonEnabledState(),
+            addWithoutRequired = getAddWithoutRequiredState()
         )
     }
 
@@ -95,6 +97,11 @@ class AddInventoryItemViewModel @Inject constructor(
     @Composable
     private fun getAddButtonEnabledState(): Boolean {
         return addButtonEnabled.value
+    }
+
+    @Composable
+    private fun getAddWithoutRequiredState(): Boolean {
+        return addWithoutRequired.value
     }
 
     override fun onEvent(event: AddInventoryItemEvent) {
@@ -180,6 +187,8 @@ class AddInventoryItemViewModel @Inject constructor(
                     )
                 )
             }
+        } else {
+            addWithoutRequired.value = true
         }
     }
 }

@@ -102,13 +102,12 @@ private fun AddButton(
     onEvent: (AddInventoryItemEvent) -> Unit
 ) {
     FloatingActionButton(
-        onClick = if (enabled) {
-            {
-                onEvent(AddInventoryItemEvent.AddInventoryItem)
+        onClick = {
+            onEvent(AddInventoryItemEvent.AddInventoryItem)
+
+            if (enabled) {
                 navController?.navigate("home")
             }
-        } else {
-            {}
         },
         containerColor = if (enabled) {
             MaterialTheme.colorScheme.primary
@@ -149,6 +148,7 @@ private fun Content(
                 label = stringResource(R.string.name_label),
                 input = uiState.name ?: "",
                 supportingText = stringResource(R.string.required_label),
+                addWithoutRequired = uiState.addWithoutRequired,
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetName(it))
                 }
@@ -161,6 +161,7 @@ private fun Content(
                 keyboardType = KeyboardType.Number,
                 input = uiState.quantity ?: "",
                 supportingText = stringResource(R.string.required_label),
+                addWithoutRequired = uiState.addWithoutRequired,
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetQuantity(it))
                 }
@@ -173,6 +174,7 @@ private fun Content(
                 keyboardType = KeyboardType.Number,
                 input = uiState.minQuantityTarget ?: "",
                 supportingText = stringResource(R.string.required_label),
+                addWithoutRequired = uiState.addWithoutRequired,
                 onInputChange = {
                     onEvent(AddInventoryItemEvent.SetMinQuantityTarget(it))
                 }
@@ -376,6 +378,7 @@ private fun InputRow(
     label: String,
     input: String,
     supportingText: String? = null,
+    addWithoutRequired: Boolean = false,
     onInputChange: (String) -> Unit
 ) {
     Row(
@@ -397,7 +400,11 @@ private fun InputRow(
                 {
                     Text(
                         text = supportingText,
-                        color = MaterialTheme.colorScheme.error
+                        color = if (addWithoutRequired) {
+                            MaterialTheme.colorScheme.error
+                        } else {
+                            MaterialTheme.colorScheme.onBackground
+                        }
                     )
                 }
             } else null
@@ -461,7 +468,8 @@ private fun EmptyStatePreview() {
                 tabs = listOf("From files", "From link"),
                 selectedTabIndex = 0,
                 imagePath = null,
-                addButtonEnabled = false
+                addButtonEnabled = false,
+                addWithoutRequired = true
             ),
             onEvent = {}
         )
@@ -484,7 +492,8 @@ private fun FilledStatePreview() {
                 tabs = listOf("From files", "From link"),
                 selectedTabIndex = 1,
                 imagePath = null,
-                addButtonEnabled = true
+                addButtonEnabled = true,
+                addWithoutRequired = false
             ),
             onEvent = {}
         )
