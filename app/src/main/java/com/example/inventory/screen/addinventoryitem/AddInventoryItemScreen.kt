@@ -108,7 +108,7 @@ private fun AddButton(
     ) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = stringResource(R.string.home_add)
+            contentDescription = stringResource(R.string.add)
         )
     }
 }
@@ -346,7 +346,7 @@ private fun AddImageFromLink(
         input = linkValue,
         onInputChange = onLinkValueChange,
         imeAction = ImeAction.Done,
-        label = "Image url"
+        label = stringResource(R.string.image_url_label)
     )
 
     if (linkValue.isNotBlank()) {
@@ -404,7 +404,7 @@ private fun AddImageUrlButton(onAddLinkImage: () -> Unit) {
             contentColor = MaterialTheme.colorScheme.onSecondaryContainer
         )
     ) {
-        Text("Add")
+        Text(stringResource(R.string.add))
     }
 }
 

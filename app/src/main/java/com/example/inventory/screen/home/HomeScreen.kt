@@ -154,7 +154,7 @@ private fun AddButton(navController: NavController?) {
     ) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = stringResource(R.string.home_add)
+            contentDescription = stringResource(R.string.add)
         )
     }
 }
@@ -186,13 +186,13 @@ private fun InventoryItemRow(
 
         AddOrRemoveQuantityButton(
             imageVector = Icons.Filled.AddCircle,
-            contentDescription = "Add",
+            contentDescription = stringResource(R.string.add),
             onClick = onAddQuantity
         )
 
         AddOrRemoveQuantityButton(
             imageVector = Icons.Filled.Clear,
-            contentDescription = "Remove",
+            contentDescription = stringResource(R.string.remove),
             onClick = onRemoveQuantity
         )
     }
