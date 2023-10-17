@@ -19,4 +19,5 @@
     <string name="image_url_label">Image url</string>
     <string name="add">Add</string>
     <string name="remove">Remove</string>
+    <string name="required_integer_number_label">*required. Must be an integer number (1, 2, 3, ...).</string>
 </resources>
