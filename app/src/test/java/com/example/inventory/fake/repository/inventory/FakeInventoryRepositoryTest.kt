@@ -41,7 +41,18 @@ class FakeInventoryRepositoryTest : FreeSpec({
         }
 
         "empty list" {
+            // given
+            val repository = FakeInventoryRepository()
 
+            // when
+            val items = repository.getAll()
+
+            // then
+            items shouldBe emptyList()
         }
+    }
+
+    "getAllByCategory" - {
+
     }
 })
