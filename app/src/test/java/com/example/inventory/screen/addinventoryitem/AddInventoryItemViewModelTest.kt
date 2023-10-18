@@ -3,7 +3,7 @@ package com.example.inventory.screen.addinventoryitem
 import com.example.inventory.IdProvider
 import com.example.inventory.Navigator
 import com.example.inventory.data.model.InventoryItem
-import com.example.inventory.data.repository.InventoryRepository
+import com.example.inventory.data.repository.InventoryRepositoryImpl
 import com.example.inventory.runTest
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
@@ -17,7 +17,7 @@ import java.util.UUID
 class AddInventoryItemViewModelTest : FreeSpec({
     "screen loaded" {
         // given
-        val repository = mockk<InventoryRepository>()
+        val repository = mockk<InventoryRepositoryImpl>()
         val idProvider = mockk<IdProvider>()
         val navigator = mockk<Navigator>()
         val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
@@ -38,7 +38,7 @@ class AddInventoryItemViewModelTest : FreeSpec({
 
     "set name" {
         // given
-        val repository = mockk<InventoryRepository>()
+        val repository = mockk<InventoryRepositoryImpl>()
         val idProvider = mockk<IdProvider>()
         val navigator = mockk<Navigator>()
         val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
@@ -55,7 +55,7 @@ class AddInventoryItemViewModelTest : FreeSpec({
     "add inventory item" - {
         "valid case" {
             // given
-            val repository = mockk<InventoryRepository>()
+            val repository = mockk<InventoryRepositoryImpl>()
             val idProvider = mockk<IdProvider>()
             val navigator = mockk<Navigator>()
             val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)

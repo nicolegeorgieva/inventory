@@ -1,41 +1,54 @@
-package com.example.inventory.fake.repository.inventory
+package com.example.inventory.data.repository
 
+import com.example.inventory.data.datasource.InventoryDataSource
 import com.example.inventory.data.model.InventoryItem
-import com.example.inventory.data.repository.InventoryRepository
+import com.example.inventory.data.repository.mapper.InventoryMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.UUID
+import javax.inject.Inject
 
-class FakeInventoryRepository : InventoryRepository {
-    private val items = mutableListOf<InventoryItem>()
-
+class InventoryRepositoryImpl @Inject constructor(
+    private val dataSource: InventoryDataSource,
+    private val mapper: InventoryMapper
+) : InventoryRepository {
     override suspend fun getAll(): List<InventoryItem> {
         return withContext(Dispatchers.IO) {
-            items
+            dataSource.getAll().map {
+                mapper.entityToDomain(it)
+            }
         }
     }
 
     override suspend fun getAllByCategory(category: String): List<InventoryItem> {
         return withContext(Dispatchers.IO) {
-            items.filter { it.category == category }
+            dataSource.getAllByCategory(category).map {
+                mapper.entityToDomain(it)
+            }
         }
     }
 
     override suspend fun getById(id: UUID): InventoryItem? {
         return withContext(Dispatchers.IO) {
-            items.find { it.id == id }
+            dataSource.getById(id)?.let {
+                mapper.entityToDomain(it)
+            }
         }
     }
 
     override suspend fun orderByAscending(): List<InventoryItem> {
         return withContext(Dispatchers.IO) {
-            items.sortedBy { it.quantity }
+            dataSource.orderByAscending().map {
+                mapper.entityToDomain(it)
+            }
         }
     }
 
     override suspend fun orderByDescending(): List<InventoryItem> {
         return withContext(Dispatchers.IO) {
-            items.sortedByDescending { it.quantity }
+            dataSource.orderByDescending().map {
+                mapper.entityToDomain(it)
+            }
         }
     }
 
@@ -44,28 +57,27 @@ class FakeInventoryRepository : InventoryRepository {
         if (checkExistingName.isNotEmpty()) return
 
         withContext(Dispatchers.IO) {
-            items.add(inventoryItem)
+            dataSource.save(mapper.domainToEntity(inventoryItem))
         }
     }
 
     override suspend fun update(inventoryItem: InventoryItem) {
-        val item = getById(inventoryItem.id) ?: return
+        if (dataSource.getById(inventoryItem.id) == null) return
 
         withContext(Dispatchers.IO) {
-            items.remove(item)
-            items.add(inventoryItem)
+            dataSource.save(mapper.domainToEntity(inventoryItem))
         }
     }
 
     override suspend fun delete(inventoryItem: InventoryItem) {
         withContext(Dispatchers.IO) {
-            items.remove(inventoryItem)
+            dataSource.delete(mapper.domainToEntity(inventoryItem))
         }
     }
 
     override suspend fun deleteAll() {
         withContext(Dispatchers.IO) {
-            items.clear()
+            dataSource.deleteAll()
         }
     }
 }

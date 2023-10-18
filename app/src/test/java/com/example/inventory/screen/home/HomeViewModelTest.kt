@@ -2,7 +2,9 @@ package com.example.inventory.screen.home
 
 import com.example.inventory.data.model.InventoryItem
 import com.example.inventory.data.repository.InventoryRepository
+import com.example.inventory.data.repository.InventoryRepositoryImpl
 import com.example.inventory.data.repository.NameRepository
+import com.example.inventory.fake.repository.inventory.FakeInventoryRepository
 import com.example.inventory.runTest
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
@@ -19,7 +21,7 @@ class HomeViewModelTest : FreeSpec({
         "empty list of items and no name" {
             // given
             val nameRepository = mockk<NameRepository>()
-            val inventoryRepository = mockk<InventoryRepository>()
+            val inventoryRepository: InventoryRepository = FakeInventoryRepository()
             val viewModel = HomeViewModel(nameRepository, inventoryRepository)
 
             coEvery { nameRepository.getName() } returns null
@@ -38,7 +40,7 @@ class HomeViewModelTest : FreeSpec({
         "list of items and name" {
             // given
             val nameRepository = mockk<NameRepository>()
-            val inventoryRepository = mockk<InventoryRepository>()
+            val inventoryRepository = mockk<InventoryRepositoryImpl>()
             val viewModel = HomeViewModel(nameRepository, inventoryRepository)
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
@@ -75,7 +77,7 @@ class HomeViewModelTest : FreeSpec({
     "add quantity" {
         // given
         val nameRepository = mockk<NameRepository>()
-        val inventoryRepository = mockk<InventoryRepository>()
+        val inventoryRepository = mockk<InventoryRepositoryImpl>()
         val viewModel = HomeViewModel(nameRepository, inventoryRepository)
         val id = UUID.randomUUID()
         val inventoryItem = InventoryItem(
@@ -111,7 +113,7 @@ class HomeViewModelTest : FreeSpec({
     "decrease quantity" {
         // given
         val nameRepository = mockk<NameRepository>()
-        val inventoryRepository = mockk<InventoryRepository>()
+        val inventoryRepository = mockk<InventoryRepositoryImpl>()
         val viewModel = HomeViewModel(nameRepository, inventoryRepository)
         val id = UUID.randomUUID()
         val inventoryItem = InventoryItem(
