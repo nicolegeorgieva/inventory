@@ -1,6 +1,7 @@
 package com.example.inventory.screen.addinventoryitem
 
 import com.example.inventory.IdProvider
+import com.example.inventory.Navigator
 import com.example.inventory.data.model.InventoryItem
 import com.example.inventory.data.repository.InventoryRepository
 import com.example.inventory.runTest
@@ -18,7 +19,8 @@ class AddInventoryItemViewModelTest : FreeSpec({
         // given
         val repository = mockk<InventoryRepository>()
         val idProvider = mockk<IdProvider>()
-        val viewModel = AddInventoryItemViewModel(repository, idProvider)
+        val navigator = mockk<Navigator>()
+        val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
 
         // when
         val events = emptyList<AddInventoryItemEvent>()
@@ -38,7 +40,8 @@ class AddInventoryItemViewModelTest : FreeSpec({
         // given
         val repository = mockk<InventoryRepository>()
         val idProvider = mockk<IdProvider>()
-        val viewModel = AddInventoryItemViewModel(repository, idProvider)
+        val navigator = mockk<Navigator>()
+        val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
 
         // when
         val events = listOf(AddInventoryItemEvent.SetName("Kitchen roll"))
@@ -54,7 +57,8 @@ class AddInventoryItemViewModelTest : FreeSpec({
             // given
             val repository = mockk<InventoryRepository>()
             val idProvider = mockk<IdProvider>()
-            val viewModel = AddInventoryItemViewModel(repository, idProvider)
+            val navigator = mockk<Navigator>()
+            val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
                 id = id,
@@ -66,6 +70,7 @@ class AddInventoryItemViewModelTest : FreeSpec({
                 imagePath = ""
             )
             coEvery { repository.add(any()) } just runs
+            coEvery { navigator.back() } just runs
             coEvery { idProvider.generateId() } returns id
 
             // when
@@ -80,6 +85,10 @@ class AddInventoryItemViewModelTest : FreeSpec({
             viewModel.runTest(events = events) {
                 coVerify(exactly = 1) {
                     repository.add(inventoryItem)
+                }
+
+                coVerify(exactly = 1) {
+                    navigator.back()
                 }
             }
         }
