@@ -88,14 +88,46 @@ class FakeInventoryRepositoryTest : FreeSpec({
     "getById" - {
         "existing id" {
             // given
+            val repository = FakeInventoryRepository()
+            val id = UUID.randomUUID()
+            val inventoryItem = InventoryItem(
+                id = id,
+                name = "Laptop",
+                quantity = 1,
+                minQuantityTarget = 1,
+                category = "Tech",
+                description = "",
+                imagePath = ""
+            )
 
             // when
+            repository.add(inventoryItem)
+            val item = repository.getById(id)
 
             // then
+            item shouldBe inventoryItem
         }
 
         "not existing id" {
+            // given
+            val repository = FakeInventoryRepository()
+            val id = UUID.randomUUID()
+            val inventoryItem = InventoryItem(
+                id = UUID.randomUUID(),
+                name = "Laptop",
+                quantity = 1,
+                minQuantityTarget = 1,
+                category = "Tech",
+                description = "",
+                imagePath = ""
+            )
 
+            // when
+            repository.add(inventoryItem)
+            val res = repository.getById(id)
+
+            // then
+            res shouldBe null
         }
     }
 })
