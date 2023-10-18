@@ -1,6 +1,7 @@
 package com.example.inventory.data.repository
 
 import com.example.inventory.data.datasource.NameDataSource
+import com.example.inventory.data.repository.name.NameRepositoryImpl
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -14,7 +15,7 @@ class NameRepositoryTest : FreeSpec({
         "existing name" {
             // given
             val dataSource = mockk<NameDataSource>()
-            val repository = NameRepository(dataSource)
+            val repository = NameRepositoryImpl(dataSource)
             coEvery { dataSource.getName() } returns "Amy"
 
             // when
@@ -27,7 +28,7 @@ class NameRepositoryTest : FreeSpec({
         "null name" {
             // given
             val dataSource = mockk<NameDataSource>()
-            val repository = NameRepository(dataSource)
+            val repository = NameRepositoryImpl(dataSource)
             coEvery { dataSource.getName() } returns null
 
             // when
@@ -42,7 +43,7 @@ class NameRepositoryTest : FreeSpec({
         "valid name" {
             // given
             val dataSource = mockk<NameDataSource>()
-            val repository = NameRepository(dataSource)
+            val repository = NameRepositoryImpl(dataSource)
             coEvery { dataSource.setName(any()) } just runs
 
             // when
@@ -57,7 +58,7 @@ class NameRepositoryTest : FreeSpec({
         "invalid name" {
             // given
             val dataSource = mockk<NameDataSource>()
-            val repository = NameRepository(dataSource)
+            val repository = NameRepositoryImpl(dataSource)
             coEvery { dataSource.setName(any()) } just runs
 
             // when
@@ -73,7 +74,7 @@ class NameRepositoryTest : FreeSpec({
     "remove name" {
         // given
         val dataSource = mockk<NameDataSource>()
-        val repository = NameRepository(dataSource)
+        val repository = NameRepositoryImpl(dataSource)
         coEvery { dataSource.removeName() } just runs
 
         // when

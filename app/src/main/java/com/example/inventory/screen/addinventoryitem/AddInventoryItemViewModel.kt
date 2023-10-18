@@ -8,7 +8,7 @@ import com.example.inventory.ComposeViewModel
 import com.example.inventory.IdProvider
 import com.example.inventory.Navigator
 import com.example.inventory.data.model.InventoryItem
-import com.example.inventory.data.repository.InventoryRepositoryImpl
+import com.example.inventory.data.repository.inventory.InventoryRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -1,7 +1,9 @@
 package com.example.inventory.di
 
-import com.example.inventory.data.repository.InventoryRepository
-import com.example.inventory.data.repository.InventoryRepositoryImpl
+import com.example.inventory.data.repository.inventory.InventoryRepository
+import com.example.inventory.data.repository.inventory.InventoryRepositoryImpl
+import com.example.inventory.data.repository.name.NameRepository
+import com.example.inventory.data.repository.name.NameRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,4 +17,9 @@ abstract class AppBindingsModule {
     abstract fun bindInventoryRepository(
         inventoryRepositoryImpl: InventoryRepositoryImpl
     ): InventoryRepository
+
+    @Binds
+    abstract fun bindNameRepository(
+        nameRepositoryImpl: NameRepositoryImpl
+    ): NameRepository
 }

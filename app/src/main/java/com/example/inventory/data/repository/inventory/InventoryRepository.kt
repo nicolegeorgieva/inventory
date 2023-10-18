@@ -1,4 +1,4 @@
-package com.example.inventory.data.repository
+package com.example.inventory.data.repository.inventory
 
 import com.example.inventory.data.model.InventoryItem
 import java.util.UUID

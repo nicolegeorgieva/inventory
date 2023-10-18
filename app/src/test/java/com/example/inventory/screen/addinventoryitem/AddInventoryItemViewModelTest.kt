@@ -3,7 +3,7 @@ package com.example.inventory.screen.addinventoryitem
 import com.example.inventory.IdProvider
 import com.example.inventory.Navigator
 import com.example.inventory.data.model.InventoryItem
-import com.example.inventory.data.repository.InventoryRepositoryImpl
+import com.example.inventory.data.repository.inventory.InventoryRepositoryImpl
 import com.example.inventory.runTest
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe

@@ -1,20 +1,20 @@
-package com.example.inventory.data.repository
+package com.example.inventory.data.repository.name
 
 import com.example.inventory.data.datasource.NameDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class NameRepository @Inject constructor(
+class NameRepositoryImpl @Inject constructor(
     private val nameDataSource: NameDataSource
-) {
-    suspend fun getName(): String? {
+) : NameRepository {
+    override suspend fun getName(): String? {
         return withContext(Dispatchers.IO) {
             nameDataSource.getName()
         }
     }
 
-    suspend fun setName(newName: String) {
+    override suspend fun setName(newName: String) {
         if (newName.isBlank()) return
 
         withContext(Dispatchers.IO) {
@@ -22,7 +22,7 @@ class NameRepository @Inject constructor(
         }
     }
 
-    suspend fun removeName() {
+    override suspend fun removeName() {
         withContext(Dispatchers.IO) {
             nameDataSource.removeName()
         }

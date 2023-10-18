@@ -1,7 +1,7 @@
 package com.example.inventory.fake.repository.inventory
 
 import com.example.inventory.data.model.InventoryItem
-import com.example.inventory.data.repository.InventoryRepository
+import com.example.inventory.data.repository.inventory.InventoryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.UUID

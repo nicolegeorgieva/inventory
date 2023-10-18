@@ -5,8 +5,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.inventory.ComposeViewModel
-import com.example.inventory.data.repository.InventoryRepository
-import com.example.inventory.data.repository.NameRepository
+import com.example.inventory.data.repository.inventory.InventoryRepository
+import com.example.inventory.data.repository.name.NameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
