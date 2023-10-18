@@ -62,17 +62,9 @@ class HomeViewModel @Inject constructor(
                         quantity = inventoryItem.quantity + 1
                     )
                 )
-            }
 
-            inventoryList.value = inventoryRepository.getAll().map {
-                InventoryUi(
-                    id = it.id.toString(),
-                    name = it.name,
-                    quantity = it.quantity.toString(),
-                    imagePath = it.imagePath,
-                    category = it.category
-                )
-            }.toImmutableList()
+                refreshInventoryList()
+            }
         }
     }
 
@@ -86,9 +78,9 @@ class HomeViewModel @Inject constructor(
                         quantity = inventoryItem.quantity - 1
                     )
                 )
-            }
 
-            refreshInventoryList()
+                refreshInventoryList()
+            }
         }
     }
 

@@ -7,7 +7,10 @@ import com.example.inventory.runTest
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
@@ -65,6 +68,49 @@ class HomeViewModelTest : FreeSpec({
             viewModel.runTest(events) {
                 it.name shouldBe "Amy"
                 it.inventoryList shouldBe persistentListOf(inventoryUi)
+            }
+        }
+    }
+
+    "add quantity" {
+        // given
+        val nameRepository = mockk<NameRepository>()
+        val inventoryRepository = mockk<InventoryRepository>()
+        val viewModel = HomeViewModel(nameRepository, inventoryRepository)
+        val id = UUID.randomUUID()
+        val inventoryItem = InventoryItem(
+            id = id,
+            name = "Kitchen roll",
+            quantity = 4,
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = "",
+            imagePath = ""
+        )
+        val inventoryUi = InventoryUi(
+            id = id.toString(),
+            name = "Kitchen roll",
+            quantity = "4",
+            imagePath = "",
+            category = "Groceries"
+        )
+
+        coEvery { nameRepository.getName() } returns "Amy"
+        coEvery { inventoryRepository.getAll() } returns listOf(inventoryItem)
+        coEvery { inventoryRepository.getById(id) } returns inventoryItem
+        coEvery { inventoryRepository.update(any()) } just runs
+
+        // when
+        val events = listOf(HomeEvent.AddQuantity(id.toString()))
+
+        // then
+        viewModel.runTest(events) {
+            coVerify(exactly = 1) {
+                inventoryRepository.update(inventoryItem.copy(quantity = 5))
+            }
+
+            coVerify(exactly = 2) {
+                inventoryRepository.getAll()
             }
         }
     }
