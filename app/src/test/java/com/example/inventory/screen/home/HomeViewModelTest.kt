@@ -87,12 +87,41 @@ class HomeViewModelTest : FreeSpec({
             description = "",
             imagePath = ""
         )
-        val inventoryUi = InventoryUi(
-            id = id.toString(),
+
+        coEvery { nameRepository.getName() } returns "Amy"
+        coEvery { inventoryRepository.getAll() } returns listOf(inventoryItem)
+        coEvery { inventoryRepository.getById(id) } returns inventoryItem
+        coEvery { inventoryRepository.update(any()) } just runs
+
+        // when
+        val events = listOf(HomeEvent.IncreaseQuantity(id.toString()))
+
+        // then
+        viewModel.runTest(events) {
+            coVerify(exactly = 1) {
+                inventoryRepository.update(inventoryItem.copy(quantity = 5))
+            }
+
+            coVerify(exactly = 2) {
+                inventoryRepository.getAll()
+            }
+        }
+    }
+
+    "decrease quantity" {
+        // given
+        val nameRepository = mockk<NameRepository>()
+        val inventoryRepository = mockk<InventoryRepository>()
+        val viewModel = HomeViewModel(nameRepository, inventoryRepository)
+        val id = UUID.randomUUID()
+        val inventoryItem = InventoryItem(
+            id = id,
             name = "Kitchen roll",
-            quantity = "4",
-            imagePath = "",
-            category = "Groceries"
+            quantity = 4,
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = "",
+            imagePath = ""
         )
 
         coEvery { nameRepository.getName() } returns "Amy"
@@ -101,12 +130,12 @@ class HomeViewModelTest : FreeSpec({
         coEvery { inventoryRepository.update(any()) } just runs
 
         // when
-        val events = listOf(HomeEvent.AddQuantity(id.toString()))
+        val events = listOf(HomeEvent.DecreaseQuantity(id.toString()))
 
         // then
         viewModel.runTest(events) {
             coVerify(exactly = 1) {
-                inventoryRepository.update(inventoryItem.copy(quantity = 5))
+                inventoryRepository.update(inventoryItem.copy(quantity = 3))
             }
 
             coVerify(exactly = 2) {

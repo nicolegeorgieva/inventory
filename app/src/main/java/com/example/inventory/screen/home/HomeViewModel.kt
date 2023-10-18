@@ -47,12 +47,12 @@ class HomeViewModel @Inject constructor(
 
     override fun onEvent(event: HomeEvent) {
         when (event) {
-            is HomeEvent.AddQuantity -> onAddQuantity(event.id)
-            is HomeEvent.RemoveQuantity -> onRemoveQuantity(event.id)
+            is HomeEvent.IncreaseQuantity -> onIncreaseQuantity(event.id)
+            is HomeEvent.DecreaseQuantity -> onDecreaseQuantity(event.id)
         }
     }
 
-    private fun onAddQuantity(id: String) {
+    private fun onIncreaseQuantity(id: String) {
         viewModelScope.launch {
             val inventoryItem = inventoryRepository.getById(UUID.fromString(id))
 
@@ -68,7 +68,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun onRemoveQuantity(id: String) {
+    private fun onDecreaseQuantity(id: String) {
         viewModelScope.launch {
             val inventoryItem = inventoryRepository.getById(UUID.fromString(id))
 

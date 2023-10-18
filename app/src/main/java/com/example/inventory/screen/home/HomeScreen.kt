@@ -92,10 +92,10 @@ private fun HomeUi(
                             quantity = item.quantity,
                             image = item.imagePath ?: "",
                             onAddQuantity = {
-                                onEvent(HomeEvent.AddQuantity(item.id))
+                                onEvent(HomeEvent.IncreaseQuantity(item.id))
                             },
                             onRemoveQuantity = {
-                                onEvent(HomeEvent.RemoveQuantity(item.id))
+                                onEvent(HomeEvent.DecreaseQuantity(item.id))
                             },
                         )
                     }
