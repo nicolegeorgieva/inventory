@@ -323,4 +323,38 @@ class FakeInventoryRepositoryTest : FreeSpec({
         // then
         items shouldBe emptyList()
     }
+
+    "deleteAll" {
+        // given
+        val repository = FakeInventoryRepository()
+        val id = UUID.randomUUID()
+        val id2 = UUID.randomUUID()
+        val inventoryItem = InventoryItem(
+            id = id,
+            name = "Water bottles",
+            quantity = 5,
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = "",
+            imagePath = ""
+        )
+        val inventoryItem2 = InventoryItem(
+            id = id2,
+            name = "Kitchen roll",
+            quantity = 4,
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = "",
+            imagePath = ""
+        )
+
+        // when
+        repository.add(inventoryItem)
+        repository.add(inventoryItem2)
+        repository.deleteAll()
+        val items = repository.getAll()
+
+        // then
+        items shouldBe emptyList()
+    }
 })
