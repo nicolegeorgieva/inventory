@@ -52,7 +52,7 @@ class FakeInventoryRepository {
 
         withContext(Dispatchers.IO) {
             items.remove(item)
-            items.add(item)
+            items.add(inventoryItem)
         }
     }
 
