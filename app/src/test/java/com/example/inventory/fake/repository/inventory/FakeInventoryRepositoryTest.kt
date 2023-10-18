@@ -130,4 +130,70 @@ class FakeInventoryRepositoryTest : FreeSpec({
             res shouldBe null
         }
     }
+
+    "orderByAscending" {
+        // given
+        val repository = FakeInventoryRepository()
+        val id = UUID.randomUUID()
+        val id2 = UUID.randomUUID()
+        val inventoryItem = InventoryItem(
+            id = id2,
+            name = "Water bottles",
+            quantity = 5,
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = "",
+            imagePath = ""
+        )
+        val inventoryItem2 = InventoryItem(
+            id = id,
+            name = "Laptop",
+            quantity = 1,
+            minQuantityTarget = 1,
+            category = "Tech",
+            description = "",
+            imagePath = ""
+        )
+
+        // when
+        repository.add(inventoryItem)
+        repository.add(inventoryItem2)
+        val items = repository.orderByAscending()
+
+        // then
+        items shouldBe listOf(inventoryItem2, inventoryItem)
+    }
+
+    "orderByDescending" {
+        // given
+        val repository = FakeInventoryRepository()
+        val id = UUID.randomUUID()
+        val id2 = UUID.randomUUID()
+        val inventoryItem = InventoryItem(
+            id = id,
+            name = "Laptop",
+            quantity = 1,
+            minQuantityTarget = 1,
+            category = "Tech",
+            description = "",
+            imagePath = ""
+        )
+        val inventoryItem2 = InventoryItem(
+            id = id2,
+            name = "Water bottles",
+            quantity = 5,
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = "",
+            imagePath = ""
+        )
+
+        // when
+        repository.add(inventoryItem)
+        repository.add(inventoryItem2)
+        val items = repository.orderByDescending()
+
+        // then
+        items shouldBe listOf(inventoryItem2, inventoryItem)
+    }
 })
