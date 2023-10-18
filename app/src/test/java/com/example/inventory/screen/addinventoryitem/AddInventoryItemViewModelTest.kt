@@ -15,7 +15,7 @@ import io.mockk.runs
 import java.util.UUID
 
 class AddInventoryItemViewModelTest : FreeSpec({
-    "initial state" {
+    "screen loaded" {
         // given
         val repository = mockk<InventoryRepository>()
         val idProvider = mockk<IdProvider>()
