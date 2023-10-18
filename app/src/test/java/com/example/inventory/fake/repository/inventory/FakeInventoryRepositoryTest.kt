@@ -196,4 +196,58 @@ class FakeInventoryRepositoryTest : FreeSpec({
         // then
         items shouldBe listOf(inventoryItem2, inventoryItem)
     }
+
+    "add" - {
+        "item with existing name" {
+            // given
+            val repository = FakeInventoryRepository()
+            val id = UUID.randomUUID()
+            val inventoryItem = InventoryItem(
+                id = id,
+                name = "Laptop",
+                quantity = 1,
+                minQuantityTarget = 1,
+                category = "Tech",
+                description = "",
+                imagePath = ""
+            )
+            val inventoryItem2 = inventoryItem.copy(id = UUID.randomUUID(), quantity = 2)
+
+            // when
+            repository.add(inventoryItem)
+            repository.add(inventoryItem2)
+            val items = repository.getAll()
+
+            // then
+            items shouldBe listOf(inventoryItem)
+        }
+
+        "unique item" {
+            // given
+            val repository = FakeInventoryRepository()
+            val id = UUID.randomUUID()
+            val inventoryItem = InventoryItem(
+                id = id,
+                name = "Laptop",
+                quantity = 1,
+                minQuantityTarget = 1,
+                category = "Tech",
+                description = "",
+                imagePath = ""
+            )
+            val inventoryItem2 = inventoryItem.copy(
+                id = UUID.randomUUID(),
+                name = "Kitchen paper",
+                quantity = 2
+            )
+
+            // when
+            repository.add(inventoryItem)
+            repository.add(inventoryItem2)
+            val items = repository.getAll()
+
+            // then
+            items shouldBe listOf(inventoryItem, inventoryItem2)
+        }
+    }
 })
