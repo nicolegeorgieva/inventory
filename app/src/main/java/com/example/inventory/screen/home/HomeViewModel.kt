@@ -57,7 +57,11 @@ class HomeViewModel @Inject constructor(
             val inventoryItem = inventoryRepository.getById(UUID.fromString(id))
 
             if (inventoryItem != null) {
-                inventoryRepository.update(inventoryItem.copy(quantity = inventoryItem.quantity + 1))
+                inventoryRepository.update(
+                    inventoryItem.copy(
+                        quantity = inventoryItem.quantity + 1
+                    )
+                )
             }
 
             inventoryList.value = inventoryRepository.getAll().map {
@@ -77,7 +81,11 @@ class HomeViewModel @Inject constructor(
             val inventoryItem = inventoryRepository.getById(UUID.fromString(id))
 
             if (inventoryItem != null) {
-                inventoryRepository.update(inventoryItem.copy(quantity = inventoryItem.quantity - 1))
+                inventoryRepository.update(
+                    inventoryItem.copy(
+                        quantity = inventoryItem.quantity - 1
+                    )
+                )
             }
 
             refreshInventoryList()

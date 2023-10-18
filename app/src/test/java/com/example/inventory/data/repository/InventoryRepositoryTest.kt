@@ -253,7 +253,7 @@ class InventoryRepositoryTest : FreeSpec({
         )
     }
 
-    "save" - {
+    "add" - {
         "unique item" {
             // given
             val dataSource = mockk<InventoryDataSource>()
@@ -332,6 +332,78 @@ class InventoryRepositoryTest : FreeSpec({
             // then
             coVerify(exactly = 0) {
                 dataSource.save(any())
+            }
+        }
+    }
+
+    "update" - {
+        "existing id" {
+            // given
+            val dataSource = mockk<InventoryDataSource>()
+            val repository = InventoryRepository(dataSource, InventoryMapper())
+            val id = UUID.randomUUID()
+            val inventoryItem = InventoryItem(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imagePath = null
+            )
+            val inventoryEntity = InventoryEntity(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imagePath = null
+            )
+            coEvery { dataSource.save(any()) } just runs
+            coEvery { dataSource.getById(id) } returns inventoryEntity
+
+            // when
+            repository.update(inventoryItem)
+
+            // then
+            coVerify(exactly = 1) {
+                dataSource.save(inventoryEntity)
+            }
+        }
+
+        "not existing id" {
+            // given
+            val dataSource = mockk<InventoryDataSource>()
+            val repository = InventoryRepository(dataSource, InventoryMapper())
+            val id = UUID.randomUUID()
+            val inventoryItem = InventoryItem(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imagePath = null
+            )
+            val inventoryEntity = InventoryEntity(
+                id = id,
+                name = "Watter bottles",
+                quantity = 5,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imagePath = null
+            )
+            coEvery { dataSource.save(any()) } just runs
+            coEvery { dataSource.getById(id) } returns null
+
+            // when
+            repository.update(inventoryItem)
+
+            // then
+            coVerify(exactly = 0) {
+                dataSource.save(inventoryEntity)
             }
         }
     }
