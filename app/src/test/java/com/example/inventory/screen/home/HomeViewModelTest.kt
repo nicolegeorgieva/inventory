@@ -44,13 +44,6 @@ class HomeViewModelTest : FreeSpec({
                 description = "",
                 imagePath = ""
             )
-            val inventoryUi = InventoryUi(
-                id = id.toString(),
-                name = "Kitchen roll",
-                quantity = "4",
-                imagePath = "",
-                category = "Groceries"
-            )
 
             // when
             nameRepository.setName("Amy")
@@ -58,6 +51,13 @@ class HomeViewModelTest : FreeSpec({
             val events = emptyList<HomeEvent>()
 
             // then
+            val inventoryUi = InventoryUi(
+                id = id.toString(),
+                name = "Kitchen roll",
+                quantity = "4",
+                imagePath = "",
+                category = "Groceries"
+            )
             viewModel.runTest(events) {
                 it.name shouldBe "Amy"
                 it.inventoryList shouldBe persistentListOf(inventoryUi)
@@ -80,20 +80,23 @@ class HomeViewModelTest : FreeSpec({
             description = "",
             imagePath = ""
         )
-        val inventoryUi = InventoryUi(
-            id = id.toString(),
-            name = "Kitchen roll",
-            quantity = "5",
-            imagePath = "",
-            category = "Groceries"
-        )
 
         // when
         nameRepository.setName("Amy")
         inventoryRepository.add(inventoryItem)
-        val events = listOf(HomeEvent.IncreaseQuantity(id.toString()))
+        val events = listOf(
+            HomeEvent.IncreaseQuantity(id.toString()),
+            HomeEvent.IncreaseQuantity(id.toString())
+        )
 
         // then
+        val inventoryUi = InventoryUi(
+            id = id.toString(),
+            name = "Kitchen roll",
+            quantity = "6",
+            imagePath = "",
+            category = "Groceries"
+        )
         viewModel.runTest(events) {
             it.name shouldBe "Amy"
             it.inventoryList shouldBe persistentListOf(inventoryUi)
@@ -115,6 +118,12 @@ class HomeViewModelTest : FreeSpec({
             description = "",
             imagePath = ""
         )
+
+        // when
+        inventoryRepository.add(inventoryItem)
+        val events = listOf(HomeEvent.DecreaseQuantity(id.toString()))
+
+        // then
         val inventoryUi = InventoryUi(
             id = id.toString(),
             name = "Kitchen roll",
@@ -122,12 +131,6 @@ class HomeViewModelTest : FreeSpec({
             imagePath = "",
             category = "Groceries"
         )
-
-        // when
-        inventoryRepository.add(inventoryItem)
-        val events = listOf(HomeEvent.DecreaseQuantity(id.toString()))
-
-        // then
         viewModel.runTest(events) {
             it.name shouldBe null
             it.inventoryList shouldBe persistentListOf(inventoryUi)
