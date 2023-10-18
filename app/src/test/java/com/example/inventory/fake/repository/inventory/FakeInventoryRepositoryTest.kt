@@ -6,7 +6,7 @@ import io.kotest.matchers.shouldBe
 import java.util.UUID
 
 class FakeInventoryRepositoryTest : FreeSpec({
-    "get all" - {
+    "getAll" - {
         "list of items" {
             // given
             val repository = FakeInventoryRepository()
@@ -52,7 +52,50 @@ class FakeInventoryRepositoryTest : FreeSpec({
         }
     }
 
-    "getAllByCategory" - {
+    "getAllByCategory" {
+        // given
+        val repository = FakeInventoryRepository()
+        val id = UUID.randomUUID()
+        val id2 = UUID.randomUUID()
+        val inventoryItem = InventoryItem(
+            id = id,
+            name = "Laptop",
+            quantity = 1,
+            minQuantityTarget = 1,
+            category = "Tech",
+            description = "",
+            imagePath = ""
+        )
+        val inventoryItem2 = InventoryItem(
+            id = id2,
+            name = "Water bottles",
+            quantity = 5,
+            minQuantityTarget = 5,
+            category = "Groceries",
+            description = "",
+            imagePath = ""
+        )
 
+        // when
+        repository.add(inventoryItem)
+        repository.add(inventoryItem2)
+        val res = repository.getAllByCategory("Groceries")
+
+        // then
+        res shouldBe listOf(inventoryItem2)
+    }
+
+    "getById" - {
+        "existing id" {
+            // given
+
+            // when
+
+            // then
+        }
+
+        "not existing id" {
+
+        }
     }
 })
