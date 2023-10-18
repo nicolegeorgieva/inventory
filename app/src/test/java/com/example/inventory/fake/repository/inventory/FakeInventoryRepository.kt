@@ -1,4 +1,4 @@
-package com.example.inventory.fake
+package com.example.inventory.fake.repository.inventory
 
 import com.example.inventory.data.model.InventoryItem
 import kotlinx.coroutines.Dispatchers
