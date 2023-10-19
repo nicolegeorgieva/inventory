@@ -20,7 +20,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.ArrowDropDown
+import androidx.compose.material.icons.outlined.KeyboardArrowDown
+import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -29,9 +34,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -41,6 +49,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -86,6 +95,10 @@ private fun HomeUi(
                 contentPadding = innerPadding
             ) {
                 if (!uiState.inventoryList.isNullOrEmpty()) {
+                    item(key = "sort filter row") {
+                        SortFilterRow()
+                    }
+
                     items(uiState.inventoryList) { item ->
                         InventoryItemRow(
                             itemName = item.name,
@@ -164,6 +177,76 @@ private fun AddButton(navController: NavController?) {
             imageVector = Icons.Default.Add,
             contentDescription = stringResource(R.string.add)
         )
+    }
+}
+
+@Composable
+private fun SortFilterRow() {
+    val ascending = remember { mutableStateOf(true) }
+
+    Row(modifier = Modifier.fillMaxWidth()) {
+        TextButton(
+            onClick = {
+                ascending.value = !ascending.value
+            }
+        ) {
+            Text("Sort by:")
+            if (ascending.value) {
+                Icon(
+                    imageVector = Icons.Outlined.KeyboardArrowUp,
+                    contentDescription = "Ascending"
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Outlined.KeyboardArrowDown,
+                    contentDescription = "Descending"
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        val filter = remember { mutableStateOf("All") }
+        val expanded = remember { mutableStateOf(false) }
+
+        TextButton(
+            onClick = {
+                expanded.value = true
+            }
+        ) {
+            Text(filter.value)
+            Icon(
+                imageVector = Icons.Outlined.ArrowDropDown,
+                contentDescription = "Dropdown menu"
+            )
+        }
+
+        DropdownMenu(
+            offset = DpOffset(x = 280.dp, y = 8.dp),
+            expanded = expanded.value,
+            onDismissRequest = {
+                expanded.value = false
+            }
+        ) {
+            DropdownMenuItem(
+                text = {
+                    Text("All")
+                },
+                onClick = {
+                    filter.value = "All"
+                    expanded.value = false
+                }
+            )
+            DropdownMenuItem(
+                text = {
+                    Text("Groceries")
+                },
+                onClick = {
+                    filter.value = "Groceries"
+                    expanded.value = false
+                }
+            )
+        }
     }
 }
 
