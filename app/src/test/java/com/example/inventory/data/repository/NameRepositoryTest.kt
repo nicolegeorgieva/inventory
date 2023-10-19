@@ -1,5 +1,6 @@
 package com.example.inventory.data.repository
 
+import com.example.inventory.DispatcherProvider
 import com.example.inventory.FakeDispatcherProvider
 import com.example.inventory.data.datasource.NameDataSource
 import com.example.inventory.data.repository.name.NameRepositoryImpl
@@ -16,7 +17,7 @@ class NameRepositoryTest : FreeSpec({
         "existing name" {
             // given
             val dataSource = mockk<NameDataSource>()
-            val dispatchers = FakeDispatcherProvider()
+            val dispatchers: DispatcherProvider = FakeDispatcherProvider()
             val repository = NameRepositoryImpl(dataSource, dispatchers)
             coEvery { dataSource.getName() } returns "Amy"
 
@@ -30,7 +31,7 @@ class NameRepositoryTest : FreeSpec({
         "null name" {
             // given
             val dataSource = mockk<NameDataSource>()
-            val dispatchers = FakeDispatcherProvider()
+            val dispatchers: DispatcherProvider = FakeDispatcherProvider()
             val repository = NameRepositoryImpl(dataSource, dispatchers)
             coEvery { dataSource.getName() } returns null
 
@@ -46,7 +47,7 @@ class NameRepositoryTest : FreeSpec({
         "valid name" {
             // given
             val dataSource = mockk<NameDataSource>()
-            val dispatchers = FakeDispatcherProvider()
+            val dispatchers: DispatcherProvider = FakeDispatcherProvider()
             val repository = NameRepositoryImpl(dataSource, dispatchers)
             coEvery { dataSource.setName(any()) } just runs
 
@@ -62,7 +63,7 @@ class NameRepositoryTest : FreeSpec({
         "invalid name" {
             // given
             val dataSource = mockk<NameDataSource>()
-            val dispatchers = FakeDispatcherProvider()
+            val dispatchers: DispatcherProvider = FakeDispatcherProvider()
             val repository = NameRepositoryImpl(dataSource, dispatchers)
             coEvery { dataSource.setName(any()) } just runs
 
@@ -79,7 +80,7 @@ class NameRepositoryTest : FreeSpec({
     "remove name" {
         // given
         val dataSource = mockk<NameDataSource>()
-        val dispatchers = FakeDispatcherProvider()
+        val dispatchers: DispatcherProvider = FakeDispatcherProvider()
         val repository = NameRepositoryImpl(dataSource, dispatchers)
         coEvery { dataSource.removeName() } just runs
 
