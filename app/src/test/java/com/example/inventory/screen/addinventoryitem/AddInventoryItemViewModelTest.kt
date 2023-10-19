@@ -260,7 +260,7 @@ class AddInventoryItemViewModelTest : FreeSpec({
             val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
 
             // when
-            val events = listOf<AddInventoryItemEvent>(
+            val events = listOf(
                 AddInventoryItemEvent.SetName("Item"),
                 AddInventoryItemEvent.SetQuantity("2.5"),
                 AddInventoryItemEvent.SetMinQuantityTarget("3"),
