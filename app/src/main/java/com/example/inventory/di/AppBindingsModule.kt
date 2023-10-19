@@ -1,5 +1,7 @@
 package com.example.inventory.di
 
+import com.example.inventory.DispatcherProvider
+import com.example.inventory.DispatcherProviderImpl
 import com.example.inventory.data.repository.inventory.InventoryRepository
 import com.example.inventory.data.repository.inventory.InventoryRepositoryImpl
 import com.example.inventory.data.repository.name.NameRepository
@@ -22,4 +24,9 @@ abstract class AppBindingsModule {
     abstract fun bindNameRepository(
         nameRepositoryImpl: NameRepositoryImpl
     ): NameRepository
+
+    @Binds
+    abstract fun bindDispatcherProvider(
+        dispatcherProvider: DispatcherProviderImpl
+    ): DispatcherProvider
 }
