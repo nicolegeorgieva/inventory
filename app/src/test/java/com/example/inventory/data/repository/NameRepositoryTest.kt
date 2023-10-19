@@ -1,5 +1,6 @@
 package com.example.inventory.data.repository
 
+import com.example.inventory.FakeDispatcherProvider
 import com.example.inventory.data.datasource.NameDataSource
 import com.example.inventory.data.repository.name.NameRepositoryImpl
 import io.kotest.core.spec.style.FreeSpec
@@ -15,7 +16,8 @@ class NameRepositoryTest : FreeSpec({
         "existing name" {
             // given
             val dataSource = mockk<NameDataSource>()
-            val repository = NameRepositoryImpl(dataSource)
+            val dispatchers = FakeDispatcherProvider()
+            val repository = NameRepositoryImpl(dataSource, dispatchers)
             coEvery { dataSource.getName() } returns "Amy"
 
             // when
@@ -28,7 +30,8 @@ class NameRepositoryTest : FreeSpec({
         "null name" {
             // given
             val dataSource = mockk<NameDataSource>()
-            val repository = NameRepositoryImpl(dataSource)
+            val dispatchers = FakeDispatcherProvider()
+            val repository = NameRepositoryImpl(dataSource, dispatchers)
             coEvery { dataSource.getName() } returns null
 
             // when
@@ -43,7 +46,8 @@ class NameRepositoryTest : FreeSpec({
         "valid name" {
             // given
             val dataSource = mockk<NameDataSource>()
-            val repository = NameRepositoryImpl(dataSource)
+            val dispatchers = FakeDispatcherProvider()
+            val repository = NameRepositoryImpl(dataSource, dispatchers)
             coEvery { dataSource.setName(any()) } just runs
 
             // when
@@ -58,7 +62,8 @@ class NameRepositoryTest : FreeSpec({
         "invalid name" {
             // given
             val dataSource = mockk<NameDataSource>()
-            val repository = NameRepositoryImpl(dataSource)
+            val dispatchers = FakeDispatcherProvider()
+            val repository = NameRepositoryImpl(dataSource, dispatchers)
             coEvery { dataSource.setName(any()) } just runs
 
             // when
@@ -74,7 +79,8 @@ class NameRepositoryTest : FreeSpec({
     "remove name" {
         // given
         val dataSource = mockk<NameDataSource>()
-        val repository = NameRepositoryImpl(dataSource)
+        val dispatchers = FakeDispatcherProvider()
+        val repository = NameRepositoryImpl(dataSource, dispatchers)
         coEvery { dataSource.removeName() } just runs
 
         // when
