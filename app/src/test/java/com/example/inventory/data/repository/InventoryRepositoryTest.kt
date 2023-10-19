@@ -1,6 +1,5 @@
 package com.example.inventory.data.repository
 
-import com.example.inventory.DispatcherProvider
 import com.example.inventory.FakeDispatcherProvider
 import com.example.inventory.data.database.entity.InventoryEntity
 import com.example.inventory.data.datasource.InventoryDataSource
@@ -20,7 +19,7 @@ class InventoryRepositoryTest : FreeSpec({
     "get all" {
         // given
         val dataSource = mockk<InventoryDataSource>()
-        val dispatchers: DispatcherProvider = FakeDispatcherProvider()
+        val dispatchers = FakeDispatcherProvider()
         val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
         val id = UUID.randomUUID()
         val id2 = UUID.randomUUID()
@@ -74,7 +73,7 @@ class InventoryRepositoryTest : FreeSpec({
     "get all by category" {
         // given
         val dataSource = mockk<InventoryDataSource>()
-        val dispatchers: DispatcherProvider = FakeDispatcherProvider()
+        val dispatchers = FakeDispatcherProvider()
         val id = UUID.randomUUID()
         val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
         coEvery { dataSource.getAllByCategory("Groceries") } returns listOf(
@@ -110,7 +109,7 @@ class InventoryRepositoryTest : FreeSpec({
         "existing inventory entity" {
             // given
             val dataSource = mockk<InventoryDataSource>()
-            val dispatchers: DispatcherProvider = FakeDispatcherProvider()
+            val dispatchers = FakeDispatcherProvider()
             val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
             val id = UUID.randomUUID()
             coEvery { dataSource.getById(id) } returns InventoryEntity(
@@ -141,7 +140,7 @@ class InventoryRepositoryTest : FreeSpec({
         "null from the DataSource" {
             // given
             val dataSource = mockk<InventoryDataSource>()
-            val dispatchers: DispatcherProvider = FakeDispatcherProvider()
+            val dispatchers = FakeDispatcherProvider()
             val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
             val id = UUID.randomUUID()
             coEvery { dataSource.getById(id) } returns null
@@ -157,7 +156,7 @@ class InventoryRepositoryTest : FreeSpec({
     "orderByAscending" {
         // given
         val dataSource = mockk<InventoryDataSource>()
-        val dispatchers: DispatcherProvider = FakeDispatcherProvider()
+        val dispatchers = FakeDispatcherProvider()
         val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
         val id = UUID.randomUUID()
         val id2 = UUID.randomUUID()
@@ -211,7 +210,7 @@ class InventoryRepositoryTest : FreeSpec({
     "orderByDescending" {
         // given
         val dataSource = mockk<InventoryDataSource>()
-        val dispatchers: DispatcherProvider = FakeDispatcherProvider()
+        val dispatchers = FakeDispatcherProvider()
         val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
         val id = UUID.randomUUID()
         val id2 = UUID.randomUUID()
@@ -266,7 +265,7 @@ class InventoryRepositoryTest : FreeSpec({
         "unique item" {
             // given
             val dataSource = mockk<InventoryDataSource>()
-            val dispatchers: DispatcherProvider = FakeDispatcherProvider()
+            val dispatchers = FakeDispatcherProvider()
             val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
@@ -313,7 +312,7 @@ class InventoryRepositoryTest : FreeSpec({
         "existing item name" {
             // given
             val dataSource = mockk<InventoryDataSource>()
-            val dispatchers: DispatcherProvider = FakeDispatcherProvider()
+            val dispatchers = FakeDispatcherProvider()
             val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
@@ -351,7 +350,7 @@ class InventoryRepositoryTest : FreeSpec({
         "existing id" {
             // given
             val dataSource = mockk<InventoryDataSource>()
-            val dispatchers: DispatcherProvider = FakeDispatcherProvider()
+            val dispatchers = FakeDispatcherProvider()
             val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
@@ -387,7 +386,7 @@ class InventoryRepositoryTest : FreeSpec({
         "not existing id" {
             // given
             val dataSource = mockk<InventoryDataSource>()
-            val dispatchers: DispatcherProvider = FakeDispatcherProvider()
+            val dispatchers = FakeDispatcherProvider()
             val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
@@ -424,7 +423,7 @@ class InventoryRepositoryTest : FreeSpec({
     "delete" {
         // given
         val dataSource = mockk<InventoryDataSource>()
-        val dispatchers: DispatcherProvider = FakeDispatcherProvider()
+        val dispatchers = FakeDispatcherProvider()
         val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
         val id = UUID.randomUUID()
         val inventoryItem = InventoryItem(
@@ -460,7 +459,7 @@ class InventoryRepositoryTest : FreeSpec({
     "delete all" {
         // given
         val dataSource = mockk<InventoryDataSource>()
-        val dispatchers: DispatcherProvider = FakeDispatcherProvider()
+        val dispatchers = FakeDispatcherProvider()
         val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
         coEvery { dataSource.deleteAll() } just runs
 

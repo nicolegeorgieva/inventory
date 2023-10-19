@@ -8,14 +8,14 @@ import com.example.inventory.ComposeViewModel
 import com.example.inventory.IdProvider
 import com.example.inventory.Navigator
 import com.example.inventory.data.model.InventoryItem
-import com.example.inventory.data.repository.inventory.InventoryRepositoryImpl
+import com.example.inventory.data.repository.inventory.InventoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AddInventoryItemViewModel @Inject constructor(
-    private val inventoryRepository: InventoryRepositoryImpl,
+    private val inventoryRepository: InventoryRepository,
     private val idProvider: IdProvider,
     private val navigator: Navigator
 ) :
