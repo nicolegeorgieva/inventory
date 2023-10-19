@@ -178,7 +178,7 @@ private fun Content(
                     onEvent(AddInventoryItemEvent.OnLinkValueChange(it))
                 },
                 onRemoveImageClick = {
-                    onEvent(AddInventoryItemEvent.SetFileImage(null))
+                    onEvent(AddInventoryItemEvent.SetLinkImage(null))
                 },
                 onAddLinkImageClick = {
                     onEvent(AddInventoryItemEvent.SetLinkImage(it))

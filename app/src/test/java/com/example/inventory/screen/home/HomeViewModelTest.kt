@@ -65,7 +65,7 @@ class HomeViewModelTest : FreeSpec({
         }
     }
 
-    "add quantity" {
+    "increase quantity" {
         // given
         val nameRepository: NameRepository = FakeNameRepository()
         val inventoryRepository: InventoryRepository = FakeInventoryRepository()
