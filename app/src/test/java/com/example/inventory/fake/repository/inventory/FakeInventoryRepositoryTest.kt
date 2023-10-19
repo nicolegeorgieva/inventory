@@ -1,6 +1,7 @@
 package com.example.inventory.fake.repository.inventory
 
 import com.example.inventory.data.model.InventoryItem
+import com.example.inventory.data.repository.inventory.InventoryRepository
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import java.util.UUID
@@ -9,7 +10,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
     "getAll" - {
         "list of items" {
             // given
-            val repository = FakeInventoryRepository()
+            val repository: InventoryRepository = FakeInventoryRepository()
             val id = UUID.randomUUID()
             val id2 = UUID.randomUUID()
             val inventoryItem = InventoryItem(
@@ -42,7 +43,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
 
         "empty list" {
             // given
-            val repository = FakeInventoryRepository()
+            val repository: InventoryRepository = FakeInventoryRepository()
 
             // when
             val items = repository.getAll()
@@ -54,7 +55,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
 
     "getAllByCategory" {
         // given
-        val repository = FakeInventoryRepository()
+        val repository: InventoryRepository = FakeInventoryRepository()
         val id = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val inventoryItem = InventoryItem(
@@ -88,7 +89,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
     "getById" - {
         "existing id" {
             // given
-            val repository = FakeInventoryRepository()
+            val repository: InventoryRepository = FakeInventoryRepository()
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
                 id = id,
@@ -110,7 +111,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
 
         "not existing id" {
             // given
-            val repository = FakeInventoryRepository()
+            val repository: InventoryRepository = FakeInventoryRepository()
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
                 id = UUID.randomUUID(),
@@ -133,7 +134,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
 
     "orderByAscending" {
         // given
-        val repository = FakeInventoryRepository()
+        val repository: InventoryRepository = FakeInventoryRepository()
         val id = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val inventoryItem = InventoryItem(
@@ -166,7 +167,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
 
     "orderByDescending" {
         // given
-        val repository = FakeInventoryRepository()
+        val repository: InventoryRepository = FakeInventoryRepository()
         val id = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val inventoryItem = InventoryItem(
@@ -200,7 +201,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
     "add" - {
         "item with existing name" {
             // given
-            val repository = FakeInventoryRepository()
+            val repository: InventoryRepository = FakeInventoryRepository()
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
                 id = id,
@@ -224,7 +225,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
 
         "unique item" {
             // given
-            val repository = FakeInventoryRepository()
+            val repository: InventoryRepository = FakeInventoryRepository()
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
                 id = id,
@@ -254,7 +255,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
     "update" - {
         "not existing id" {
             // given
-            val repository = FakeInventoryRepository()
+            val repository: InventoryRepository = FakeInventoryRepository()
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
                 id = id,
@@ -278,7 +279,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
 
         "existing id" {
             // given
-            val repository = FakeInventoryRepository()
+            val repository: InventoryRepository = FakeInventoryRepository()
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
                 id = id,
@@ -303,7 +304,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
 
     "delete" {
         // given
-        val repository = FakeInventoryRepository()
+        val repository: InventoryRepository = FakeInventoryRepository()
         val id = UUID.randomUUID()
         val inventoryItem = InventoryItem(
             id = id,
@@ -326,7 +327,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
 
     "deleteAll" {
         // given
-        val repository = FakeInventoryRepository()
+        val repository: InventoryRepository = FakeInventoryRepository()
         val id = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val inventoryItem = InventoryItem(
