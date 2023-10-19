@@ -1,5 +1,6 @@
 package com.example.inventory.fake.repository.name
 
+import com.example.inventory.data.repository.name.NameRepository
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 
@@ -7,7 +8,7 @@ class FakeNameRepositoryTest : FreeSpec({
     "get name" - {
         "name exists" {
             // given
-            val repository = FakeNameRepository()
+            val repository: NameRepository = FakeNameRepository()
 
             // when
             repository.setName("Amy")
@@ -19,7 +20,7 @@ class FakeNameRepositoryTest : FreeSpec({
 
         "name is null" {
             // given
-            val repository = FakeNameRepository()
+            val repository: NameRepository = FakeNameRepository()
 
             // when
             val name = repository.getName()
@@ -32,7 +33,7 @@ class FakeNameRepositoryTest : FreeSpec({
     "set name" - {
         "blank new name" {
             // given
-            val repository = FakeNameRepository()
+            val repository: NameRepository = FakeNameRepository()
 
             // when
             repository.setName("")
@@ -44,7 +45,7 @@ class FakeNameRepositoryTest : FreeSpec({
 
         "no blank name" {
             // given
-            val repository = FakeNameRepository()
+            val repository: NameRepository = FakeNameRepository()
 
             // when
             repository.setName("   Amy   ")
@@ -57,7 +58,7 @@ class FakeNameRepositoryTest : FreeSpec({
 
     "remove name" {
         // given
-        val repository = FakeNameRepository()
+        val repository: NameRepository = FakeNameRepository()
 
         // when
         repository.setName("Amy")
