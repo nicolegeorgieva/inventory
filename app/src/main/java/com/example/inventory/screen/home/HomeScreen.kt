@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,6 +48,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -272,8 +274,7 @@ private fun InventoryItemRow(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            verticalAlignment = Alignment.CenterVertically
         ) {
             val modifier = Modifier
                 .size(64.dp)
@@ -304,9 +305,12 @@ private fun InventoryItemRow(
                 )
             }
 
-            Text(text = itemName)
-
-            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .weight(1f),
+                text = itemName
+            )
 
             RemoveQuantityButton(
                 imagePainter = painterResource(id = R.drawable.baseline_remove_circle_24),
@@ -314,7 +318,11 @@ private fun InventoryItemRow(
                 onClick = onRemoveQuantity
             )
 
-            Text(text = quantity)
+            Text(
+                modifier = Modifier.widthIn(min = 24.dp),
+                textAlign = TextAlign.Center,
+                text = quantity
+            )
 
             AddQuantityButton(
                 imageVector = Icons.Filled.AddCircle,
