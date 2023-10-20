@@ -49,7 +49,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -185,67 +184,70 @@ private fun SortFilterRow() {
     val ascending = remember { mutableStateOf(true) }
 
     Row(modifier = Modifier.fillMaxWidth()) {
-        TextButton(
-            onClick = {
-                ascending.value = !ascending.value
-            }
-        ) {
-            Text("Sort by:")
-            if (ascending.value) {
-                Icon(
-                    imageVector = Icons.Outlined.KeyboardArrowUp,
-                    contentDescription = "Ascending"
-                )
-            } else {
-                Icon(
-                    imageVector = Icons.Outlined.KeyboardArrowDown,
-                    contentDescription = "Descending"
-                )
+        Column {
+            TextButton(
+                onClick = {
+                    ascending.value = !ascending.value
+                }
+            ) {
+                Text("Sort by:")
+                if (ascending.value) {
+                    Icon(
+                        imageVector = Icons.Outlined.KeyboardArrowUp,
+                        contentDescription = "Ascending"
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Outlined.KeyboardArrowDown,
+                        contentDescription = "Descending"
+                    )
+                }
             }
         }
 
         Spacer(modifier = Modifier.weight(1f))
 
-        val filter = remember { mutableStateOf("All") }
-        val expanded = remember { mutableStateOf(false) }
+        Column {
+            val filter = remember { mutableStateOf("All") }
+            val expanded = remember { mutableStateOf(false) }
 
-        TextButton(
-            onClick = {
-                expanded.value = true
-            }
-        ) {
-            Text(filter.value)
-            Icon(
-                imageVector = Icons.Outlined.ArrowDropDown,
-                contentDescription = "Dropdown menu"
-            )
-        }
-
-        DropdownMenu(
-            offset = DpOffset(x = 280.dp, y = 8.dp),
-            expanded = expanded.value,
-            onDismissRequest = {
-                expanded.value = false
-            }
-        ) {
-            DropdownMenuItem(
-                text = {
-                    Text("All")
-                },
+            TextButton(
                 onClick = {
-                    filter.value = "All"
+                    expanded.value = true
+                }
+            ) {
+                Text(filter.value)
+                Icon(
+                    imageVector = Icons.Outlined.ArrowDropDown,
+                    contentDescription = "Dropdown menu"
+                )
+            }
+
+            DropdownMenu(
+                expanded = expanded.value,
+                onDismissRequest = {
                     expanded.value = false
                 }
-            )
-            DropdownMenuItem(
-                text = {
-                    Text("Groceries")
-                },
-                onClick = {
-                    filter.value = "Groceries"
-                    expanded.value = false
-                }
-            )
+            ) {
+                DropdownMenuItem(
+                    text = {
+                        Text("All")
+                    },
+                    onClick = {
+                        filter.value = "All"
+                        expanded.value = false
+                    }
+                )
+                DropdownMenuItem(
+                    text = {
+                        Text("Groceries")
+                    },
+                    onClick = {
+                        filter.value = "Groceries"
+                        expanded.value = false
+                    }
+                )
+            }
         }
     }
 }
