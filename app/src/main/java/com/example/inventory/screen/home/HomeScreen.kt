@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -276,61 +277,86 @@ private fun InventoryItemRow(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val modifier = Modifier
-                .size(64.dp)
-                .background(MaterialTheme.colorScheme.background)
-                .border(
-                    border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.onBackground),
-                    shape = RoundedCornerShape(
-                        topStart = 4.dp,
-                        topEnd = 0.dp,
-                        bottomStart = 4.dp,
-                        bottomEnd = 0.dp
-                    )
-                )
-                .padding(4.dp)
+            Image(image = image)
 
-            if (image.isNotBlank()) {
-                AsyncImage(
-                    modifier = modifier,
-                    model = image,
-                    contentDescription = stringResource(R.string.item_image)
-                )
-            } else {
-                Icon(
-                    modifier = modifier,
-                    painter = painterResource(id = R.drawable.baseline_inventory_24),
-                    contentDescription = stringResource(R.string.item_image),
-                    tint = MaterialTheme.colorScheme.primary
-                )
-            }
+            ItemName(itemName = itemName)
 
-            Text(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .weight(1f),
-                text = itemName
-            )
-
-            RemoveQuantityButton(
-                imagePainter = painterResource(id = R.drawable.baseline_remove_circle_24),
-                contentDescription = stringResource(R.string.remove),
-                onClick = onRemoveQuantity
-            )
-
-            Text(
-                modifier = Modifier.widthIn(min = 24.dp),
-                textAlign = TextAlign.Center,
-                text = quantity
-            )
-
-            AddQuantityButton(
-                imageVector = Icons.Filled.AddCircle,
-                contentDescription = stringResource(R.string.add),
-                onClick = onAddQuantity
+            AddRemoveQuantity(
+                onRemoveQuantity = onRemoveQuantity,
+                quantity = quantity,
+                onAddQuantity = onAddQuantity
             )
         }
     }
+}
+
+@Composable
+private fun Image(
+    image: String
+) {
+    val modifier = Modifier
+        .size(64.dp)
+        .background(MaterialTheme.colorScheme.background)
+        .border(
+            border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.onBackground),
+            shape = RoundedCornerShape(
+                topStart = 4.dp,
+                topEnd = 0.dp,
+                bottomStart = 4.dp,
+                bottomEnd = 0.dp
+            )
+        )
+        .padding(4.dp)
+
+    if (image.isNotBlank()) {
+        AsyncImage(
+            modifier = modifier,
+            model = image,
+            contentDescription = stringResource(R.string.item_image)
+        )
+    } else {
+        Icon(
+            modifier = modifier,
+            painter = painterResource(id = R.drawable.baseline_inventory_24),
+            contentDescription = stringResource(R.string.item_image),
+            tint = MaterialTheme.colorScheme.primary
+        )
+    }
+}
+
+@Composable
+private fun RowScope.ItemName(itemName: String) {
+    Text(
+        modifier = Modifier
+            .padding(horizontal = 8.dp)
+            .weight(1f),
+        text = itemName
+    )
+}
+
+@Composable
+private fun AddRemoveQuantity(
+    onRemoveQuantity: () -> Unit,
+    quantity: String,
+    onAddQuantity: () -> Unit
+) {
+    RemoveQuantityButton(
+        imagePainter = painterResource(id = R.drawable.baseline_remove_circle_24),
+        contentDescription = stringResource(R.string.remove),
+        onClick = onRemoveQuantity
+    )
+
+    Text(
+        modifier = Modifier.widthIn(min = 24.dp),
+        textAlign = TextAlign.Center,
+        text = quantity
+    )
+
+    AddQuantityButton(
+        imageVector = Icons.Filled.AddCircle,
+        contentDescription = stringResource(R.string.add),
+        onClick = onAddQuantity
+    )
 }
 
 @Composable
