@@ -11,7 +11,6 @@ import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -123,12 +122,10 @@ private fun FilterMenuOption(
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun SortFilterRowPreview() {
     InventoryTheme {
-        Surface {
-            SortFilterRow()
-        }
+        SortFilterRow()
     }
 }

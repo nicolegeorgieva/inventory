@@ -58,7 +58,7 @@ private fun MoreMenuButton(navController: NavController?) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun HomeTopAppBarNamePreview() {
     InventoryTheme {
@@ -69,7 +69,7 @@ private fun HomeTopAppBarNamePreview() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun HomeTopAppBarNoNamePreview() {
     InventoryTheme {

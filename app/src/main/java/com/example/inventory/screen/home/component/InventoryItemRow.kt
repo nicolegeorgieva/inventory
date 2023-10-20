@@ -168,7 +168,7 @@ private fun RemoveQuantityButton(onClick: () -> Unit) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun InventoryItemRowPreview() {
     InventoryTheme {
