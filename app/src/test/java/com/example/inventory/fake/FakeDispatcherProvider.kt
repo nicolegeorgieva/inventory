@@ -1,5 +1,6 @@
-package com.example.inventory
+package com.example.inventory.fake
 
+import com.example.inventory.dispatcher.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 

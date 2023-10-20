@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.inventory.navigation.NavigationEvent
+import com.example.inventory.navigation.Navigator
 import com.example.inventory.screen.addinventoryitem.AddInventoryItemScreen
 import com.example.inventory.screen.home.HomeScreen
 import com.example.inventory.screen.moremenu.MoreMenuScreen

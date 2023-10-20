@@ -1,8 +1,8 @@
 package com.example.inventory.data.repository
 
-import com.example.inventory.FakeDispatcherProvider
 import com.example.inventory.data.datasource.NameDataSource
 import com.example.inventory.data.repository.name.NameRepositoryImpl
+import com.example.inventory.fake.FakeDispatcherProvider
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery

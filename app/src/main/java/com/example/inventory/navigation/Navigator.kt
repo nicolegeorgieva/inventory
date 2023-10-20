@@ -1,4 +1,4 @@
-package com.example.inventory
+package com.example.inventory.navigation
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import javax.inject.Inject

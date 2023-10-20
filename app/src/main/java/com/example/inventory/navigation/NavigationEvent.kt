@@ -1,4 +1,4 @@
-package com.example.inventory
+package com.example.inventory.navigation
 
 sealed interface NavigationEvent {
     data class Route(val route: String) : NavigationEvent

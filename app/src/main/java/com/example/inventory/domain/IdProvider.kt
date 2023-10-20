@@ -1,4 +1,4 @@
-package com.example.inventory
+package com.example.inventory.domain
 
 import java.util.UUID
 import javax.inject.Inject

@@ -1,9 +1,9 @@
 package com.example.inventory.data.repository.inventory
 
-import com.example.inventory.DispatcherProvider
 import com.example.inventory.data.datasource.InventoryDataSource
 import com.example.inventory.data.model.InventoryItem
 import com.example.inventory.data.repository.mapper.InventoryMapper
+import com.example.inventory.dispatcher.DispatcherProvider
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import javax.inject.Inject

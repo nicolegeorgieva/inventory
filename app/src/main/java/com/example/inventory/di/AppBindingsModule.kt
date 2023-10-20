@@ -1,11 +1,11 @@
 package com.example.inventory.di
 
-import com.example.inventory.DispatcherProvider
-import com.example.inventory.DispatcherProviderImpl
 import com.example.inventory.data.repository.inventory.InventoryRepository
 import com.example.inventory.data.repository.inventory.InventoryRepositoryImpl
 import com.example.inventory.data.repository.name.NameRepository
 import com.example.inventory.data.repository.name.NameRepositoryImpl
+import com.example.inventory.dispatcher.DispatcherProvider
+import com.example.inventory.dispatcher.DispatcherProviderImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

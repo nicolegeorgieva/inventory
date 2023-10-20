@@ -1,4 +1,4 @@
-package com.example.inventory
+package com.example.inventory.dispatcher
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
