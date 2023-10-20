@@ -21,14 +21,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -37,7 +35,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -51,7 +48,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -61,6 +57,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.inventory.R
+import com.example.inventory.screen.home.component.HomeTopAppBar
 import com.example.inventory.ui.theme.InventoryTheme
 import kotlinx.collections.immutable.persistentListOf
 
@@ -85,7 +82,7 @@ private fun HomeUi(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            HomeTopAppBar(uiState = uiState, navController = navController)
+            HomeTopAppBar(name = uiState.name, navController = navController)
         },
         floatingActionButton = {
             AddButton(navController = navController)
@@ -123,49 +120,6 @@ private fun HomeUi(
             }
         }
     )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun HomeTopAppBar(
-    uiState: HomeState,
-    navController: NavController?
-) {
-    TopAppBar(
-        title = {
-            GreetingMessage(uiState = uiState)
-        },
-        actions = {
-            MoreMenuButton(navController = navController)
-        }
-    )
-}
-
-@Composable
-private fun GreetingMessage(uiState: HomeState) {
-    Text(
-        text = if (uiState.name == null) {
-            stringResource(R.string.home_generic_greeting)
-        } else {
-            "${stringResource(R.string.home_personalized_greeting)}, ${uiState.name}"
-        },
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis
-    )
-}
-
-@Composable
-private fun MoreMenuButton(navController: NavController?) {
-    IconButton(
-        onClick = {
-            navController?.navigate("moreMenu")
-        }
-    ) {
-        Icon(
-            imageVector = Icons.Filled.Menu,
-            contentDescription = stringResource(R.string.home_menu)
-        )
-    }
 }
 
 @Composable

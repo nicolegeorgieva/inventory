@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Inventory</string>
     <string name="home_generic_greeting">Hi, there</string>
-    <string name="home_personalized_greeting">Hi</string>
+    <string name="home_personalized_greeting">Hi, %s</string>
     <string name="home_menu">Menu</string>
     <string name="home_empty_inventory">Your inventory is empty</string>
     <string name="back">Back</string>
