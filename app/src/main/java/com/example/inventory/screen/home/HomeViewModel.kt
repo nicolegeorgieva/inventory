@@ -20,6 +20,8 @@ class HomeViewModel @Inject constructor(
     private val inventoryRepository: InventoryRepository
 ) : ComposeViewModel<HomeState, HomeEvent>() {
     private val name = mutableStateOf<String?>(null)
+    private val categoryFilter = mutableStateOf("All")
+    private val categoryFilterMenuExpanded = mutableStateOf(false)
     private val inventoryList = mutableStateOf<ImmutableList<InventoryUi>?>(null)
 
     @Composable
@@ -31,6 +33,8 @@ class HomeViewModel @Inject constructor(
 
         return HomeState(
             name = getName(),
+            categoryFilter = getCategoryFilter(),
+            categoryFilterMenuExpanded = getCategoryFilterMenuExpandedState(),
             inventoryList = getInventoryList()
         )
     }
@@ -41,15 +45,41 @@ class HomeViewModel @Inject constructor(
     }
 
     @Composable
+    private fun getCategoryFilter(): String {
+        return categoryFilter.value
+    }
+
+    @Composable
+    private fun getCategoryFilterMenuExpandedState(): Boolean {
+        return categoryFilterMenuExpanded.value
+    }
+
+    @Composable
     private fun getInventoryList(): ImmutableList<InventoryUi>? {
         return inventoryList.value
     }
 
     override fun onEvent(event: HomeEvent) {
         when (event) {
+            is HomeEvent.OnCategoryFilterMenuExpandedChange -> onCategoryFilterMenuExpandedChange(
+                event.expanded
+            )
+
+            is HomeEvent.OnCategoryFilterOptionSelected -> onCategoryFilterOptionSelected(
+                event.option
+            )
+
             is HomeEvent.IncreaseQuantity -> onIncreaseQuantity(event.id)
             is HomeEvent.DecreaseQuantity -> onDecreaseQuantity(event.id)
         }
+    }
+
+    private fun onCategoryFilterMenuExpandedChange(expanded: Boolean) {
+        categoryFilterMenuExpanded.value = expanded
+    }
+
+    private fun onCategoryFilterOptionSelected(option: String) {
+        categoryFilter.value = option
     }
 
     private fun onIncreaseQuantity(id: String) {

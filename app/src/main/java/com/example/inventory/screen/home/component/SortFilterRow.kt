@@ -22,7 +22,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
-fun SortFilterRow() {
+fun SortFilterRow(
+    category: String,
+    menuExpanded: Boolean,
+    onOptionSelected: (String) -> Unit,
+    onExpandedChange: (Boolean) -> Unit
+) {
     val ascending = remember { mutableStateOf(true) }
 
     Row(modifier = Modifier.fillMaxWidth()) {
@@ -30,7 +35,12 @@ fun SortFilterRow() {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        CategoryFilter()
+        CategoryFilter(
+            category = category,
+            menuExpanded = menuExpanded,
+            onOptionSelected = onOptionSelected,
+            onExpandedChange = onExpandedChange
+        )
     }
 }
 
@@ -61,27 +71,37 @@ private fun Sort(
 }
 
 @Composable
-private fun CategoryFilter() {
+private fun CategoryFilter(
+    category: String,
+    menuExpanded: Boolean,
+    onOptionSelected: (String) -> Unit,
+    onExpandedChange: (Boolean) -> Unit
+) {
     Column {
-        val filter = remember { mutableStateOf("All") }
-        val expanded = remember { mutableStateOf(false) }
+        FilterButton(
+            category = category,
+            onExpandedChange = onExpandedChange
+        )
 
-        FilterButton(expanded = expanded, filter = filter)
-        FilterMenu(expanded = expanded, filter = filter)
+        FilterMenu(
+            expanded = menuExpanded,
+            onOptionSelected = onOptionSelected,
+            onExpandedChange = onExpandedChange
+        )
     }
 }
 
 @Composable
 private fun FilterButton(
-    expanded: MutableState<Boolean>,
-    filter: MutableState<String>
+    category: String,
+    onExpandedChange: (Boolean) -> Unit
 ) {
     TextButton(
         onClick = {
-            expanded.value = true
+            onExpandedChange(true)
         }
     ) {
-        Text(filter.value)
+        Text(category)
         Icon(
             imageVector = Icons.Outlined.ArrowDropDown,
             contentDescription = "Dropdown menu"
@@ -91,33 +111,43 @@ private fun FilterButton(
 
 @Composable
 private fun FilterMenu(
-    expanded: MutableState<Boolean>,
-    filter: MutableState<String>
+    expanded: Boolean,
+    onOptionSelected: (String) -> Unit,
+    onExpandedChange: (Boolean) -> Unit
 ) {
     DropdownMenu(
-        expanded = expanded.value,
+        expanded = expanded,
         onDismissRequest = {
-            expanded.value = false
+            onExpandedChange(false)
         }
     ) {
-        FilterMenuOption(name = "All", filter = filter, expanded = expanded)
-        FilterMenuOption(name = "Groceries", filter = filter, expanded = expanded)
+        FilterMenuOption(
+            option = "All",
+            onOptionSelected = onOptionSelected,
+            onMenuExpandedChange = onExpandedChange
+        )
+
+        FilterMenuOption(
+            option = "Groceries",
+            onOptionSelected = onOptionSelected,
+            onMenuExpandedChange = onExpandedChange
+        )
     }
 }
 
 @Composable
 private fun FilterMenuOption(
-    name: String,
-    filter: MutableState<String>,
-    expanded: MutableState<Boolean>
+    option: String,
+    onOptionSelected: (String) -> Unit,
+    onMenuExpandedChange: (Boolean) -> Unit
 ) {
     DropdownMenuItem(
         text = {
-            Text(name)
+            Text(option)
         },
         onClick = {
-            filter.value = name
-            expanded.value = false
+            onOptionSelected(option)
+            onMenuExpandedChange(false)
         }
     )
 }
@@ -126,6 +156,11 @@ private fun FilterMenuOption(
 @Composable
 private fun SortFilterRowPreview() {
     InventoryTheme {
-        SortFilterRow()
+        SortFilterRow(
+            category = "All",
+            menuExpanded = false,
+            onOptionSelected = {},
+            onExpandedChange = {}
+        )
     }
 }
