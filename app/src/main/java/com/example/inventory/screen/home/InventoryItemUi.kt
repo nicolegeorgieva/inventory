@@ -3,7 +3,7 @@ package com.example.inventory.screen.home
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class InventoryUi(
+data class InventoryItemUi(
     val id: String,
     val name: String,
     val quantity: String,

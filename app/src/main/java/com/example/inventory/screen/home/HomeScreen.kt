@@ -136,70 +136,70 @@ private fun HomePersonalizedInventoryPreview() {
                 categoryFilter = "All",
                 categoryFilterMenuExpanded = false,
                 inventoryList = persistentListOf(
-                    InventoryUi(
+                    InventoryItemUi(
                         id = "",
                         name = "Water bottles",
                         quantity = "5",
                         imagePath = null,
                         category = null
                     ),
-                    InventoryUi(
+                    InventoryItemUi(
                         id = "",
                         name = "Kitchen roll",
                         quantity = "4",
                         imagePath = null,
                         category = null
                     ),
-                    InventoryUi(
+                    InventoryItemUi(
                         id = "",
                         name = "Soap",
                         quantity = "6",
                         imagePath = null,
                         category = null
                     ),
-                    InventoryUi(
+                    InventoryItemUi(
                         id = "",
                         name = "Shampoo",
                         quantity = "2",
                         imagePath = null,
                         category = null
                     ),
-                    InventoryUi(
+                    InventoryItemUi(
                         id = "",
                         name = "Liquid laundry detergent",
                         quantity = "1",
                         imagePath = null,
                         category = null
                     ),
-                    InventoryUi(
+                    InventoryItemUi(
                         id = "",
                         name = "Dishwasher tablets pack",
                         quantity = "1",
                         imagePath = null,
                         category = null
                     ),
-                    InventoryUi(
+                    InventoryItemUi(
                         id = "",
                         name = "Shower gel",
                         quantity = "3",
                         imagePath = null,
                         category = null
                     ),
-                    InventoryUi(
+                    InventoryItemUi(
                         id = "",
                         name = "Glass cleaner",
                         quantity = "1",
                         imagePath = null,
                         category = null
                     ),
-                    InventoryUi(
+                    InventoryItemUi(
                         id = "",
                         name = "Floor cleaner",
                         quantity = "1",
                         imagePath = null,
                         category = null
                     ),
-                    InventoryUi(
+                    InventoryItemUi(
                         id = "",
                         name = "Cotton buds pack",
                         quantity = "3",

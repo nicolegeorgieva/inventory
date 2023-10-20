@@ -8,5 +8,5 @@ data class HomeState(
     val name: String?,
     val categoryFilter: String,
     val categoryFilterMenuExpanded: Boolean,
-    val inventoryList: ImmutableList<InventoryUi>?
+    val inventoryList: ImmutableList<InventoryItemUi>?
 )

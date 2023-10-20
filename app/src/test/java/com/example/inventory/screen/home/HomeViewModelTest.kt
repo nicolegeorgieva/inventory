@@ -51,7 +51,7 @@ class HomeViewModelTest : FreeSpec({
             val events = emptyList<HomeEvent>()
 
             // then
-            val inventoryUi = InventoryUi(
+            val inventoryUi = InventoryItemUi(
                 id = id.toString(),
                 name = "Kitchen roll",
                 quantity = "4",
@@ -90,7 +90,7 @@ class HomeViewModelTest : FreeSpec({
         )
 
         // then
-        val inventoryUi = InventoryUi(
+        val inventoryUi = InventoryItemUi(
             id = id.toString(),
             name = "Kitchen roll",
             quantity = "6",
@@ -124,7 +124,7 @@ class HomeViewModelTest : FreeSpec({
         val events = listOf(HomeEvent.DecreaseQuantity(id.toString()))
 
         // then
-        val inventoryUi = InventoryUi(
+        val inventoryUi = InventoryItemUi(
             id = id.toString(),
             name = "Kitchen roll",
             quantity = "3",

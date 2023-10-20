@@ -22,7 +22,7 @@ class HomeViewModel @Inject constructor(
     private val name = mutableStateOf<String?>(null)
     private val categoryFilter = mutableStateOf("All")
     private val categoryFilterMenuExpanded = mutableStateOf(false)
-    private val inventoryList = mutableStateOf<ImmutableList<InventoryUi>?>(null)
+    private val inventoryList = mutableStateOf<ImmutableList<InventoryItemUi>?>(null)
 
     @Composable
     override fun uiState(): HomeState {
@@ -55,7 +55,7 @@ class HomeViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getInventoryList(): ImmutableList<InventoryUi>? {
+    private fun getInventoryList(): ImmutableList<InventoryItemUi>? {
         return inventoryList.value
     }
 
@@ -80,6 +80,18 @@ class HomeViewModel @Inject constructor(
 
     private fun onCategoryFilterOptionSelected(option: String) {
         categoryFilter.value = option
+
+        viewModelScope.launch {
+            inventoryList.value = inventoryRepository.getAllByCategory(option).map {
+                InventoryItemUi(
+                    id = it.id.toString(),
+                    name = it.name,
+                    quantity = it.quantity.toString(),
+                    imagePath = it.imagePath,
+                    category = it.category
+                )
+            }.toImmutableList()
+        }
     }
 
     private fun onIncreaseQuantity(id: String) {
@@ -116,7 +128,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun refreshInventoryList() {
         inventoryList.value = inventoryRepository.getAll().map {
-            InventoryUi(
+            InventoryItemUi(
                 id = it.id.toString(),
                 name = it.name,
                 quantity = it.quantity.toString(),
