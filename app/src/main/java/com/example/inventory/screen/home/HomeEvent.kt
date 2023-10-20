@@ -5,4 +5,5 @@ sealed interface HomeEvent {
     data class OnCategoryFilterOptionSelected(val option: String) : HomeEvent
     data class IncreaseQuantity(val id: String) : HomeEvent
     data class DecreaseQuantity(val id: String) : HomeEvent
+    data object OnAddButtonClicked : HomeEvent
 }

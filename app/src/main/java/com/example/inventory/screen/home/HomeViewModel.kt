@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.inventory.ComposeViewModel
 import com.example.inventory.data.repository.inventory.InventoryRepository
 import com.example.inventory.data.repository.name.NameRepository
+import com.example.inventory.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val nameRepository: NameRepository,
-    private val inventoryRepository: InventoryRepository
+    private val inventoryRepository: InventoryRepository,
+    private val navigator: Navigator
 ) : ComposeViewModel<HomeState, HomeEvent>() {
     private val name = mutableStateOf<String?>(null)
     private val categoryFilter = mutableStateOf("All")
@@ -71,6 +73,7 @@ class HomeViewModel @Inject constructor(
 
             is HomeEvent.IncreaseQuantity -> onIncreaseQuantity(event.id)
             is HomeEvent.DecreaseQuantity -> onDecreaseQuantity(event.id)
+            HomeEvent.OnAddButtonClicked -> onAddButtonClicked()
         }
     }
 
@@ -137,6 +140,14 @@ class HomeViewModel @Inject constructor(
 
                 refreshInventoryList()
             }
+        }
+    }
+
+    private fun onAddButtonClicked() {
+        categoryFilter.value = "All"
+
+        viewModelScope.launch {
+            navigator.navigate("addInventoryItem")
         }
     }
 

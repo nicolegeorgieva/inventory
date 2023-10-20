@@ -8,20 +8,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
 import com.example.inventory.R
 import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
 fun AddButton(
-    navController: NavController?,
-    categoryFilterOptionChange: (String) -> Unit
+    onAddButtonClicked: () -> Unit
 ) {
     FloatingActionButton(
-        onClick = {
-            navController?.navigate("addInventoryItem")
-            categoryFilterOptionChange("All")
-        },
+        onClick = onAddButtonClicked,
         containerColor = MaterialTheme.colorScheme.primary
     ) {
         Icon(
@@ -35,9 +30,6 @@ fun AddButton(
 @Composable
 private fun AddButtonPreview() {
     InventoryTheme {
-        AddButton(
-            navController = null,
-            categoryFilterOptionChange = {}
-        )
+        AddButton(onAddButtonClicked = {})
     }
 }
