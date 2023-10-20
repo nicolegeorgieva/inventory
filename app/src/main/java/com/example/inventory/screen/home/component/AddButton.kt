@@ -13,10 +13,14 @@ import com.example.inventory.R
 import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
-fun AddButton(navController: NavController?) {
+fun AddButton(
+    navController: NavController?,
+    categoryFilterOptionChange: (String) -> Unit
+) {
     FloatingActionButton(
         onClick = {
             navController?.navigate("addInventoryItem")
+            categoryFilterOptionChange("All")
         },
         containerColor = MaterialTheme.colorScheme.primary
     ) {
@@ -31,6 +35,9 @@ fun AddButton(navController: NavController?) {
 @Composable
 private fun AddButtonPreview() {
     InventoryTheme {
-        AddButton(navController = null)
+        AddButton(
+            navController = null,
+            categoryFilterOptionChange = {}
+        )
     }
 }

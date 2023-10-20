@@ -45,7 +45,12 @@ private fun HomeUi(
             HomeTopAppBar(name = uiState.name, navController = navController)
         },
         floatingActionButton = {
-            AddButton(navController = navController)
+            AddButton(
+                categoryFilterOptionChange = {
+                    onEvent(HomeEvent.OnCategoryFilterOptionSelected(it))
+                },
+                navController = navController
+            )
         },
         floatingActionButtonPosition = FabPosition.Center,
         content = { innerPadding ->
