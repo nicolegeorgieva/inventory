@@ -81,16 +81,30 @@ class HomeViewModel @Inject constructor(
     private fun onCategoryFilterOptionSelected(option: String) {
         categoryFilter.value = option
 
-        viewModelScope.launch {
-            inventoryList.value = inventoryRepository.getAllByCategory(option).map {
-                InventoryItemUi(
-                    id = it.id.toString(),
-                    name = it.name,
-                    quantity = it.quantity.toString(),
-                    imagePath = it.imagePath,
-                    category = it.category
-                )
-            }.toImmutableList()
+        if (option != "All") {
+            viewModelScope.launch {
+                inventoryList.value = inventoryRepository.getAllByCategory(option).map {
+                    InventoryItemUi(
+                        id = it.id.toString(),
+                        name = it.name,
+                        quantity = it.quantity.toString(),
+                        imagePath = it.imagePath,
+                        category = it.category
+                    )
+                }.toImmutableList()
+            }
+        } else {
+            viewModelScope.launch {
+                inventoryList.value = inventoryRepository.getAll().map {
+                    InventoryItemUi(
+                        id = it.id.toString(),
+                        name = it.name,
+                        quantity = it.quantity.toString(),
+                        imagePath = it.imagePath,
+                        category = it.category
+                    )
+                }.toImmutableList()
+            }
         }
     }
 
