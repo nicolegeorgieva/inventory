@@ -14,24 +14,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
 fun SortFilterRow(
+    sortByAscending: Boolean,
+    onSortOptionClicked: (Boolean) -> Unit,
     category: String,
     menuExpanded: Boolean,
     onOptionSelected: (String) -> Unit,
     onExpandedChange: (Boolean) -> Unit
 ) {
-    val ascending = remember { mutableStateOf(true) }
-
     Row(modifier = Modifier.fillMaxWidth()) {
-        Sort(ascending = ascending)
+        Sort(sortByAscending = sortByAscending, onSortOptionClicked = onSortOptionClicked)
 
         Spacer(modifier = Modifier.weight(1f))
 
@@ -46,16 +43,17 @@ fun SortFilterRow(
 
 @Composable
 private fun Sort(
-    ascending: MutableState<Boolean>
+    sortByAscending: Boolean,
+    onSortOptionClicked: (Boolean) -> Unit
 ) {
     Column {
         TextButton(
             onClick = {
-                ascending.value = !ascending.value
+                onSortOptionClicked(!sortByAscending)
             }
         ) {
             Text("Sort by:")
-            if (ascending.value) {
+            if (sortByAscending) {
                 Icon(
                     imageVector = Icons.Outlined.KeyboardArrowUp,
                     contentDescription = "Ascending"
@@ -157,6 +155,8 @@ private fun FilterMenuOption(
 private fun SortFilterRowPreview() {
     InventoryTheme {
         SortFilterRow(
+            sortByAscending = true,
+            onSortOptionClicked = {},
             category = "All",
             menuExpanded = false,
             onOptionSelected = {},

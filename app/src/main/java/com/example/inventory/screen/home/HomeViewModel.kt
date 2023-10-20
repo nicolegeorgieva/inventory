@@ -22,6 +22,7 @@ class HomeViewModel @Inject constructor(
     private val navigator: Navigator
 ) : ComposeViewModel<HomeState, HomeEvent>() {
     private val name = mutableStateOf<String?>(null)
+    private val sortByAscending = mutableStateOf(true)
     private val categoryFilter = mutableStateOf("All")
     private val categoryFilterMenuExpanded = mutableStateOf(false)
     private val inventoryList = mutableStateOf<ImmutableList<InventoryItemUi>?>(null)
@@ -35,6 +36,7 @@ class HomeViewModel @Inject constructor(
 
         return HomeState(
             name = getName(),
+            sortByAscending = getSortByAscending(),
             categoryFilter = getCategoryFilter(),
             categoryFilterMenuExpanded = getCategoryFilterMenuExpandedState(),
             inventoryList = getInventoryList()
@@ -44,6 +46,11 @@ class HomeViewModel @Inject constructor(
     @Composable
     private fun getName(): String? {
         return name.value
+    }
+
+    @Composable
+    private fun getSortByAscending(): Boolean {
+        return sortByAscending.value
     }
 
     @Composable
@@ -74,7 +81,12 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.IncreaseQuantity -> onIncreaseQuantity(event.id)
             is HomeEvent.DecreaseQuantity -> onDecreaseQuantity(event.id)
             HomeEvent.OnAddButtonClicked -> onAddButtonClicked()
+            is HomeEvent.OnSortOptionClicked -> onSortOptionClicked(event.sortByAscending)
         }
+    }
+
+    private fun onSortOptionClicked(sortByAscendingValue: Boolean) {
+        sortByAscending.value = sortByAscendingValue
     }
 
     private fun onCategoryFilterMenuExpandedChange(expanded: Boolean) {

@@ -59,6 +59,10 @@ private fun HomeUi(
                 if (!uiState.inventoryList.isNullOrEmpty()) {
                     item(key = "sort filter row") {
                         SortFilterRow(
+                            sortByAscending = uiState.sortByAscending,
+                            onSortOptionClicked = {
+                                onEvent(HomeEvent.OnSortOptionClicked(it))
+                            },
                             category = uiState.categoryFilter,
                             menuExpanded = uiState.categoryFilterMenuExpanded,
                             onOptionSelected = {
@@ -101,6 +105,7 @@ private fun HomeGenericEmptyPreview() {
             navController = null,
             uiState = HomeState(
                 name = null,
+                sortByAscending = true,
                 categoryFilter = "All",
                 categoryFilterMenuExpanded = false,
                 inventoryList = null
@@ -118,6 +123,7 @@ private fun HomePersonalizedEmptyPreview() {
             navController = null,
             uiState = HomeState(
                 name = "Amy",
+                sortByAscending = true,
                 categoryFilter = "All",
                 categoryFilterMenuExpanded = false,
                 inventoryList = null
@@ -135,6 +141,7 @@ private fun HomePersonalizedInventoryPreview() {
             navController = null,
             uiState = HomeState(
                 name = "Amy",
+                sortByAscending = true,
                 categoryFilter = "All",
                 categoryFilterMenuExpanded = false,
                 inventoryList = persistentListOf(
