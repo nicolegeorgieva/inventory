@@ -21,4 +21,10 @@
     <string name="remove">Remove</string>
     <string name="required_integer_number_label">*required. Must be an integer number (1, 2, 3, …)
     </string>
+    <string name="home_sort_by">Sort by:</string>
+    <string name="home_sort_by_ascending">Ascending</string>
+    <string name="home_sort_by_descending">Descending</string>
+    <string name="home_dropdown_menu">Dropdown menu</string>
+    <string name="home_to_buy">To buy (%1$s)</string>
+    <string name="home_enough">Enough (%1$s)</string>
 </resources>

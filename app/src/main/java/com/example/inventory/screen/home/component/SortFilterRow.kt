@@ -15,7 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.inventory.R
 import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
@@ -52,16 +54,16 @@ private fun Sort(
                 onSortOptionClicked(!sortByAscending)
             }
         ) {
-            Text("Sort by:")
+            Text(stringResource(R.string.home_sort_by))
             if (sortByAscending) {
                 Icon(
                     imageVector = Icons.Outlined.KeyboardArrowUp,
-                    contentDescription = "Ascending"
+                    contentDescription = stringResource(R.string.home_sort_by_ascending)
                 )
             } else {
                 Icon(
                     imageVector = Icons.Outlined.KeyboardArrowDown,
-                    contentDescription = "Descending"
+                    contentDescription = stringResource(R.string.home_sort_by_descending)
                 )
             }
         }
@@ -102,7 +104,7 @@ private fun FilterButton(
         Text(category)
         Icon(
             imageVector = Icons.Outlined.ArrowDropDown,
-            contentDescription = "Dropdown menu"
+            contentDescription = stringResource(R.string.home_dropdown_menu)
         )
     }
 }
