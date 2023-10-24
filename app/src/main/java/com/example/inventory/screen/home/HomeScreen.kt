@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,7 +20,6 @@ import com.example.inventory.screen.home.component.HomeTopAppBar
 import com.example.inventory.screen.home.component.InventoryItemRow
 import com.example.inventory.screen.home.component.SortFilterRow
 import com.example.inventory.ui.theme.InventoryTheme
-import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -56,7 +56,9 @@ private fun HomeUi(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = innerPadding
             ) {
-                if (!uiState.inventoryList.isNullOrEmpty()) {
+                if (!uiState.inventoryItemList?.enoughItems.isNullOrEmpty() ||
+                    !uiState.inventoryItemList?.toBuyItems.isNullOrEmpty()
+                ) {
                     item(key = "sort filter row") {
                         SortFilterRow(
                             sortByAscending = uiState.sortByAscending,
@@ -74,18 +76,44 @@ private fun HomeUi(
                         )
                     }
 
-                    items(uiState.inventoryList) { item ->
-                        InventoryItemRow(
-                            itemName = item.name,
-                            quantity = item.quantity,
-                            image = item.imagePath ?: "",
-                            onAddQuantity = {
-                                onEvent(HomeEvent.IncreaseQuantity(item.id))
-                            },
-                            onRemoveQuantity = {
-                                onEvent(HomeEvent.DecreaseQuantity(item.id))
-                            },
-                        )
+                    item(key = "to buy") {
+                        ToBuySectionDivider(list = uiState.inventoryItemList)
+                    }
+
+                    if (uiState.inventoryItemList?.toBuyItems != null) {
+                        items(uiState.inventoryItemList.toBuyItems) {
+                            InventoryItemRow(
+                                itemName = it.name,
+                                quantity = it.quantity,
+                                image = it.imagePath ?: "",
+                                onAddQuantity = {
+                                    onEvent(HomeEvent.IncreaseQuantity(it.id))
+                                },
+                                onRemoveQuantity = {
+                                    onEvent(HomeEvent.DecreaseQuantity(it.id))
+                                }
+                            )
+                        }
+                    }
+
+                    item(key = "enough") {
+                        EnoughSectionDivider(list = uiState.inventoryItemList)
+                    }
+
+                    if (uiState.inventoryItemList?.enoughItems != null) {
+                        items(uiState.inventoryItemList.enoughItems) {
+                            InventoryItemRow(
+                                itemName = it.name,
+                                quantity = it.quantity,
+                                image = it.imagePath ?: "",
+                                onAddQuantity = {
+                                    onEvent(HomeEvent.IncreaseQuantity(it.id))
+                                },
+                                onRemoveQuantity = {
+                                    onEvent(HomeEvent.DecreaseQuantity(it.id))
+                                }
+                            )
+                        }
                     }
                 } else {
                     item("empty inventory state") {
@@ -95,6 +123,16 @@ private fun HomeUi(
             }
         }
     )
+}
+
+@Composable
+private fun ToBuySectionDivider(list: InventoryItemList?) {
+    Text(text = if (list?.toBuySection == SectionType.TOBUY) "To buy" else "")
+}
+
+@Composable
+private fun EnoughSectionDivider(list: InventoryItemList?) {
+    Text(text = if (list?.enoughSection == SectionType.ENOUGH) "Enough" else "")
 }
 
 @Preview(showBackground = true)
@@ -108,7 +146,7 @@ private fun HomeGenericEmptyPreview() {
                 sortByAscending = true,
                 categoryFilter = "All",
                 categoryFilterMenuExpanded = false,
-                inventoryList = null
+                inventoryItemList = null
             ),
             onEvent = {}
         )
@@ -126,98 +164,98 @@ private fun HomePersonalizedEmptyPreview() {
                 sortByAscending = true,
                 categoryFilter = "All",
                 categoryFilterMenuExpanded = false,
-                inventoryList = null
+                inventoryItemList = null
             ),
             onEvent = {}
         )
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun HomePersonalizedInventoryPreview() {
-    InventoryTheme {
-        HomeUi(
-            navController = null,
-            uiState = HomeState(
-                name = "Amy",
-                sortByAscending = true,
-                categoryFilter = "All",
-                categoryFilterMenuExpanded = false,
-                inventoryList = persistentListOf(
-                    InventoryItemUi(
-                        id = "",
-                        name = "Water bottles",
-                        quantity = "5",
-                        imagePath = null,
-                        category = null
-                    ),
-                    InventoryItemUi(
-                        id = "",
-                        name = "Kitchen roll",
-                        quantity = "4",
-                        imagePath = null,
-                        category = null
-                    ),
-                    InventoryItemUi(
-                        id = "",
-                        name = "Soap",
-                        quantity = "6",
-                        imagePath = null,
-                        category = null
-                    ),
-                    InventoryItemUi(
-                        id = "",
-                        name = "Shampoo",
-                        quantity = "2",
-                        imagePath = null,
-                        category = null
-                    ),
-                    InventoryItemUi(
-                        id = "",
-                        name = "Liquid laundry detergent",
-                        quantity = "1",
-                        imagePath = null,
-                        category = null
-                    ),
-                    InventoryItemUi(
-                        id = "",
-                        name = "Dishwasher tablets pack",
-                        quantity = "1",
-                        imagePath = null,
-                        category = null
-                    ),
-                    InventoryItemUi(
-                        id = "",
-                        name = "Shower gel",
-                        quantity = "3",
-                        imagePath = null,
-                        category = null
-                    ),
-                    InventoryItemUi(
-                        id = "",
-                        name = "Glass cleaner",
-                        quantity = "1",
-                        imagePath = null,
-                        category = null
-                    ),
-                    InventoryItemUi(
-                        id = "",
-                        name = "Floor cleaner",
-                        quantity = "1",
-                        imagePath = null,
-                        category = null
-                    ),
-                    InventoryItemUi(
-                        id = "",
-                        name = "Cotton buds pack",
-                        quantity = "3",
-                        imagePath = null,
-                        category = null
-                    )
-                )
-            ),
-            onEvent = {}
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//private fun HomePersonalizedInventoryPreview() {
+//    InventoryTheme {
+//        HomeUi(
+//            navController = null,
+//            uiState = HomeState(
+//                name = "Amy",
+//                sortByAscending = true,
+//                categoryFilter = "All",
+//                categoryFilterMenuExpanded = false,
+//                inventoryItemList = persistentListOf(
+//                    InventoryItemUi(
+//                        id = "",
+//                        name = "Water bottles",
+//                        quantity = "5",
+//                        imagePath = null,
+//                        category = null
+//                    ),
+//                    InventoryItemUi(
+//                        id = "",
+//                        name = "Kitchen roll",
+//                        quantity = "4",
+//                        imagePath = null,
+//                        category = null
+//                    ),
+//                    InventoryItemUi(
+//                        id = "",
+//                        name = "Soap",
+//                        quantity = "6",
+//                        imagePath = null,
+//                        category = null
+//                    ),
+//                    InventoryItemUi(
+//                        id = "",
+//                        name = "Shampoo",
+//                        quantity = "2",
+//                        imagePath = null,
+//                        category = null
+//                    ),
+//                    InventoryItemUi(
+//                        id = "",
+//                        name = "Liquid laundry detergent",
+//                        quantity = "1",
+//                        imagePath = null,
+//                        category = null
+//                    ),
+//                    InventoryItemUi(
+//                        id = "",
+//                        name = "Dishwasher tablets pack",
+//                        quantity = "1",
+//                        imagePath = null,
+//                        category = null
+//                    ),
+//                    InventoryItemUi(
+//                        id = "",
+//                        name = "Shower gel",
+//                        quantity = "3",
+//                        imagePath = null,
+//                        category = null
+//                    ),
+//                    InventoryItemUi(
+//                        id = "",
+//                        name = "Glass cleaner",
+//                        quantity = "1",
+//                        imagePath = null,
+//                        category = null
+//                    ),
+//                    InventoryItemUi(
+//                        id = "",
+//                        name = "Floor cleaner",
+//                        quantity = "1",
+//                        imagePath = null,
+//                        category = null
+//                    ),
+//                    InventoryItemUi(
+//                        id = "",
+//                        name = "Cotton buds pack",
+//                        quantity = "3",
+//                        imagePath = null,
+//                        category = null
+//                    )
+//                )
+//            ),
+//            onEvent = {}
+//        )
+//    }
+//}

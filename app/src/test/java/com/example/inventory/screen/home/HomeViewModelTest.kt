@@ -25,7 +25,7 @@ class HomeViewModelTest : FreeSpec({
             // then
             viewModel.runTest(events) {
                 it.name shouldBe null
-                it.inventoryList shouldBe emptyList()
+                it.inventoryItemList shouldBe emptyList()
             }
         }
 
@@ -60,7 +60,7 @@ class HomeViewModelTest : FreeSpec({
             )
             viewModel.runTest(events) {
                 it.name shouldBe "Amy"
-                it.inventoryList shouldBe persistentListOf(inventoryUi)
+                it.inventoryItemList shouldBe persistentListOf(inventoryUi)
             }
         }
     }
@@ -99,7 +99,7 @@ class HomeViewModelTest : FreeSpec({
         )
         viewModel.runTest(events) {
             it.name shouldBe "Amy"
-            it.inventoryList shouldBe persistentListOf(inventoryUi)
+            it.inventoryItemList shouldBe persistentListOf(inventoryUi)
         }
     }
 
@@ -133,7 +133,7 @@ class HomeViewModelTest : FreeSpec({
         )
         viewModel.runTest(events) {
             it.name shouldBe null
-            it.inventoryList shouldBe persistentListOf(inventoryUi)
+            it.inventoryItemList shouldBe persistentListOf(inventoryUi)
         }
     }
 })
