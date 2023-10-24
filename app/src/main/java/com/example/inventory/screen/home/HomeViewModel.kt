@@ -10,6 +10,8 @@ import com.example.inventory.data.repository.inventory.InventoryRepository
 import com.example.inventory.data.repository.name.NameRepository
 import com.example.inventory.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -25,7 +27,7 @@ class HomeViewModel @Inject constructor(
     private val sortByAscending = mutableStateOf(true)
     private val categoryFilter = mutableStateOf("All")
     private val categoryFilterMenuExpanded = mutableStateOf(false)
-    private val inventoryItemList = mutableStateOf<InventoryItemList?>(null)
+    private val inventoryItemList = mutableStateOf<ImmutableList<InventoryItemType>?>(null)
 
     @Composable
     override fun uiState(): HomeState {
@@ -64,7 +66,7 @@ class HomeViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getInventoryItemList(): InventoryItemList? {
+    private fun getInventoryItemList(): ImmutableList<InventoryItemType>? {
         return inventoryItemList.value
     }
 
@@ -100,36 +102,12 @@ class HomeViewModel @Inject constructor(
         if (option != "All") {
             viewModelScope.launch {
                 items = inventoryRepository.getAllByCategory(option)
-
-                val toBuy = sectionDivisionProvider.provideItemsBySection(
-                    items, SectionType.TOBUY
-                )
-
-                val enough = sectionDivisionProvider.provideItemsBySection(
-                    items, SectionType.ENOUGH
-                )
-
-                inventoryItemList.value = InventoryItemList(
-                    toBuyItems = toBuy,
-                    enoughItems = enough
-                )
+                generateInventoryList(items)
             }
         } else {
             viewModelScope.launch {
                 items = inventoryRepository.getAll()
-
-                val toBuy = sectionDivisionProvider.provideItemsBySection(
-                    items, SectionType.TOBUY
-                )
-
-                val enough = sectionDivisionProvider.provideItemsBySection(
-                    items, SectionType.ENOUGH
-                )
-
-                inventoryItemList.value = InventoryItemList(
-                    toBuyItems = toBuy,
-                    enoughItems = enough
-                )
+                generateInventoryList(items)
             }
         }
     }
@@ -175,17 +153,37 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun refreshInventoryList() {
-        val items = inventoryRepository.getAll()
+        val items = if (categoryFilter.value == "All") {
+            inventoryRepository.getAll()
+        } else {
+            inventoryRepository.getAllByCategory(categoryFilter.value)
+        }
+
+        generateInventoryList(items)
+    }
+
+    private fun generateInventoryList(items: List<InventoryItem>) {
         val toBuy = sectionDivisionProvider.provideItemsBySection(
             items, SectionType.TOBUY
-        )
+        ).map {
+            InventoryItemType.Item(
+                item = it
+            )
+        }
+
         val enough = sectionDivisionProvider.provideItemsBySection(
             items, SectionType.ENOUGH
-        )
+        ).map {
+            InventoryItemType.Item(
+                item = it
+            )
+        }
 
-        inventoryItemList.value = InventoryItemList(
-            toBuyItems = toBuy,
-            enoughItems = enough
-        )
+        inventoryItemList.value = buildList {
+            add(InventoryItemType.Section(SectionType.TOBUY))
+            addAll(toBuy)
+            add(InventoryItemType.Section(SectionType.ENOUGH))
+            addAll(enough)
+        }.toImmutableList()
     }
 }

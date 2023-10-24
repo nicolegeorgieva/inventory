@@ -2,6 +2,7 @@ package com.example.inventory.screen.home
 
 import com.example.inventory.data.model.InventoryItem
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 
@@ -9,7 +10,7 @@ class SectionDivisionProvider @Inject constructor() {
     fun provideItemsBySection(
         items: List<InventoryItem>,
         section: SectionType
-    ): ImmutableList<InventoryItemUi>? {
+    ): ImmutableList<InventoryItemUi> {
 
         val itemsBySection = when (section) {
             SectionType.TOBUY -> items.filter {
@@ -32,7 +33,7 @@ class SectionDivisionProvider @Inject constructor() {
                 )
             }.toImmutableList()
         } else {
-            null
+            persistentListOf()
         }
     }
 }

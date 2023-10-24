@@ -35,7 +35,7 @@ import com.example.inventory.ui.theme.InventoryTheme
 fun InventoryItemRow(
     itemName: String,
     quantity: String,
-    image: String,
+    image: String?,
     onAddQuantity: () -> Unit,
     onRemoveQuantity: () -> Unit
 ) {
@@ -53,7 +53,7 @@ fun InventoryItemRow(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ItemImage(image = image)
+            ItemImage(image = image ?: "")
 
             ItemName(itemName = itemName)
 

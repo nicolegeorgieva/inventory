@@ -56,9 +56,7 @@ private fun HomeUi(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = innerPadding
             ) {
-                if (!uiState.inventoryItemList?.enoughItems.isNullOrEmpty() ||
-                    !uiState.inventoryItemList?.toBuyItems.isNullOrEmpty()
-                ) {
+                if (!uiState.inventoryItemList.isNullOrEmpty()) {
                     item(key = "sort filter row") {
                         SortFilterRow(
                             sortByAscending = uiState.sortByAscending,
@@ -76,43 +74,21 @@ private fun HomeUi(
                         )
                     }
 
-                    item(key = "to buy") {
-                        ToBuySectionDivider(list = uiState.inventoryItemList)
-                    }
-
-                    if (uiState.inventoryItemList?.toBuyItems != null) {
-                        items(uiState.inventoryItemList.toBuyItems) {
-                            InventoryItemRow(
-                                itemName = it.name,
-                                quantity = it.quantity,
-                                image = it.imagePath ?: "",
+                    items(uiState.inventoryItemList) {
+                        when (it) {
+                            is InventoryItemType.Item -> InventoryItemRow(
+                                itemName = it.item.name,
+                                quantity = it.item.quantity,
+                                image = it.item.imagePath ?: "",
                                 onAddQuantity = {
-                                    onEvent(HomeEvent.IncreaseQuantity(it.id))
+                                    onEvent(HomeEvent.IncreaseQuantity(it.item.id))
                                 },
                                 onRemoveQuantity = {
-                                    onEvent(HomeEvent.DecreaseQuantity(it.id))
+                                    onEvent(HomeEvent.DecreaseQuantity(it.item.id))
                                 }
                             )
-                        }
-                    }
 
-                    item(key = "enough") {
-                        EnoughSectionDivider(list = uiState.inventoryItemList)
-                    }
-
-                    if (uiState.inventoryItemList?.enoughItems != null) {
-                        items(uiState.inventoryItemList.enoughItems) {
-                            InventoryItemRow(
-                                itemName = it.name,
-                                quantity = it.quantity,
-                                image = it.imagePath ?: "",
-                                onAddQuantity = {
-                                    onEvent(HomeEvent.IncreaseQuantity(it.id))
-                                },
-                                onRemoveQuantity = {
-                                    onEvent(HomeEvent.DecreaseQuantity(it.id))
-                                }
-                            )
+                            is InventoryItemType.Section -> Section(section = it.section)
                         }
                     }
                 } else {
@@ -126,13 +102,13 @@ private fun HomeUi(
 }
 
 @Composable
-private fun ToBuySectionDivider(list: InventoryItemList?) {
-    Text(text = if (list?.toBuySection == SectionType.TOBUY) "To buy" else "")
-}
-
-@Composable
-private fun EnoughSectionDivider(list: InventoryItemList?) {
-    Text(text = if (list?.enoughSection == SectionType.ENOUGH) "Enough" else "")
+private fun Section(section: SectionType) {
+    Text(
+        text = when (section) {
+            SectionType.TOBUY -> "To buy"
+            SectionType.ENOUGH -> "Enough"
+        }
+    )
 }
 
 @Preview(showBackground = true)
