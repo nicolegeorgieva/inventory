@@ -5,9 +5,11 @@ import com.example.inventory.data.repository.inventory.InventoryRepository
 import com.example.inventory.data.repository.name.NameRepository
 import com.example.inventory.fake.repository.inventory.FakeInventoryRepository
 import com.example.inventory.fake.repository.name.FakeNameRepository
+import com.example.inventory.navigation.Navigator
 import com.example.inventory.runTest
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
@@ -17,7 +19,10 @@ class HomeViewModelTest : FreeSpec({
             // given
             val nameRepository: NameRepository = FakeNameRepository()
             val inventoryRepository: InventoryRepository = FakeInventoryRepository()
-            val viewModel = HomeViewModel(nameRepository, inventoryRepository)
+            val navigator = mockk<Navigator>()
+            val viewModel = HomeViewModel(
+                nameRepository, inventoryRepository, SectionDivisionProvider(), navigator
+            )
 
             // when
             val events = emptyList<HomeEvent>()
@@ -25,7 +30,10 @@ class HomeViewModelTest : FreeSpec({
             // then
             viewModel.runTest(events) {
                 it.name shouldBe null
-                it.inventoryItemList shouldBe emptyList()
+                it.inventoryItemList shouldBe persistentListOf(
+                    InventoryItemType.Section(section = SectionType.TOBUY, count = 0),
+                    InventoryItemType.Section(section = SectionType.ENOUGH, count = 0)
+                )
             }
         }
 
@@ -33,7 +41,10 @@ class HomeViewModelTest : FreeSpec({
             // given
             val nameRepository: NameRepository = FakeNameRepository()
             val inventoryRepository: InventoryRepository = FakeInventoryRepository()
-            val viewModel = HomeViewModel(nameRepository, inventoryRepository)
+            val navigator = mockk<Navigator>()
+            val viewModel = HomeViewModel(
+                nameRepository, inventoryRepository, SectionDivisionProvider(), navigator
+            )
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
                 id = id,
@@ -60,7 +71,11 @@ class HomeViewModelTest : FreeSpec({
             )
             viewModel.runTest(events) {
                 it.name shouldBe "Amy"
-                it.inventoryItemList shouldBe persistentListOf(inventoryUi)
+                it.inventoryItemList shouldBe persistentListOf(
+                    InventoryItemType.Section(section = SectionType.TOBUY, count = 1),
+                    InventoryItemType.Item(inventoryUi),
+                    InventoryItemType.Section(section = SectionType.ENOUGH, count = 0)
+                )
             }
         }
     }
@@ -69,7 +84,10 @@ class HomeViewModelTest : FreeSpec({
         // given
         val nameRepository: NameRepository = FakeNameRepository()
         val inventoryRepository: InventoryRepository = FakeInventoryRepository()
-        val viewModel = HomeViewModel(nameRepository, inventoryRepository)
+        val navigator = mockk<Navigator>()
+        val viewModel = HomeViewModel(
+            nameRepository, inventoryRepository, SectionDivisionProvider(), navigator
+        )
         val id = UUID.randomUUID()
         val inventoryItem = InventoryItem(
             id = id,
@@ -99,7 +117,11 @@ class HomeViewModelTest : FreeSpec({
         )
         viewModel.runTest(events) {
             it.name shouldBe "Amy"
-            it.inventoryItemList shouldBe persistentListOf(inventoryUi)
+            it.inventoryItemList shouldBe persistentListOf(
+                InventoryItemType.Section(section = SectionType.TOBUY, count = 0),
+                InventoryItemType.Section(section = SectionType.ENOUGH, count = 1),
+                InventoryItemType.Item(inventoryUi)
+            )
         }
     }
 
@@ -107,7 +129,10 @@ class HomeViewModelTest : FreeSpec({
         // given
         val nameRepository: NameRepository = FakeNameRepository()
         val inventoryRepository: InventoryRepository = FakeInventoryRepository()
-        val viewModel = HomeViewModel(nameRepository, inventoryRepository)
+        val navigator = mockk<Navigator>()
+        val viewModel = HomeViewModel(
+            nameRepository, inventoryRepository, SectionDivisionProvider(), navigator
+        )
         val id = UUID.randomUUID()
         val inventoryItem = InventoryItem(
             id = id,
@@ -133,7 +158,11 @@ class HomeViewModelTest : FreeSpec({
         )
         viewModel.runTest(events) {
             it.name shouldBe null
-            it.inventoryItemList shouldBe persistentListOf(inventoryUi)
+            it.inventoryItemList shouldBe persistentListOf(
+                InventoryItemType.Section(section = SectionType.TOBUY, count = 1),
+                InventoryItemType.Item(inventoryUi),
+                InventoryItemType.Section(section = SectionType.ENOUGH, count = 0)
+            )
         }
     }
 })
