@@ -180,9 +180,9 @@ class HomeViewModel @Inject constructor(
         }
 
         inventoryItemList.value = buildList {
-            add(InventoryItemType.Section(SectionType.TOBUY))
+            add(InventoryItemType.Section(SectionType.TOBUY, toBuy.size))
             addAll(toBuy)
-            add(InventoryItemType.Section(SectionType.ENOUGH))
+            add(InventoryItemType.Section(SectionType.ENOUGH, enough.size))
             addAll(enough)
         }.toImmutableList()
     }
