@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(
     private val sortByAscending = mutableStateOf(true)
     private val categoryFilter = mutableStateOf("All")
     private val categoryFilterMenuExpanded = mutableStateOf(false)
-    private val inventoryList = mutableStateOf<ImmutableList<InventoryItemUi>?>(null)
+    private val inventoryList = mutableStateOf<ImmutableList<InventoryType>?>(null)
 
     @Composable
     override fun uiState(): HomeState {
@@ -64,7 +64,7 @@ class HomeViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getInventoryList(): ImmutableList<InventoryItemUi>? {
+    private fun getInventoryList(): ImmutableList<InventoryType>? {
         return inventoryList.value
     }
 
