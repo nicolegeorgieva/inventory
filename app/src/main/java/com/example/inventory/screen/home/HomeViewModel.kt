@@ -132,7 +132,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val inventoryItem = inventoryRepository.getById(UUID.fromString(id))
 
-            if (inventoryItem != null) {
+            if (inventoryItem != null && inventoryItem.quantity > 0) {
                 inventoryRepository.update(
                     inventoryItem.copy(
                         quantity = inventoryItem.quantity - 1
