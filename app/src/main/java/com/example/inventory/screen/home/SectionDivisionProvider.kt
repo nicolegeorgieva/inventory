@@ -2,7 +2,6 @@ package com.example.inventory.screen.home
 
 import com.example.inventory.data.model.InventoryItem
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 
@@ -22,18 +21,14 @@ class SectionDivisionProvider @Inject constructor() {
             }
         }
 
-        return if (itemsBySection.isNotEmpty()) {
-            itemsBySection.map {
-                InventoryItemUi(
-                    id = it.id.toString(),
-                    name = it.name,
-                    quantity = it.quantity.toString(),
-                    imagePath = it.imagePath,
-                    category = it.category
-                )
-            }.toImmutableList()
-        } else {
-            persistentListOf()
-        }
+        return itemsBySection.map {
+            InventoryItemUi(
+                id = it.id.toString(),
+                name = it.name,
+                quantity = it.quantity.toString(),
+                imagePath = it.imagePath,
+                category = it.category
+            )
+        }.toImmutableList()
     }
 }
