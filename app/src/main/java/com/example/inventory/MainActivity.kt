@@ -6,10 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.inventory.navigation.NavigationEvent
 import com.example.inventory.navigation.Navigator
@@ -44,6 +47,14 @@ class MainActivity : ComponentActivity() {
                                 NavigationEvent.Back -> navController.popBackStack()
                                 is NavigationEvent.Route -> navController.navigate(event.route)
                             }
+                        }
+                    }
+
+                    // Clears the created ViewModel instances when the screen is changed.
+                    val viewModelStoreOwner = LocalViewModelStoreOwner.current
+                    DisposableEffect(navController.currentBackStackEntryAsState()) {
+                        onDispose {
+                            viewModelStoreOwner?.viewModelStore?.clear()
                         }
                     }
 
