@@ -13,6 +13,14 @@ class InventoryRepositoryImpl @Inject constructor(
     private val mapper: InventoryMapper,
     private val dispatchers: DispatcherProvider
 ) : InventoryRepository {
+    override suspend fun getAll(): List<InventoryItem> {
+        return withContext(dispatchers.io) {
+            dataSource.getAll().map {
+                mapper.entityToDomain(it)
+            }
+        }
+    }
+
     override suspend fun getAllOrderedByAscending(): List<InventoryItem> {
         return withContext(dispatchers.io) {
             dataSource.getAllOrderedByAscending().map {
