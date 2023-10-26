@@ -21,7 +21,7 @@ class HomeViewModelTest : FreeSpec({
             val inventoryRepository: InventoryRepository = FakeInventoryRepository()
             val navigator = mockk<Navigator>()
             val viewModel = HomeViewModel(
-                nameRepository, inventoryRepository, SectionDivisionProvider(), navigator
+                nameRepository, inventoryRepository, InventoryListProvider(), navigator
             )
 
             // when
@@ -43,7 +43,7 @@ class HomeViewModelTest : FreeSpec({
             val inventoryRepository: InventoryRepository = FakeInventoryRepository()
             val navigator = mockk<Navigator>()
             val viewModel = HomeViewModel(
-                nameRepository, inventoryRepository, SectionDivisionProvider(), navigator
+                nameRepository, inventoryRepository, InventoryListProvider(), navigator
             )
             val id = UUID.randomUUID()
             val inventoryItem = InventoryItem(
@@ -86,7 +86,7 @@ class HomeViewModelTest : FreeSpec({
         val inventoryRepository: InventoryRepository = FakeInventoryRepository()
         val navigator = mockk<Navigator>()
         val viewModel = HomeViewModel(
-            nameRepository, inventoryRepository, SectionDivisionProvider(), navigator
+            nameRepository, inventoryRepository, InventoryListProvider(), navigator
         )
         val id = UUID.randomUUID()
         val inventoryItem = InventoryItem(
@@ -131,7 +131,7 @@ class HomeViewModelTest : FreeSpec({
         val inventoryRepository: InventoryRepository = FakeInventoryRepository()
         val navigator = mockk<Navigator>()
         val viewModel = HomeViewModel(
-            nameRepository, inventoryRepository, SectionDivisionProvider(), navigator
+            nameRepository, inventoryRepository, InventoryListProvider(), navigator
         )
         val id = UUID.randomUUID()
         val inventoryItem = InventoryItem(

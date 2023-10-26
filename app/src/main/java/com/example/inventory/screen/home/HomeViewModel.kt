@@ -11,7 +11,6 @@ import com.example.inventory.data.repository.name.NameRepository
 import com.example.inventory.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -20,7 +19,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val nameRepository: NameRepository,
     private val inventoryRepository: InventoryRepository,
-    private val sectionDivisionProvider: SectionDivisionProvider,
+    private val inventoryListProvider: InventoryListProvider,
     private val navigator: Navigator
 ) : ComposeViewModel<HomeState, HomeEvent>() {
     private val name = mutableStateOf<String?>(null)
@@ -106,12 +105,20 @@ class HomeViewModel @Inject constructor(
         if (option != "All") {
             viewModelScope.launch {
                 items = inventoryRepository.getAllByCategory(option)
-                generateInventoryList(items)
+                inventoryListProvider.generateInventoryList(
+                    items,
+                    sortByAscending,
+                    inventoryItemList
+                )
             }
         } else {
             viewModelScope.launch {
                 items = inventoryRepository.getAllOrderedByAscending()
-                generateInventoryList(items)
+                inventoryListProvider.generateInventoryList(
+                    items,
+                    sortByAscending,
+                    inventoryItemList
+                )
             }
         }
     }
@@ -171,40 +178,10 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-        generateInventoryList(items)
-    }
-
-    private fun generateInventoryList(items: List<InventoryItem>) {
-        val toBuy = sectionDivisionProvider.provideItemsBySection(
-            items, SectionType.TOBUY
-        ).map {
-            InventoryItemType.Item(
-                item = it
-            )
-        }
-
-        val enough = sectionDivisionProvider.provideItemsBySection(
-            items, SectionType.ENOUGH
-        ).map {
-            InventoryItemType.Item(
-                item = it
-            )
-        }
-
-        inventoryItemList.value = if (sortByAscending.value) {
-            buildList {
-                add(InventoryItemType.Section(SectionType.TOBUY, toBuy.size))
-                addAll(toBuy)
-                add(InventoryItemType.Section(SectionType.ENOUGH, enough.size))
-                addAll(enough)
-            }.toImmutableList()
-        } else {
-            buildList {
-                add(InventoryItemType.Section(SectionType.ENOUGH, enough.size))
-                addAll(enough)
-                add(InventoryItemType.Section(SectionType.TOBUY, toBuy.size))
-                addAll(toBuy)
-            }.toImmutableList()
-        }
+        inventoryListProvider.generateInventoryList(
+            items,
+            sortByAscending,
+            inventoryItemList
+        )
     }
 }
