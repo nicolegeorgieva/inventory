@@ -25,6 +25,7 @@ class HomeViewModel @Inject constructor(
     private val name = mutableStateOf<String?>(null)
     private val sortByAscending = mutableStateOf(true)
     private val categoryFilter = mutableStateOf("All")
+    private val categories = mutableStateOf(listOf<String>())
     private val categoryFilterMenuExpanded = mutableStateOf(false)
     private val inventoryItemList = mutableStateOf<ImmutableList<InventoryItemType>?>(null)
 
@@ -39,6 +40,7 @@ class HomeViewModel @Inject constructor(
             name = getName(),
             sortByAscending = getSortByAscending(),
             categoryFilter = getCategoryFilter(),
+            categories = getCategories(),
             categoryFilterMenuExpanded = getCategoryFilterMenuExpandedState(),
             inventoryItemList = getInventoryItemList()
         )
@@ -57,6 +59,11 @@ class HomeViewModel @Inject constructor(
     @Composable
     private fun getCategoryFilter(): String {
         return categoryFilter.value
+    }
+
+    @Composable
+    private fun getCategories(): List<String> {
+        return categories.value
     }
 
     @Composable

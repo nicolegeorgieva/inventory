@@ -25,6 +25,7 @@ fun SortFilterRow(
     sortByAscending: Boolean,
     onSortOptionClicked: () -> Unit,
     category: String,
+    categories: List<String>,
     menuExpanded: Boolean,
     onOptionSelected: (String) -> Unit,
     onExpandedChange: (Boolean) -> Unit
@@ -36,8 +37,9 @@ fun SortFilterRow(
 
         CategoryFilter(
             category = category,
+            categories = categories,
             menuExpanded = menuExpanded,
-            onOptionSelected = onOptionSelected,
+            onCategorySelected = onOptionSelected,
             onExpandedChange = onExpandedChange
         )
     }
@@ -71,8 +73,9 @@ private fun Sort(
 @Composable
 private fun CategoryFilter(
     category: String,
+    categories: List<String>,
     menuExpanded: Boolean,
-    onOptionSelected: (String) -> Unit,
+    onCategorySelected: (String) -> Unit,
     onExpandedChange: (Boolean) -> Unit
 ) {
     Column {
@@ -83,7 +86,8 @@ private fun CategoryFilter(
 
         FilterMenu(
             expanded = menuExpanded,
-            onOptionSelected = onOptionSelected,
+            categories = categories,
+            onCategorySelected = onCategorySelected,
             onExpandedChange = onExpandedChange
         )
     }
@@ -110,7 +114,8 @@ private fun FilterButton(
 @Composable
 private fun FilterMenu(
     expanded: Boolean,
-    onOptionSelected: (String) -> Unit,
+    categories: List<String>,
+    onCategorySelected: (String) -> Unit,
     onExpandedChange: (Boolean) -> Unit
 ) {
     DropdownMenu(
@@ -120,31 +125,33 @@ private fun FilterMenu(
         }
     ) {
         FilterMenuOption(
-            option = "All",
-            onOptionSelected = onOptionSelected,
+            category = "All",
+            onCategorySelected = onCategorySelected,
             onMenuExpandedChange = onExpandedChange
         )
 
-        FilterMenuOption(
-            option = "Groceries",
-            onOptionSelected = onOptionSelected,
-            onMenuExpandedChange = onExpandedChange
-        )
+        categories.sorted().forEach {
+            FilterMenuOption(
+                category = it,
+                onCategorySelected = onCategorySelected,
+                onMenuExpandedChange = onExpandedChange
+            )
+        }
     }
 }
 
 @Composable
 private fun FilterMenuOption(
-    option: String,
-    onOptionSelected: (String) -> Unit,
+    category: String,
+    onCategorySelected: (String) -> Unit,
     onMenuExpandedChange: (Boolean) -> Unit
 ) {
     DropdownMenuItem(
         text = {
-            Text(option)
+            Text(category)
         },
         onClick = {
-            onOptionSelected(option)
+            onCategorySelected(category)
             onMenuExpandedChange(false)
         }
     )
@@ -158,6 +165,7 @@ private fun SortFilterRowPreview() {
             sortByAscending = true,
             onSortOptionClicked = {},
             category = "All",
+            categories = listOf("Groceries"),
             menuExpanded = false,
             onOptionSelected = {},
             onExpandedChange = {}

@@ -66,6 +66,7 @@ private fun HomeUi(
                                 onEvent(HomeEvent.OnSortOptionClicked)
                             },
                             category = uiState.categoryFilter,
+                            categories = uiState.categories,
                             menuExpanded = uiState.categoryFilterMenuExpanded,
                             onOptionSelected = {
                                 onEvent(HomeEvent.OnCategoryFilterOptionSelected(it))
@@ -116,6 +117,7 @@ private fun HomeGenericEmptyPreview() {
                 name = null,
                 sortByAscending = true,
                 categoryFilter = "All",
+                categories = listOf("Groceries"),
                 categoryFilterMenuExpanded = false,
                 inventoryItemList = null
             ),
@@ -134,6 +136,7 @@ private fun HomePersonalizedEmptyPreview() {
                 name = "Amy",
                 sortByAscending = true,
                 categoryFilter = "All",
+                categories = listOf("Groceries"),
                 categoryFilterMenuExpanded = false,
                 inventoryItemList = null
             ),
@@ -243,6 +246,7 @@ private fun HomePersonalizedInventoryPreview() {
                 name = "Amy",
                 sortByAscending = true,
                 categoryFilter = "All",
+                categories = listOf("Groceries"),
                 categoryFilterMenuExpanded = false,
                 inventoryItemList = inventoryItemsList
             ),
