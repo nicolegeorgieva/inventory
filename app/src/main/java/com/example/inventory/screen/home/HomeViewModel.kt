@@ -89,6 +89,10 @@ class HomeViewModel @Inject constructor(
 
     private fun onSortOptionClicked(sortByAscendingValue: Boolean) {
         sortByAscending.value = sortByAscendingValue
+
+        viewModelScope.launch {
+            refreshInventoryList()
+        }
     }
 
     private fun onCategoryFilterMenuExpandedChange(expanded: Boolean) {
@@ -179,11 +183,20 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        inventoryItemList.value = buildList {
-            add(InventoryItemType.Section(SectionType.TOBUY, toBuy.size))
-            addAll(toBuy)
-            add(InventoryItemType.Section(SectionType.ENOUGH, enough.size))
-            addAll(enough)
-        }.toImmutableList()
+        inventoryItemList.value = if (sortByAscending.value) {
+            buildList {
+                add(InventoryItemType.Section(SectionType.TOBUY, toBuy.size))
+                addAll(toBuy)
+                add(InventoryItemType.Section(SectionType.ENOUGH, enough.size))
+                addAll(enough)
+            }.toImmutableList()
+        } else {
+            buildList {
+                add(InventoryItemType.Section(SectionType.ENOUGH, enough.size))
+                addAll(enough)
+                add(InventoryItemType.Section(SectionType.TOBUY, toBuy.size))
+                addAll(toBuy)
+            }.toImmutableList()
+        }
     }
 }
