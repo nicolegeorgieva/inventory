@@ -83,12 +83,12 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.IncreaseQuantity -> onIncreaseQuantity(event.id)
             is HomeEvent.DecreaseQuantity -> onDecreaseQuantity(event.id)
             HomeEvent.OnAddButtonClicked -> onAddButtonClicked()
-            is HomeEvent.OnSortOptionClicked -> onSortOptionClicked(event.sortByAscending)
+            is HomeEvent.OnSortOptionClicked -> onSortOptionClicked()
         }
     }
 
-    private fun onSortOptionClicked(sortByAscendingValue: Boolean) {
-        sortByAscending.value = sortByAscendingValue
+    private fun onSortOptionClicked() {
+        sortByAscending.value = !sortByAscending.value
 
         viewModelScope.launch {
             refreshInventoryList()

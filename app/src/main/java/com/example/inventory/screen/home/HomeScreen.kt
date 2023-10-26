@@ -63,7 +63,7 @@ private fun HomeUi(
                         SortFilterRow(
                             sortByAscending = uiState.sortByAscending,
                             onSortOptionClicked = {
-                                onEvent(HomeEvent.OnSortOptionClicked(it))
+                                onEvent(HomeEvent.OnSortOptionClicked)
                             },
                             category = uiState.categoryFilter,
                             menuExpanded = uiState.categoryFilterMenuExpanded,

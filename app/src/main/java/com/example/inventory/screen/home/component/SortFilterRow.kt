@@ -23,7 +23,7 @@ import com.example.inventory.ui.theme.InventoryTheme
 @Composable
 fun SortFilterRow(
     sortByAscending: Boolean,
-    onSortOptionClicked: (Boolean) -> Unit,
+    onSortOptionClicked: () -> Unit,
     category: String,
     menuExpanded: Boolean,
     onOptionSelected: (String) -> Unit,
@@ -46,13 +46,11 @@ fun SortFilterRow(
 @Composable
 private fun Sort(
     sortByAscending: Boolean,
-    onSortOptionClicked: (Boolean) -> Unit
+    onSortOptionClicked: () -> Unit
 ) {
     Column {
         TextButton(
-            onClick = {
-                onSortOptionClicked(!sortByAscending)
-            }
+            onClick = onSortOptionClicked
         ) {
             Text(stringResource(R.string.home_sort_by))
             if (sortByAscending) {
