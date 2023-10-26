@@ -7,7 +7,7 @@ import java.util.UUID
 class FakeInventoryRepository : InventoryRepository {
     private val items = mutableListOf<InventoryItem>()
 
-    override suspend fun getAll(): List<InventoryItem> {
+    override suspend fun getAllOrderedByAscending(): List<InventoryItem> {
         return items
     }
 
@@ -28,7 +28,7 @@ class FakeInventoryRepository : InventoryRepository {
     }
 
     override suspend fun add(inventoryItem: InventoryItem) {
-        val checkExistingName = getAll().filter { it.name == inventoryItem.name }
+        val checkExistingName = getAllOrderedByAscending().filter { it.name == inventoryItem.name }
         if (checkExistingName.isNotEmpty()) return
 
         items.add(inventoryItem)

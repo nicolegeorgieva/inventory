@@ -13,9 +13,17 @@ class InventoryRepositoryImpl @Inject constructor(
     private val mapper: InventoryMapper,
     private val dispatchers: DispatcherProvider
 ) : InventoryRepository {
-    override suspend fun getAll(): List<InventoryItem> {
+    override suspend fun getAllOrderedByAscending(): List<InventoryItem> {
         return withContext(dispatchers.io) {
-            dataSource.getAll().map {
+            dataSource.getAllOrderedByAscending().map {
+                mapper.entityToDomain(it)
+            }
+        }
+    }
+
+    override suspend fun getAllOrderedByDescending(): List<InventoryItem> {
+        return withContext(dispatchers.io) {
+            dataSource.getAllOrderedByDescending().map {
                 mapper.entityToDomain(it)
             }
         }
@@ -54,7 +62,7 @@ class InventoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun add(inventoryItem: InventoryItem) {
-        val checkExistingName = getAll().filter { it.name == inventoryItem.name }
+        val checkExistingName = getAllOrderedByAscending().filter { it.name == inventoryItem.name }
         if (checkExistingName.isNotEmpty()) return
 
         withContext(dispatchers.io) {

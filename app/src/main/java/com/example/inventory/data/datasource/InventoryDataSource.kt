@@ -8,8 +8,12 @@ import javax.inject.Inject
 class InventoryDataSource @Inject constructor(
     private val dao: InventoryDao
 ) {
-    suspend fun getAll(): List<InventoryEntity> {
-        return dao.getAll()
+    suspend fun getAllOrderedByAscending(): List<InventoryEntity> {
+        return dao.getAllOrderedByAscending()
+    }
+
+    suspend fun getAllOrderedByDescending(): List<InventoryEntity> {
+        return dao.getAllOrderedByDescending()
     }
 
     suspend fun getAllByCategory(category: String): List<InventoryEntity> {

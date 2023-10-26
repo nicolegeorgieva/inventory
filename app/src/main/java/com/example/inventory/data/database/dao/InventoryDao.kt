@@ -9,8 +9,11 @@ import java.util.UUID
 
 @Dao
 interface InventoryDao {
-    @Query("SELECT * FROM inventory_items")
-    suspend fun getAll(): List<InventoryEntity>
+    @Query("SELECT * FROM inventory_items ORDER BY (quantity - min_quantity_target) ASC")
+    suspend fun getAllOrderedByAscending(): List<InventoryEntity>
+
+    @Query("SELECT * FROM inventory_items ORDER BY (quantity - min_quantity_target) DESC")
+    suspend fun getAllOrderedByDescending(): List<InventoryEntity>
 
     @Query("SELECT * FROM inventory_items WHERE category = :category")
     suspend fun getAllByCategory(category: String): List<InventoryEntity>

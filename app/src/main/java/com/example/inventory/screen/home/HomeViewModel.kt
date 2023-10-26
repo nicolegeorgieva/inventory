@@ -110,7 +110,7 @@ class HomeViewModel @Inject constructor(
             }
         } else {
             viewModelScope.launch {
-                items = inventoryRepository.getAll()
+                items = inventoryRepository.getAllOrderedByAscending()
                 generateInventoryList(items)
             }
         }
@@ -157,10 +157,18 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun refreshInventoryList() {
-        val items = if (sortByAscending.value) {
-            inventoryRepository.orderByAscending(categoryFilter.value)
+        val items = if (categoryFilter.value == "All") {
+            if (sortByAscending.value) {
+                inventoryRepository.getAllOrderedByAscending()
+            } else {
+                inventoryRepository.getAllOrderedByDescending()
+            }
         } else {
-            inventoryRepository.orderByDescending(categoryFilter.value)
+            if (sortByAscending.value) {
+                inventoryRepository.orderByAscending(categoryFilter.value)
+            } else {
+                inventoryRepository.orderByDescending(categoryFilter.value)
+            }
         }
 
         generateInventoryList(items)
