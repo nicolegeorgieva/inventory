@@ -11,8 +11,8 @@ import com.example.inventory.data.repository.name.NameRepository
 import com.example.inventory.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.ImmutableSet
-import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
     private val name = mutableStateOf<String?>(null)
     private val sortByAscending = mutableStateOf(true)
     private val categoryFilter = mutableStateOf("All")
-    private val categories = mutableStateOf(persistentSetOf<String>())
+    private val categories = mutableStateOf(persistentListOf<String>())
     private val categoryFilterMenuExpanded = mutableStateOf(false)
     private val inventoryItemList = mutableStateOf<ImmutableList<InventoryItemType>?>(null)
 
@@ -65,7 +65,7 @@ class HomeViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getCategories(): ImmutableSet<String> {
+    private fun getCategories(): ImmutableList<String> {
         return categories.value
     }
 
@@ -200,6 +200,6 @@ class HomeViewModel @Inject constructor(
             if (it.category != null) list.add(it.category)
         }
 
-        categories.value = list.toPersistentSet()
+        categories.value = list.toPersistentSet().sorted().toPersistentList()
     }
 }

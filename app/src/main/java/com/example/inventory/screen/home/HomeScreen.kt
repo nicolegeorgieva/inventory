@@ -21,7 +21,6 @@ import com.example.inventory.screen.home.component.Section
 import com.example.inventory.screen.home.component.SortFilterRow
 import com.example.inventory.ui.theme.InventoryTheme
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -118,7 +117,7 @@ private fun HomeGenericEmptyPreview() {
                 name = null,
                 sortByAscending = true,
                 categoryFilter = "All",
-                categories = persistentSetOf("Groceries"),
+                categories = persistentListOf("Groceries"),
                 categoryFilterMenuExpanded = false,
                 inventoryItemList = null
             ),
@@ -137,7 +136,7 @@ private fun HomePersonalizedEmptyPreview() {
                 name = "Amy",
                 sortByAscending = true,
                 categoryFilter = "All",
-                categories = persistentSetOf("Groceries"),
+                categories = persistentListOf("Groceries"),
                 categoryFilterMenuExpanded = false,
                 inventoryItemList = null
             ),
@@ -247,7 +246,7 @@ private fun HomePersonalizedInventoryPreview() {
                 name = "Amy",
                 sortByAscending = true,
                 categoryFilter = "All",
-                categories = persistentSetOf("Groceries"),
+                categories = persistentListOf("Groceries"),
                 categoryFilterMenuExpanded = false,
                 inventoryItemList = inventoryItemsList
             ),

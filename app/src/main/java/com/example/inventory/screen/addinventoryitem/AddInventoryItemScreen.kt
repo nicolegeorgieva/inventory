@@ -1,5 +1,8 @@
 package com.example.inventory.screen.addinventoryitem
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,15 +11,20 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingActionButton
@@ -24,6 +32,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -40,6 +50,8 @@ import coil.compose.AsyncImage
 import com.example.inventory.R
 import com.example.inventory.component.CustomTopAppBar
 import com.example.inventory.ui.theme.InventoryTheme
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun AddInventoryItemScreen(navController: NavController) {
@@ -150,10 +162,13 @@ private fun Content(
         }
 
         item(key = "category") {
-            InputRow(
-                label = stringResource(R.string.category_label),
-                input = uiState.category ?: "",
-                onInputChange = {
+            CategoryInputRow(
+                expanded = uiState.expanded,
+                onExpandedChange = {
+                    onEvent(AddInventoryItemEvent.OnExpandedChange)
+                },
+                categories = uiState.categories,
+                onCategorySelected = {
                     onEvent(AddInventoryItemEvent.SetCategory(it))
                 }
             )
@@ -186,6 +201,84 @@ private fun Content(
             )
         }
     }
+}
+
+@Composable
+private fun CategoryInputRow(
+    expanded: Boolean,
+    onExpandedChange: () -> Unit,
+    categories: ImmutableList<String>,
+    onCategorySelected: (String) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            modifier = Modifier
+                .widthIn(OutlinedTextFieldDefaults.MinWidth)
+                .heightIn(OutlinedTextFieldDefaults.MinHeight)
+                .border(
+                    border = BorderStroke(
+                        OutlinedTextFieldDefaults.UnfocusedBorderThickness,
+                        MaterialTheme.colorScheme.outline
+                    ),
+                    shape = OutlinedTextFieldDefaults.shape
+                )
+                .clickable {
+                    onExpandedChange()
+                },
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = "Category: None")
+            Icon(
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = "Category dropdown menu"
+            )
+        }
+
+        DropdownMenu(
+            modifier = Modifier
+                .widthIn(OutlinedTextFieldDefaults.MinWidth)
+                .heightIn(OutlinedTextFieldDefaults.MinHeight),
+            offset = DpOffset(x = 0.dp, y = 4.dp),
+            expanded = expanded,
+            onDismissRequest = onExpandedChange
+        ) {
+            CategoryDropdownMenuOption(
+                category = "Category: None",
+                onCategorySelected = onCategorySelected,
+                onMenuExpandedChange = onExpandedChange
+            )
+
+            categories.forEach {
+                CategoryDropdownMenuOption(
+                    category = it,
+                    onCategorySelected = onCategorySelected,
+                    onMenuExpandedChange = onExpandedChange
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CategoryDropdownMenuOption(
+    category: String,
+    onCategorySelected: (String) -> Unit,
+    onMenuExpandedChange: () -> Unit
+) {
+    DropdownMenuItem(
+        modifier = Modifier.padding(horizontal = 24.dp),
+        text = {
+            Text(category)
+        },
+        onClick = {
+            onCategorySelected(category)
+            onMenuExpandedChange()
+        }
+    )
 }
 
 @Composable
@@ -258,18 +351,17 @@ private fun InputRow(
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
-    label: String,
+    label: String? = null,
     input: String,
     supportingText: String? = null,
     addWithoutRequired: Boolean = false,
     onInputChange: (String) -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
         OutlinedTextField(
-            modifier = modifier,
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
                 imeAction = imeAction
@@ -277,7 +369,9 @@ private fun InputRow(
             value = input,
             onValueChange = onInputChange,
             label = {
-                Text(text = label)
+                if (label != null) {
+                    Text(text = label)
+                }
             },
             supportingText = if (supportingText != null) {
                 {
@@ -290,7 +384,9 @@ private fun InputRow(
                         }
                     )
                 }
-            } else null
+            } else {
+                null
+            }
         )
     }
 }
@@ -345,7 +441,9 @@ private fun AddWithoutRequiredPreview() {
                 name = null,
                 quantity = null,
                 minQuantityTarget = null,
-                category = null,
+                category = "All",
+                categories = persistentListOf(),
+                expanded = false,
                 description = null,
                 link = null,
                 imagePath = null,
@@ -367,6 +465,8 @@ private fun FilledStatePreview() {
                 quantity = "5",
                 minQuantityTarget = "5",
                 category = "Groceries",
+                categories = persistentListOf(),
+                expanded = false,
                 description = null,
                 link = null,
                 imagePath = null,

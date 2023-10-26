@@ -9,6 +9,8 @@ import com.example.inventory.data.repository.inventory.InventoryRepository
 import com.example.inventory.domain.IdProvider
 import com.example.inventory.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +25,9 @@ class AddInventoryItemViewModel @Inject constructor(
     private val name = mutableStateOf<String?>(null)
     private val quantity = mutableStateOf<String?>(null)
     private val minQuantityTarget = mutableStateOf<String?>(null)
-    private val category = mutableStateOf<String?>(null)
+    private val category = mutableStateOf("All")
+    private val categories = mutableStateOf(persistentListOf<String>())
+    private val categoryMenuExpanded = mutableStateOf(false)
     private val description = mutableStateOf<String?>(null)
     private val link = mutableStateOf<String?>(null)
     private val imagePath = mutableStateOf<String?>(null)
@@ -36,6 +40,8 @@ class AddInventoryItemViewModel @Inject constructor(
             quantity = getQuantity(),
             minQuantityTarget = getMinQuantityTarget(),
             category = getCategory(),
+            categories = getCategories(),
+            expanded = getCategoryMenuExpanded(),
             description = getDescription(),
             link = getLink(),
             imagePath = getImagePath(),
@@ -59,8 +65,18 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getCategory(): String? {
+    private fun getCategory(): String {
         return category.value
+    }
+
+    @Composable
+    private fun getCategories(): ImmutableList<String> {
+        return categories.value
+    }
+
+    @Composable
+    private fun getCategoryMenuExpanded(): Boolean {
+        return categoryMenuExpanded.value
     }
 
     @Composable
@@ -96,11 +112,16 @@ class AddInventoryItemViewModel @Inject constructor(
             AddInventoryItemEvent.AddInventoryItem -> addInventoryItem()
             is AddInventoryItemEvent.OnLinkValueChange -> onLinkValueChange(event.link)
             is AddInventoryItemEvent.SetLinkImage -> setLinkImage(event.newImage)
+            AddInventoryItemEvent.OnExpandedChange -> onExpandedChange()
         }
     }
 
     private fun setCategory(newCategory: String) {
         category.value = newCategory
+    }
+
+    private fun onExpandedChange() {
+        categoryMenuExpanded.value = !categoryMenuExpanded.value
     }
 
     private fun setDescription(newDescription: String) {
@@ -151,7 +172,7 @@ class AddInventoryItemViewModel @Inject constructor(
                         name = name.value ?: "",
                         quantity = quantity.value?.toIntOrNull() ?: 0,
                         minQuantityTarget = minQuantityTarget.value?.toIntOrNull() ?: 0,
-                        category = category.value ?: "",
+                        category = category.value,
                         description = description.value ?: "",
                         imagePath = imagePath.value ?: ""
                     )

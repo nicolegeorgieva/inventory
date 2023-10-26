@@ -19,15 +19,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.inventory.R
 import com.example.inventory.ui.theme.InventoryTheme
-import kotlinx.collections.immutable.ImmutableSet
-import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun SortFilterRow(
     sortByAscending: Boolean,
     onSortOptionClicked: () -> Unit,
     category: String,
-    categories: ImmutableSet<String>,
+    categories: ImmutableList<String>,
     menuExpanded: Boolean,
     onOptionSelected: (String) -> Unit,
     onExpandedChange: (Boolean) -> Unit
@@ -75,7 +75,7 @@ private fun Sort(
 @Composable
 private fun CategoryFilter(
     category: String,
-    categories: ImmutableSet<String>,
+    categories: ImmutableList<String>,
     menuExpanded: Boolean,
     onCategorySelected: (String) -> Unit,
     onExpandedChange: (Boolean) -> Unit
@@ -116,7 +116,7 @@ private fun FilterButton(
 @Composable
 private fun FilterMenu(
     expanded: Boolean,
-    categories: ImmutableSet<String>,
+    categories: ImmutableList<String>,
     onCategorySelected: (String) -> Unit,
     onExpandedChange: (Boolean) -> Unit
 ) {
@@ -132,7 +132,7 @@ private fun FilterMenu(
             onMenuExpandedChange = onExpandedChange
         )
 
-        categories.sorted().forEach {
+        categories.forEach {
             FilterMenuOption(
                 category = it,
                 onCategorySelected = onCategorySelected,
@@ -167,7 +167,7 @@ private fun SortFilterRowPreview() {
             sortByAscending = true,
             onSortOptionClicked = {},
             category = "All",
-            categories = persistentSetOf("Groceries"),
+            categories = persistentListOf("Groceries"),
             menuExpanded = false,
             onOptionSelected = {},
             onExpandedChange = {}
