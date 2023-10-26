@@ -20,12 +20,12 @@ class InventoryDataSource @Inject constructor(
         return dao.getById(id)
     }
 
-    suspend fun orderByAscending(): List<InventoryEntity> {
-        return dao.orderByAscending()
+    suspend fun orderByAscending(category: String): List<InventoryEntity> {
+        return dao.orderByAscending(category)
     }
 
-    suspend fun orderByDescending(): List<InventoryEntity> {
-        return dao.orderByDescending()
+    suspend fun orderByDescending(category: String): List<InventoryEntity> {
+        return dao.orderByDescending(category)
     }
 
     suspend fun save(inventoryEntity: InventoryEntity) {

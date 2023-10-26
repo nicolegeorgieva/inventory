@@ -37,17 +37,17 @@ class InventoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun orderByAscending(): List<InventoryItem> {
+    override suspend fun orderByAscending(category: String): List<InventoryItem> {
         return withContext(dispatchers.io) {
-            dataSource.orderByAscending().map {
+            dataSource.orderByAscending(category).map {
                 mapper.entityToDomain(it)
             }
         }
     }
 
-    override suspend fun orderByDescending(): List<InventoryItem> {
+    override suspend fun orderByDescending(category: String): List<InventoryItem> {
         return withContext(dispatchers.io) {
-            dataSource.orderByDescending().map {
+            dataSource.orderByDescending(category).map {
                 mapper.entityToDomain(it)
             }
         }

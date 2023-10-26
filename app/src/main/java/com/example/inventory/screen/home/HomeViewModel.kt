@@ -157,10 +157,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun refreshInventoryList() {
-        val items = if (categoryFilter.value == "All") {
-            inventoryRepository.getAll()
+        val items = if (sortByAscending.value) {
+            inventoryRepository.orderByAscending(categoryFilter.value)
         } else {
-            inventoryRepository.getAllByCategory(categoryFilter.value)
+            inventoryRepository.orderByDescending(categoryFilter.value)
         }
 
         generateInventoryList(items)

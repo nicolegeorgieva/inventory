@@ -7,8 +7,8 @@ interface InventoryRepository {
     suspend fun getAll(): List<InventoryItem>
     suspend fun getAllByCategory(category: String): List<InventoryItem>
     suspend fun getById(id: UUID): InventoryItem?
-    suspend fun orderByAscending(): List<InventoryItem>
-    suspend fun orderByDescending(): List<InventoryItem>
+    suspend fun orderByAscending(category: String): List<InventoryItem>
+    suspend fun orderByDescending(category: String): List<InventoryItem>
     suspend fun add(inventoryItem: InventoryItem)
     suspend fun update(inventoryItem: InventoryItem)
     suspend fun delete(inventoryItem: InventoryItem)

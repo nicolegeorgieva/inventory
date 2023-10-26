@@ -18,11 +18,17 @@ interface InventoryDao {
     @Query("SELECT * FROM inventory_items WHERE id = :id")
     suspend fun getById(id: UUID): InventoryEntity?
 
-    @Query("SELECT * FROM inventory_items ORDER BY quantity ASC")
-    suspend fun orderByAscending(): List<InventoryEntity>
+    @Query(
+        "SELECT * FROM inventory_items WHERE category = :category ORDER BY " +
+                "(quantity - min_quantity_target) ASC"
+    )
+    suspend fun orderByAscending(category: String): List<InventoryEntity>
 
-    @Query("SELECT * FROM inventory_items ORDER BY quantity DESC")
-    suspend fun orderByDescending(): List<InventoryEntity>
+    @Query(
+        "SELECT * FROM inventory_items WHERE category = :category ORDER BY " +
+                "(quantity - min_quantity_target) DESC"
+    )
+    suspend fun orderByDescending(category: String): List<InventoryEntity>
 
     @Upsert
     suspend fun save(inventoryEntity: InventoryEntity)
