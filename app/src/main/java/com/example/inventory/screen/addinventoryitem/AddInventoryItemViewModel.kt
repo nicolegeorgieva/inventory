@@ -32,6 +32,8 @@ class AddInventoryItemViewModel @Inject constructor(
     private val link = mutableStateOf<String?>(null)
     private val imagePath = mutableStateOf<String?>(null)
     private val addWithoutRequired = mutableStateOf(false)
+    private val newCategoryValue = mutableStateOf<String?>(null)
+    private val openAddCategoryDialog = mutableStateOf(false)
 
     @Composable
     override fun uiState(): AddInventoryItemState {
@@ -45,7 +47,9 @@ class AddInventoryItemViewModel @Inject constructor(
             description = getDescription(),
             link = getLink(),
             imagePath = getImagePath(),
-            addWithoutRequired = getAddWithoutRequiredState()
+            addWithoutRequired = getAddWithoutRequiredState(),
+            newCategoryValue = getNewCategoryValue(),
+            openAddCategoryDialog = getOpenAddCategoryDialog()
         )
     }
 
@@ -99,6 +103,16 @@ class AddInventoryItemViewModel @Inject constructor(
         return addWithoutRequired.value
     }
 
+    @Composable
+    private fun getNewCategoryValue(): String? {
+        return newCategoryValue.value
+    }
+
+    @Composable
+    private fun getOpenAddCategoryDialog(): Boolean {
+        return openAddCategoryDialog.value
+    }
+
     override fun onEvent(event: AddInventoryItemEvent) {
         when (event) {
             is AddInventoryItemEvent.SetCategory -> setCategory(event.newCategory)
@@ -113,6 +127,12 @@ class AddInventoryItemViewModel @Inject constructor(
             is AddInventoryItemEvent.OnLinkValueChange -> onLinkValueChange(event.link)
             is AddInventoryItemEvent.SetLinkImage -> setLinkImage(event.newImage)
             AddInventoryItemEvent.OnExpandedChange -> onExpandedChange()
+            AddInventoryItemEvent.OnCloseDialog -> onShowDialogChange()
+            is AddInventoryItemEvent.OnNewCategoryValueChange -> onNewCategoryValueChange(
+                event.newCategoryValue
+            )
+
+            AddInventoryItemEvent.OnOpenCategoryDialog -> onShowDialogChange()
         }
     }
 
@@ -159,6 +179,14 @@ class AddInventoryItemViewModel @Inject constructor(
 
     private fun onLinkValueChange(linkValue: String?) {
         link.value = linkValue
+    }
+
+    private fun onShowDialogChange() {
+        openAddCategoryDialog.value = !openAddCategoryDialog.value
+    }
+
+    private fun onNewCategoryValueChange(value: String) {
+        newCategoryValue.value = value
     }
 
     private fun addInventoryItem() {

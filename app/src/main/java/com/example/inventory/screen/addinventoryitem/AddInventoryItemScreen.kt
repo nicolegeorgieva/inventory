@@ -22,7 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -176,6 +176,20 @@ private fun Content(
                 categories = uiState.categories,
                 onCategorySelected = {
                     onEvent(AddInventoryItemEvent.SetCategory(it))
+                },
+                openAddCategoryDialog = uiState.openAddCategoryDialog,
+                newCategoryValue = uiState.newCategoryValue ?: "",
+                onOpenCategoryDialog = {
+                    onEvent(AddInventoryItemEvent.OnOpenCategoryDialog)
+                },
+                onNewCategoryValueChange = {
+                    onEvent(AddInventoryItemEvent.OnNewCategoryValueChange(it))
+                },
+                onAddNewCategory = {
+                    onEvent(AddInventoryItemEvent.SetCategory(it))
+                },
+                onCloseDialog = {
+                    onEvent(AddInventoryItemEvent.OnCloseDialog)
                 }
             )
         }
@@ -213,9 +227,9 @@ private fun Content(
 private fun CategoryInput(
     expanded: Boolean,
     openAddCategoryDialog: Boolean,
-    newCategory: String,
+    newCategoryValue: String,
     onOpenCategoryDialog: () -> Unit,
-    onNewCategoryChange: (String) -> Unit,
+    onNewCategoryValueChange: (String) -> Unit,
     onAddNewCategory: (String) -> Unit,
     onCloseDialog: () -> Unit,
     onExpandedChange: () -> Unit,
@@ -233,9 +247,9 @@ private fun CategoryInput(
         CategoryDropdownMenu(
             expanded = expanded,
             openAddCategoryDialog = openAddCategoryDialog,
-            newCategory = newCategory,
+            newCategoryValue = newCategoryValue,
             onOpenCategoryDialog = onOpenCategoryDialog,
-            onNewCategoryChange = onNewCategoryChange,
+            onNewCategoryValueChange = onNewCategoryValueChange,
             onAddNewCategory = onAddNewCategory,
             onCloseDialog = onCloseDialog,
             onExpandedChange = onExpandedChange,
@@ -281,9 +295,9 @@ private fun CategoryRow(onExpandedChange: () -> Unit) {
 private fun CategoryDropdownMenu(
     expanded: Boolean,
     openAddCategoryDialog: Boolean,
-    newCategory: String,
+    newCategoryValue: String,
     onOpenCategoryDialog: () -> Unit,
-    onNewCategoryChange: (String) -> Unit,
+    onNewCategoryValueChange: (String) -> Unit,
     onAddNewCategory: (String) -> Unit,
     onCloseDialog: () -> Unit,
     onExpandedChange: () -> Unit,
@@ -318,8 +332,8 @@ private fun CategoryDropdownMenu(
 
         if (openAddCategoryDialog) {
             AddNewCategoryDialog(
-                newCategory = newCategory,
-                onNewCategoryChange = onNewCategoryChange,
+                newCategoryValue = newCategoryValue,
+                onNewCategoryValueChange = onNewCategoryValueChange,
                 onAddNewCategory = onAddNewCategory,
                 onCloseDialog = onCloseDialog
             )
@@ -366,21 +380,23 @@ private fun AddCategoryDropdownMenuOption(
 
 @Composable
 private fun AddNewCategoryDialog(
-    newCategory: String,
-    onNewCategoryChange: (String) -> Unit,
+    newCategoryValue: String,
+    onNewCategoryValueChange: (String) -> Unit,
     onAddNewCategory: (String) -> Unit,
     onCloseDialog: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onCloseDialog,
-        icon = { Icon(imageVector = Icons.Filled.Info, contentDescription = "Info") },
+        icon = {
+            Icon(imageVector = Icons.Filled.List, contentDescription = "List")
+        },
         title = {
             Text(text = "Add new category")
         },
         text = {
             OutlinedTextField(
-                value = newCategory,
-                onValueChange = onNewCategoryChange,
+                value = newCategoryValue,
+                onValueChange = onNewCategoryValueChange,
                 label = {
                     Text("New category")
                 }
@@ -389,7 +405,7 @@ private fun AddNewCategoryDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onAddNewCategory(newCategory)
+                    onAddNewCategory(newCategoryValue)
                 }
             ) {
                 Text("Add")
@@ -575,7 +591,9 @@ private fun AddWithoutRequiredPreview() {
                 description = null,
                 link = null,
                 imagePath = null,
-                addWithoutRequired = true
+                addWithoutRequired = true,
+                newCategoryValue = "",
+                openAddCategoryDialog = false
             ),
             onEvent = {}
         )
@@ -598,7 +616,9 @@ private fun FilledStatePreview() {
                 description = null,
                 link = null,
                 imagePath = null,
-                addWithoutRequired = false
+                addWithoutRequired = false,
+                newCategoryValue = "",
+                openAddCategoryDialog = false
             ),
             onEvent = {}
         )

@@ -9,6 +9,8 @@ data class AddInventoryItemState(
     val category: String,
     val categories: ImmutableList<String>,
     val expanded: Boolean,
+    val openAddCategoryDialog: Boolean,
+    val newCategoryValue: String?,
     val description: String?,
     val imagePath: String?,
     val link: String?,
