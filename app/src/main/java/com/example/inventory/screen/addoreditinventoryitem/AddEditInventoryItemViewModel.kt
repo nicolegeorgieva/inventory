@@ -13,6 +13,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -134,7 +135,7 @@ class AddEditInventoryItemViewModel @Inject constructor(
             )
 
             AddEditInventoryItemEvent.OnOpenCategoryDialog -> onShowDialogChange()
-            is AddEditInventoryItemEvent.LoadItem -> {}
+            is AddEditInventoryItemEvent.LoadItem -> loadItem(event.id)
         }
     }
 
@@ -203,6 +204,19 @@ class AddEditInventoryItemViewModel @Inject constructor(
 
     private fun onNewCategoryValueChange(value: String) {
         newCategoryValue.value = value
+    }
+
+    private fun loadItem(id: String) {
+        viewModelScope.launch {
+            val item = inventoryRepository.getById(UUID.fromString(id))
+
+            name.value = item?.name ?: ""
+            quantity.value = item?.quantity.toString()
+            minQuantityTarget.value = item?.minQuantityTarget.toString()
+            category.value = item?.category
+            description.value = item?.description
+            imagePath.value = item?.imagePath
+        }
     }
 
     private fun addInventoryItem() {
