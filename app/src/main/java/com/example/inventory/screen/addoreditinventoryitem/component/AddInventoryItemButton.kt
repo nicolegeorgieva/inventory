@@ -1,4 +1,4 @@
-package com.example.inventory.screen.addinventoryitem.component
+package com.example.inventory.screen.addoreditinventoryitem.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -9,15 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.inventory.R
-import com.example.inventory.screen.addinventoryitem.AddInventoryItemEvent
+import com.example.inventory.screen.addoreditinventoryitem.AddEditInventoryItemEvent
 
 @Composable
 fun AddInventoryItemButton(
-    onEvent: (AddInventoryItemEvent) -> Unit
+    onEvent: (AddEditInventoryItemEvent) -> Unit
 ) {
     FloatingActionButton(
         onClick = {
-            onEvent(AddInventoryItemEvent.AddInventoryItem)
+            onEvent(AddEditInventoryItemEvent.AddInventoryItem)
         },
         containerColor = MaterialTheme.colorScheme.primary
     ) {

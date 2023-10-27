@@ -1,4 +1,4 @@
-package com.example.inventory.screen.addinventoryitem.component
+package com.example.inventory.screen.addoreditinventoryitem.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

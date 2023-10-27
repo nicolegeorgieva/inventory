@@ -1,4 +1,4 @@
-package com.example.inventory.screen.addinventoryitem
+package com.example.inventory.screen.addoreditinventoryitem
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -16,12 +16,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddInventoryItemViewModel @Inject constructor(
+class AddEditInventoryItemViewModel @Inject constructor(
     private val inventoryRepository: InventoryRepository,
     private val idProvider: IdProvider,
     private val navigator: Navigator
 ) :
-    ComposeViewModel<AddInventoryItemState, AddInventoryItemEvent>() {
+    ComposeViewModel<AddEditInventoryItemState, AddEditInventoryItemEvent>() {
 
     private val name = mutableStateOf<String?>(null)
     private val quantity = mutableStateOf<String?>(null)
@@ -37,8 +37,8 @@ class AddInventoryItemViewModel @Inject constructor(
     private val openAddCategoryDialog = mutableStateOf(false)
 
     @Composable
-    override fun uiState(): AddInventoryItemState {
-        return AddInventoryItemState(
+    override fun uiState(): AddEditInventoryItemState {
+        return AddEditInventoryItemState(
             name = getName(),
             quantity = getQuantity(),
             minQuantityTarget = getMinQuantityTarget(),
@@ -114,26 +114,26 @@ class AddInventoryItemViewModel @Inject constructor(
         return openAddCategoryDialog.value
     }
 
-    override fun onEvent(event: AddInventoryItemEvent) {
+    override fun onEvent(event: AddEditInventoryItemEvent) {
         when (event) {
-            is AddInventoryItemEvent.SetCategory -> setCategory(event.newCategory)
-            is AddInventoryItemEvent.SetDescription -> setDescription(event.newDescription)
-            is AddInventoryItemEvent.SetMinQuantityTarget -> setMinQuantityTarget(
+            is AddEditInventoryItemEvent.SetCategory -> setCategory(event.newCategory)
+            is AddEditInventoryItemEvent.SetDescription -> setDescription(event.newDescription)
+            is AddEditInventoryItemEvent.SetMinQuantityTarget -> setMinQuantityTarget(
                 event.newMinQuantityTarget
             )
 
-            is AddInventoryItemEvent.SetName -> setName(event.newName)
-            is AddInventoryItemEvent.SetQuantity -> setQuantity(event.newQuantity)
-            AddInventoryItemEvent.AddInventoryItem -> addInventoryItem()
-            is AddInventoryItemEvent.OnLinkValueChange -> onLinkValueChange(event.link)
-            is AddInventoryItemEvent.SetLinkImage -> setLinkImage(event.newImage)
-            AddInventoryItemEvent.OnExpandedChange -> onExpandedChange()
-            AddInventoryItemEvent.OnCloseDialog -> onShowDialogChange()
-            is AddInventoryItemEvent.OnNewCategoryValueChange -> onNewCategoryValueChange(
+            is AddEditInventoryItemEvent.SetName -> setName(event.newName)
+            is AddEditInventoryItemEvent.SetQuantity -> setQuantity(event.newQuantity)
+            AddEditInventoryItemEvent.AddInventoryItem -> addInventoryItem()
+            is AddEditInventoryItemEvent.OnLinkValueChange -> onLinkValueChange(event.link)
+            is AddEditInventoryItemEvent.SetLinkImage -> setLinkImage(event.newImage)
+            AddEditInventoryItemEvent.OnExpandedChange -> onExpandedChange()
+            AddEditInventoryItemEvent.OnCloseDialog -> onShowDialogChange()
+            is AddEditInventoryItemEvent.OnNewCategoryValueChange -> onNewCategoryValueChange(
                 event.newCategoryValue
             )
 
-            AddInventoryItemEvent.OnOpenCategoryDialog -> onShowDialogChange()
+            AddEditInventoryItemEvent.OnOpenCategoryDialog -> onShowDialogChange()
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.inventory.screen.addinventoryitem
+package com.example.inventory.screen.addoreditinventoryitem
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,10 +19,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.inventory.R
 import com.example.inventory.component.CustomTopAppBar
-import com.example.inventory.screen.addinventoryitem.component.AddInventoryItemButton
-import com.example.inventory.screen.addinventoryitem.component.CategoryInput
-import com.example.inventory.screen.addinventoryitem.component.InputRow
-import com.example.inventory.screen.addinventoryitem.component.ItemImage
+import com.example.inventory.screen.addoreditinventoryitem.component.AddInventoryItemButton
+import com.example.inventory.screen.addoreditinventoryitem.component.CategoryInput
+import com.example.inventory.screen.addoreditinventoryitem.component.InputRow
+import com.example.inventory.screen.addoreditinventoryitem.component.ItemImage
 import com.example.inventory.ui.theme.InventoryTheme
 import kotlinx.collections.immutable.persistentListOf
 
@@ -31,7 +31,7 @@ fun AddInventoryItemScreen(
     navController: NavController,
     itemId: String?
 ) {
-    val viewModel: AddInventoryItemViewModel = hiltViewModel()
+    val viewModel: AddEditInventoryItemViewModel = hiltViewModel()
     val uiState = viewModel.uiState()
 
     AddInventoryItemUi(
@@ -44,8 +44,8 @@ fun AddInventoryItemScreen(
 @Composable
 private fun AddInventoryItemUi(
     navController: NavController?,
-    uiState: AddInventoryItemState,
-    onEvent: (AddInventoryItemEvent) -> Unit
+    uiState: AddEditInventoryItemState,
+    onEvent: (AddEditInventoryItemEvent) -> Unit
 ) {
     Scaffold(
         modifier = Modifier
@@ -74,8 +74,8 @@ private fun AddInventoryItemUi(
 @Composable
 private fun Content(
     innerPadding: PaddingValues,
-    uiState: AddInventoryItemState,
-    onEvent: (AddInventoryItemEvent) -> Unit
+    uiState: AddEditInventoryItemState,
+    onEvent: (AddEditInventoryItemEvent) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.padding(top = 12.dp),
@@ -89,7 +89,7 @@ private fun Content(
                 supportingText = stringResource(R.string.required_label),
                 addWithoutRequired = uiState.addWithoutRequired,
                 onInputChange = {
-                    onEvent(AddInventoryItemEvent.SetName(it))
+                    onEvent(AddEditInventoryItemEvent.SetName(it))
                 }
             )
         }
@@ -102,7 +102,7 @@ private fun Content(
                 supportingText = stringResource(R.string.required_integer_number_label),
                 addWithoutRequired = uiState.addWithoutRequired,
                 onInputChange = {
-                    onEvent(AddInventoryItemEvent.SetQuantity(it))
+                    onEvent(AddEditInventoryItemEvent.SetQuantity(it))
                 }
             )
         }
@@ -115,7 +115,7 @@ private fun Content(
                 supportingText = stringResource(R.string.required_integer_number_label),
                 addWithoutRequired = uiState.addWithoutRequired,
                 onInputChange = {
-                    onEvent(AddInventoryItemEvent.SetMinQuantityTarget(it))
+                    onEvent(AddEditInventoryItemEvent.SetMinQuantityTarget(it))
                 }
             )
         }
@@ -124,26 +124,26 @@ private fun Content(
             CategoryInput(
                 expanded = uiState.expanded,
                 onExpandedChange = {
-                    onEvent(AddInventoryItemEvent.OnExpandedChange)
+                    onEvent(AddEditInventoryItemEvent.OnExpandedChange)
                 },
                 category = uiState.category,
                 categories = uiState.categories,
                 onCategorySelected = {
-                    onEvent(AddInventoryItemEvent.SetCategory(it))
+                    onEvent(AddEditInventoryItemEvent.SetCategory(it))
                 },
                 openAddCategoryDialog = uiState.openAddCategoryDialog,
                 newCategoryValue = uiState.newCategoryValue ?: "",
                 onOpenCategoryDialog = {
-                    onEvent(AddInventoryItemEvent.OnOpenCategoryDialog)
+                    onEvent(AddEditInventoryItemEvent.OnOpenCategoryDialog)
                 },
                 onNewCategoryValueChange = {
-                    onEvent(AddInventoryItemEvent.OnNewCategoryValueChange(it))
+                    onEvent(AddEditInventoryItemEvent.OnNewCategoryValueChange(it))
                 },
                 onAddNewCategory = {
-                    onEvent(AddInventoryItemEvent.SetCategory(it))
+                    onEvent(AddEditInventoryItemEvent.SetCategory(it))
                 },
                 onCloseDialog = {
-                    onEvent(AddInventoryItemEvent.OnCloseDialog)
+                    onEvent(AddEditInventoryItemEvent.OnCloseDialog)
                 }
             )
         }
@@ -155,7 +155,7 @@ private fun Content(
                 input = uiState.description ?: "",
                 imeAction = ImeAction.Default,
                 onInputChange = {
-                    onEvent(AddInventoryItemEvent.SetDescription(it))
+                    onEvent(AddEditInventoryItemEvent.SetDescription(it))
                 }
             )
         }
@@ -165,13 +165,13 @@ private fun Content(
                 imagePath = uiState.imagePath,
                 link = uiState.link,
                 onLinkValueChange = {
-                    onEvent(AddInventoryItemEvent.OnLinkValueChange(it))
+                    onEvent(AddEditInventoryItemEvent.OnLinkValueChange(it))
                 },
                 onRemoveImageClick = {
-                    onEvent(AddInventoryItemEvent.SetLinkImage(null))
+                    onEvent(AddEditInventoryItemEvent.SetLinkImage(null))
                 },
                 onAddLinkImageClick = {
-                    onEvent(AddInventoryItemEvent.SetLinkImage(it))
+                    onEvent(AddEditInventoryItemEvent.SetLinkImage(it))
                 }
             )
         }
@@ -184,7 +184,7 @@ private fun AddWithoutRequiredPreview() {
     InventoryTheme {
         AddInventoryItemUi(
             navController = null,
-            uiState = AddInventoryItemState(
+            uiState = AddEditInventoryItemState(
                 name = null,
                 quantity = null,
                 minQuantityTarget = null,
@@ -209,7 +209,7 @@ private fun FilledStatePreview() {
     InventoryTheme {
         AddInventoryItemUi(
             navController = null,
-            uiState = AddInventoryItemState(
+            uiState = AddEditInventoryItemState(
                 name = "Watter bottles",
                 quantity = "5",
                 minQuantityTarget = "5",

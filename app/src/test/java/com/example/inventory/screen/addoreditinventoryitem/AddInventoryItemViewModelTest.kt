@@ -1,4 +1,4 @@
-package com.example.inventory.screen.addinventoryitem
+package com.example.inventory.screen.addoreditinventoryitem
 
 import com.example.inventory.data.repository.inventory.InventoryRepository
 import com.example.inventory.domain.IdProvider
@@ -19,10 +19,10 @@ class AddInventoryItemViewModelTest : FreeSpec({
         val repository: InventoryRepository = FakeInventoryRepository()
         val idProvider = mockk<IdProvider>()
         val navigator = mockk<Navigator>()
-        val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
+        val viewModel = AddEditInventoryItemViewModel(repository, idProvider, navigator)
 
         // when
-        val events = emptyList<AddInventoryItemEvent>()
+        val events = emptyList<AddEditInventoryItemEvent>()
 
         // then
         viewModel.runTest(events = events) {
@@ -42,11 +42,11 @@ class AddInventoryItemViewModelTest : FreeSpec({
         val repository: InventoryRepository = FakeInventoryRepository()
         val idProvider = mockk<IdProvider>()
         val navigator = mockk<Navigator>()
-        val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
+        val viewModel = AddEditInventoryItemViewModel(repository, idProvider, navigator)
 
         // when
-        val events = listOf<AddInventoryItemEvent>(
-            AddInventoryItemEvent.SetName("Kitchen roll")
+        val events = listOf<AddEditInventoryItemEvent>(
+            AddEditInventoryItemEvent.SetName("Kitchen roll")
         )
 
         // then
@@ -67,12 +67,12 @@ class AddInventoryItemViewModelTest : FreeSpec({
         val repository: InventoryRepository = FakeInventoryRepository()
         val idProvider = mockk<IdProvider>()
         val navigator = mockk<Navigator>()
-        val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
+        val viewModel = AddEditInventoryItemViewModel(repository, idProvider, navigator)
 
         // when
         val events = listOf(
-            AddInventoryItemEvent.SetName("Kitchen roll"),
-            AddInventoryItemEvent.SetQuantity("5")
+            AddEditInventoryItemEvent.SetName("Kitchen roll"),
+            AddEditInventoryItemEvent.SetQuantity("5")
         )
 
         // then
@@ -93,11 +93,11 @@ class AddInventoryItemViewModelTest : FreeSpec({
         val repository: InventoryRepository = FakeInventoryRepository()
         val idProvider = mockk<IdProvider>()
         val navigator = mockk<Navigator>()
-        val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
+        val viewModel = AddEditInventoryItemViewModel(repository, idProvider, navigator)
 
         // when
         val events = listOf(
-            AddInventoryItemEvent.SetMinQuantityTarget("10")
+            AddEditInventoryItemEvent.SetMinQuantityTarget("10")
         )
 
         // then
@@ -118,11 +118,11 @@ class AddInventoryItemViewModelTest : FreeSpec({
         val repository: InventoryRepository = FakeInventoryRepository()
         val idProvider = mockk<IdProvider>()
         val navigator = mockk<Navigator>()
-        val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
+        val viewModel = AddEditInventoryItemViewModel(repository, idProvider, navigator)
 
         // when
         val events = listOf(
-            AddInventoryItemEvent.SetCategory("Groceries")
+            AddEditInventoryItemEvent.SetCategory("Groceries")
         )
 
         // then
@@ -143,11 +143,11 @@ class AddInventoryItemViewModelTest : FreeSpec({
         val repository: InventoryRepository = FakeInventoryRepository()
         val idProvider = mockk<IdProvider>()
         val navigator = mockk<Navigator>()
-        val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
+        val viewModel = AddEditInventoryItemViewModel(repository, idProvider, navigator)
 
         // when
         val events = listOf(
-            AddInventoryItemEvent.SetDescription("...")
+            AddEditInventoryItemEvent.SetDescription("...")
         )
 
         // then
@@ -168,14 +168,14 @@ class AddInventoryItemViewModelTest : FreeSpec({
         val repository: InventoryRepository = FakeInventoryRepository()
         val idProvider = mockk<IdProvider>()
         val navigator = mockk<Navigator>()
-        val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
+        val viewModel = AddEditInventoryItemViewModel(repository, idProvider, navigator)
 
         // when
         val events = listOf(
-            AddInventoryItemEvent.OnLinkValueChange(
+            AddEditInventoryItemEvent.OnLinkValueChange(
                 "https://media.kitepackaging.co.uk/images/product/large/7x7x7l.jpg"
             ),
-            AddInventoryItemEvent.SetLinkImage(
+            AddEditInventoryItemEvent.SetLinkImage(
                 "https://media.kitepackaging.co.uk/images/product/large/7x7x7l.jpg"
             )
         )
@@ -199,11 +199,11 @@ class AddInventoryItemViewModelTest : FreeSpec({
         val repository: InventoryRepository = FakeInventoryRepository()
         val idProvider = mockk<IdProvider>()
         val navigator = mockk<Navigator>()
-        val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
+        val viewModel = AddEditInventoryItemViewModel(repository, idProvider, navigator)
 
         // when
         val events = listOf(
-            AddInventoryItemEvent.OnLinkValueChange(
+            AddEditInventoryItemEvent.OnLinkValueChange(
                 "https://media.kitepackaging.co.uk/images/product/large/7x7x7l.jpg"
             )
         )
@@ -227,17 +227,17 @@ class AddInventoryItemViewModelTest : FreeSpec({
             val repository: InventoryRepository = FakeInventoryRepository()
             val idProvider = mockk<IdProvider>()
             val navigator = mockk<Navigator>()
-            val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
+            val viewModel = AddEditInventoryItemViewModel(repository, idProvider, navigator)
             val id = UUID.randomUUID()
             coEvery { idProvider.generateId() } returns id
             coEvery { navigator.back() } just runs
 
             // when
             val events = listOf(
-                AddInventoryItemEvent.SetName("Kitchen roll"),
-                AddInventoryItemEvent.SetQuantity("4"),
-                AddInventoryItemEvent.SetMinQuantityTarget("5"),
-                AddInventoryItemEvent.AddInventoryItem
+                AddEditInventoryItemEvent.SetName("Kitchen roll"),
+                AddEditInventoryItemEvent.SetQuantity("4"),
+                AddEditInventoryItemEvent.SetMinQuantityTarget("5"),
+                AddEditInventoryItemEvent.AddInventoryItem
             )
 
             // then
@@ -257,14 +257,14 @@ class AddInventoryItemViewModelTest : FreeSpec({
             val repository: InventoryRepository = FakeInventoryRepository()
             val idProvider = mockk<IdProvider>()
             val navigator = mockk<Navigator>()
-            val viewModel = AddInventoryItemViewModel(repository, idProvider, navigator)
+            val viewModel = AddEditInventoryItemViewModel(repository, idProvider, navigator)
 
             // when
             val events = listOf(
-                AddInventoryItemEvent.SetName("Item"),
-                AddInventoryItemEvent.SetQuantity("2.5"),
-                AddInventoryItemEvent.SetMinQuantityTarget("3"),
-                AddInventoryItemEvent.AddInventoryItem
+                AddEditInventoryItemEvent.SetName("Item"),
+                AddEditInventoryItemEvent.SetQuantity("2.5"),
+                AddEditInventoryItemEvent.SetMinQuantityTarget("3"),
+                AddEditInventoryItemEvent.AddInventoryItem
             )
 
             // then

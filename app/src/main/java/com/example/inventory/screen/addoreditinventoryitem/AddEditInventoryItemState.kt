@@ -1,8 +1,8 @@
-package com.example.inventory.screen.addinventoryitem
+package com.example.inventory.screen.addoreditinventoryitem
 
 import kotlinx.collections.immutable.ImmutableList
 
-data class AddInventoryItemState(
+data class AddEditInventoryItemState(
     val name: String?,
     val quantity: String?,
     val minQuantityTarget: String?,

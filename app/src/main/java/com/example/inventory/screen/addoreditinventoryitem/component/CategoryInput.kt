@@ -1,4 +1,4 @@
-package com.example.inventory.screen.addinventoryitem.component
+package com.example.inventory.screen.addoreditinventoryitem.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
