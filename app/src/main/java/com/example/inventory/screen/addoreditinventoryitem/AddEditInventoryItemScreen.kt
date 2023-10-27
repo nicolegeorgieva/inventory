@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -27,14 +28,20 @@ import com.example.inventory.ui.theme.InventoryTheme
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun AddInventoryItemScreen(
+fun AddEditInventoryItemScreen(
     navController: NavController,
     itemId: String?
 ) {
     val viewModel: AddEditInventoryItemViewModel = hiltViewModel()
     val uiState = viewModel.uiState()
 
-    AddInventoryItemUi(
+    if (itemId != null) {
+        LaunchedEffect(Unit) {
+            viewModel.onEvent(AddEditInventoryItemEvent.LoadItem(itemId))
+        }
+    }
+
+    AddEditInventoryItemUi(
         navController = navController,
         uiState = uiState,
         itemId = itemId,
@@ -43,7 +50,7 @@ fun AddInventoryItemScreen(
 }
 
 @Composable
-private fun AddInventoryItemUi(
+private fun AddEditInventoryItemUi(
     itemId: String?,
     navController: NavController?,
     uiState: AddEditInventoryItemState,
@@ -188,7 +195,7 @@ private fun Content(
 @Composable
 private fun AddWithoutRequiredPreview() {
     InventoryTheme {
-        AddInventoryItemUi(
+        AddEditInventoryItemUi(
             navController = null,
             itemId = null,
             uiState = AddEditInventoryItemState(
@@ -214,7 +221,7 @@ private fun AddWithoutRequiredPreview() {
 @Composable
 private fun FilledStatePreview() {
     InventoryTheme {
-        AddInventoryItemUi(
+        AddEditInventoryItemUi(
             navController = null,
             itemId = null,
             uiState = AddEditInventoryItemState(

@@ -176,7 +176,7 @@ class HomeViewModel @Inject constructor(
 
     private fun onItemClicked(id: String) {
         viewModelScope.launch {
-            navigator.navigate("addInventoryItem/$id")
+            navigator.navigate("addInventoryItem?itemId=$id")
         }
     }
 

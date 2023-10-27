@@ -134,6 +134,7 @@ class AddEditInventoryItemViewModel @Inject constructor(
             )
 
             AddEditInventoryItemEvent.OnOpenCategoryDialog -> onShowDialogChange()
+            is AddEditInventoryItemEvent.LoadItem -> {}
         }
     }
 

@@ -13,4 +13,5 @@ sealed interface AddEditInventoryItemEvent {
     data class SetLinkImage(val newImage: String?) : AddEditInventoryItemEvent
     data class OnLinkValueChange(val link: String?) : AddEditInventoryItemEvent
     data object AddInventoryItem : AddEditInventoryItemEvent
+    data class LoadItem(val id: String) : AddEditInventoryItemEvent
 }

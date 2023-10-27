@@ -18,7 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.inventory.navigation.NavigationEvent
 import com.example.inventory.navigation.Navigator
-import com.example.inventory.screen.addoreditinventoryitem.AddInventoryItemScreen
+import com.example.inventory.screen.addoreditinventoryitem.AddEditInventoryItemScreen
 import com.example.inventory.screen.home.HomeScreen
 import com.example.inventory.screen.moremenu.MoreMenuScreen
 import com.example.inventory.ui.theme.InventoryTheme
@@ -64,12 +64,16 @@ class MainActivity : ComponentActivity() {
                         composable("home") { HomeScreen(navController) }
                         composable("moreMenu") { MoreMenuScreen(navController) }
                         composable(
-                            route = "addInventoryItem/{itemId}",
-                            arguments = listOf(navArgument("itemId") {
-                                type = NavType.StringType
-                            })
+                            route = "addInventoryItem?itemId={itemId}",
+                            arguments = listOf(
+                                navArgument("itemId") {
+                                    type = NavType.StringType
+                                    nullable = true
+                                    defaultValue = null
+                                }
+                            )
                         ) { backStackEntry ->
-                            AddInventoryItemScreen(
+                            AddEditInventoryItemScreen(
                                 navController,
                                 backStackEntry.arguments?.getString("itemId")
                             )
