@@ -70,7 +70,7 @@ class InventoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun add(inventoryItem: InventoryItem) {
-        val checkExistingName = getAllOrderedByAscending().filter { it.name == inventoryItem.name }
+        val checkExistingName = getAll().filter { it.name == inventoryItem.name }
         if (checkExistingName.isNotEmpty()) return
 
         withContext(dispatchers.io) {

@@ -36,6 +36,7 @@ class AddEditInventoryItemViewModel @Inject constructor(
     private val addWithoutRequired = mutableStateOf(false)
     private val newCategoryValue = mutableStateOf<String?>(null)
     private val openAddCategoryDialog = mutableStateOf(false)
+    private var existingId: String? = null
 
     @Composable
     override fun uiState(): AddEditInventoryItemState {
@@ -217,6 +218,8 @@ class AddEditInventoryItemViewModel @Inject constructor(
             description.value = item?.description
             imagePath.value = item?.imagePath
         }
+
+        existingId = id
     }
 
     private fun addInventoryItem() {
@@ -224,17 +227,27 @@ class AddEditInventoryItemViewModel @Inject constructor(
 
         if (validateInput) {
             viewModelScope.launch {
-                inventoryRepository.add(
-                    InventoryItem(
-                        id = idProvider.generateId(),
-                        name = name.value ?: "",
-                        quantity = quantity.value?.toIntOrNull() ?: 0,
-                        minQuantityTarget = minQuantityTarget.value?.toIntOrNull() ?: 0,
-                        category = category.value,
-                        description = description.value ?: "",
-                        imagePath = imagePath.value ?: ""
-                    )
+                val checkExistingName = inventoryRepository.getAll().filter {
+                    it.name == name.value
+                }
+
+                val inventoryItem = InventoryItem(
+                    id = if (existingId == null) idProvider.generateId() else UUID.fromString(
+                        existingId
+                    ),
+                    name = name.value ?: "",
+                    quantity = quantity.value?.toIntOrNull() ?: 0,
+                    minQuantityTarget = minQuantityTarget.value?.toIntOrNull() ?: 0,
+                    category = category.value,
+                    description = description.value ?: "",
+                    imagePath = imagePath.value ?: ""
                 )
+
+                if (checkExistingName.isNotEmpty()) {
+                    inventoryRepository.update(inventoryItem)
+                } else {
+                    inventoryRepository.add(inventoryItem)
+                }
 
                 navigator.back()
             }

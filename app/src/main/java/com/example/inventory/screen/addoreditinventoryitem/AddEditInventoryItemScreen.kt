@@ -71,7 +71,10 @@ private fun AddEditInventoryItemUi(
             )
         },
         floatingActionButton = {
-            AddInventoryItemButton(onEvent = onEvent)
+            AddInventoryItemButton(
+                itemId = itemId,
+                onEvent = onEvent
+            )
         },
         floatingActionButtonPosition = FabPosition.End,
         content = { innerPadding ->

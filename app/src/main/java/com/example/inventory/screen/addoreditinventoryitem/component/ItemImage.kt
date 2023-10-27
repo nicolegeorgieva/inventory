@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,16 +34,16 @@ fun ItemImage(
     onAddLinkImageClick: (String) -> Unit,
     onRemoveImageClick: () -> Unit
 ) {
-    if (imagePath != null) {
-        ImageFromPath(
-            path = imagePath,
-            onRemoveImageClick = onRemoveImageClick
-        )
-    } else {
+    if (imagePath.isNullOrBlank()) {
         AddImageSection(
             linkValue = link ?: "",
             onLinkValueChange = onLinkValueChange,
             onAddLinkImageClick = onAddLinkImageClick
+        )
+    } else {
+        ImageFromPath(
+            path = imagePath,
+            onRemoveImageClick = onRemoveImageClick
         )
     }
 }
@@ -113,20 +112,11 @@ private fun ImageFromPath(path: String, onRemoveImageClick: () -> Unit) {
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Top
     ) {
-        if (path.isBlank()) {
-            Icon(
-                modifier = Modifier.size(196.dp),
-                painter = painterResource(id = R.drawable.baseline_inventory_24),
-                contentDescription = stringResource(R.string.item_image),
-                tint = MaterialTheme.colorScheme.primary
-            )
-        } else {
-            AsyncImage(
-                modifier = Modifier.size(196.dp),
-                model = path,
-                contentDescription = stringResource(R.string.item_image)
-            )
-        }
+        AsyncImage(
+            modifier = Modifier.size(196.dp),
+            model = path,
+            contentDescription = stringResource(R.string.item_image)
+        )
 
         FilledIconButton(
             onClick = onRemoveImageClick,

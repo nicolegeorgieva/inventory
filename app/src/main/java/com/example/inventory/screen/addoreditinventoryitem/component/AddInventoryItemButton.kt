@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -13,6 +14,7 @@ import com.example.inventory.screen.addoreditinventoryitem.AddEditInventoryItemE
 
 @Composable
 fun AddInventoryItemButton(
+    itemId: String?,
     onEvent: (AddEditInventoryItemEvent) -> Unit
 ) {
     FloatingActionButton(
@@ -21,15 +23,22 @@ fun AddInventoryItemButton(
         },
         containerColor = MaterialTheme.colorScheme.primary
     ) {
-        Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = stringResource(R.string.add)
-        )
+        if (itemId == null) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = stringResource(R.string.add)
+            )
+        } else {
+            Text(text = "Save")
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun AddInventoryItemButtonPreview() {
-    AddInventoryItemButton(onEvent = {})
+    AddInventoryItemButton(
+        itemId = null,
+        onEvent = {}
+    )
 }
