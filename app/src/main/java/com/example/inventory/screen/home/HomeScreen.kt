@@ -88,6 +88,9 @@ private fun HomeUi(
                                 },
                                 onRemoveQuantity = {
                                     onEvent(HomeEvent.DecreaseQuantity(it.item.id))
+                                },
+                                onClick = {
+                                    onEvent(HomeEvent.OnItemClicked(it.item.id))
                                 }
                             )
 

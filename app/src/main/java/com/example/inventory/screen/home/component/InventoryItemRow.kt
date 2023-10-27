@@ -3,6 +3,7 @@ package com.example.inventory.screen.home.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,7 +37,8 @@ fun InventoryItemRow(
     quantity: String,
     image: String?,
     onAddQuantity: () -> Unit,
-    onRemoveQuantity: () -> Unit
+    onRemoveQuantity: () -> Unit,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -45,7 +47,10 @@ fun InventoryItemRow(
             .border(
                 border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.onBackground),
                 shape = RoundedCornerShape(4.dp)
-            ),
+            )
+            .clickable {
+                onClick()
+            },
         shape = RoundedCornerShape(4.dp)
     ) {
         Row(
@@ -177,7 +182,8 @@ private fun InventoryItemRowPreview() {
             quantity = "4",
             image = "",
             onAddQuantity = {},
-            onRemoveQuantity = {}
+            onRemoveQuantity = {},
+            onClick = {}
         )
     }
 }
