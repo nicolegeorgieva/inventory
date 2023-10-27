@@ -147,6 +147,14 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     private fun onExpandedChange() {
+        viewModelScope.launch {
+            val savedCategories = inventoryRepository.getAll().mapNotNull {
+                it.category
+            }
+
+            categories.value = (categories.value + savedCategories).toSet().toImmutableList()
+        }
+
         categoryMenuExpanded.value = !categoryMenuExpanded.value
     }
 
