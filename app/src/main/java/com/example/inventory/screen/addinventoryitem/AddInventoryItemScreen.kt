@@ -39,6 +39,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -267,6 +268,14 @@ private fun CategoryInputRow(
                     onMenuExpandedChange = onExpandedChange
                 )
             }
+
+            CategoryDropdownMenuOption(
+                category = "Add new",
+                trailingIcon = Icons.Default.Add,
+                contentDescription = "Add new",
+                onCategorySelected = onCategorySelected,
+                onMenuExpandedChange = onExpandedChange
+            )
         }
     }
 }
@@ -275,6 +284,8 @@ private fun CategoryInputRow(
 private fun CategoryDropdownMenuOption(
     category: String,
     onCategorySelected: (String) -> Unit,
+    trailingIcon: ImageVector? = null,
+    contentDescription: String? = null,
     onMenuExpandedChange: () -> Unit
 ) {
     DropdownMenuItem(
@@ -285,6 +296,14 @@ private fun CategoryDropdownMenuOption(
         onClick = {
             onCategorySelected(category)
             onMenuExpandedChange()
+        },
+        trailingIcon = {
+            if (trailingIcon != null) {
+                Icon(
+                    imageVector = trailingIcon,
+                    contentDescription = contentDescription
+                )
+            }
         }
     )
 }
