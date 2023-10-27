@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
@@ -211,13 +212,15 @@ private fun CategoryInputRow(
     onCategorySelected: (String) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .padding(top = 8.dp)
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             modifier = Modifier
-                .widthIn(OutlinedTextFieldDefaults.MinWidth)
-                .heightIn(OutlinedTextFieldDefaults.MinHeight)
+                .width(OutlinedTextFieldDefaults.MinWidth)
+                .height(OutlinedTextFieldDefaults.MinHeight)
                 .border(
                     border = BorderStroke(
                         OutlinedTextFieldDefaults.UnfocusedBorderThickness,
@@ -228,10 +231,15 @@ private fun CategoryInputRow(
                 .clickable {
                     onExpandedChange()
                 },
-            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Category: None")
+            Text(
+                modifier = Modifier.padding(start = 8.dp),
+                text = "Category: None"
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
             Icon(
                 imageVector = Icons.Default.ArrowDropDown,
                 contentDescription = "Category dropdown menu"
@@ -242,12 +250,12 @@ private fun CategoryInputRow(
             modifier = Modifier
                 .widthIn(OutlinedTextFieldDefaults.MinWidth)
                 .heightIn(OutlinedTextFieldDefaults.MinHeight),
-            offset = DpOffset(x = 0.dp, y = 4.dp),
+            offset = DpOffset(x = 52.dp, y = 4.dp),
             expanded = expanded,
             onDismissRequest = onExpandedChange
         ) {
             CategoryDropdownMenuOption(
-                category = "Category: None",
+                category = "None",
                 onCategorySelected = onCategorySelected,
                 onMenuExpandedChange = onExpandedChange
             )
@@ -358,10 +366,11 @@ private fun InputRow(
     onInputChange: (String) -> Unit
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
         OutlinedTextField(
+            modifier = modifier,
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
                 imeAction = imeAction
