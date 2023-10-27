@@ -37,12 +37,14 @@ fun AddInventoryItemScreen(
     AddInventoryItemUi(
         navController = navController,
         uiState = uiState,
+        itemId = itemId,
         onEvent = viewModel::onEvent
     )
 }
 
 @Composable
 private fun AddInventoryItemUi(
+    itemId: String?,
     navController: NavController?,
     uiState: AddEditInventoryItemState,
     onEvent: (AddEditInventoryItemEvent) -> Unit
@@ -53,7 +55,11 @@ private fun AddInventoryItemUi(
             .padding(12.dp),
         topBar = {
             CustomTopAppBar(
-                title = stringResource(R.string.add_inventory_item_title),
+                title = if (itemId == null) {
+                    stringResource(R.string.add_inventory_item_title)
+                } else {
+                    "Edit Inventory Item"
+                },
                 navController = navController
             )
         },
@@ -184,6 +190,7 @@ private fun AddWithoutRequiredPreview() {
     InventoryTheme {
         AddInventoryItemUi(
             navController = null,
+            itemId = null,
             uiState = AddEditInventoryItemState(
                 name = null,
                 quantity = null,
@@ -209,6 +216,7 @@ private fun FilledStatePreview() {
     InventoryTheme {
         AddInventoryItemUi(
             navController = null,
+            itemId = null,
             uiState = AddEditInventoryItemState(
                 name = "Watter bottles",
                 quantity = "5",

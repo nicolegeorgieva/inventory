@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
                         ) { backStackEntry ->
                             AddInventoryItemScreen(
                                 navController,
-                                backStackEntry.arguments?.getString("userId")
+                                backStackEntry.arguments?.getString("itemId")
                             )
                         }
                     }
