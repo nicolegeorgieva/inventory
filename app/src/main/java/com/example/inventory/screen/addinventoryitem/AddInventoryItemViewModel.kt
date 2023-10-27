@@ -11,6 +11,7 @@ import com.example.inventory.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,8 +26,8 @@ class AddInventoryItemViewModel @Inject constructor(
     private val name = mutableStateOf<String?>(null)
     private val quantity = mutableStateOf<String?>(null)
     private val minQuantityTarget = mutableStateOf<String?>(null)
-    private val category = mutableStateOf("All")
-    private val categories = mutableStateOf(persistentListOf<String>())
+    private val category = mutableStateOf("None")
+    private val categories = mutableStateOf<ImmutableList<String>>(persistentListOf())
     private val categoryMenuExpanded = mutableStateOf(false)
     private val description = mutableStateOf<String?>(null)
     private val link = mutableStateOf<String?>(null)
@@ -138,6 +139,12 @@ class AddInventoryItemViewModel @Inject constructor(
 
     private fun setCategory(newCategory: String) {
         category.value = newCategory
+        categories.value = (categories.value + newCategory)
+            .toSet()
+            .filter {
+                it != "None"
+            }.toImmutableList()
+        openAddCategoryDialog.value = false
     }
 
     private fun onExpandedChange() {
@@ -183,6 +190,7 @@ class AddInventoryItemViewModel @Inject constructor(
 
     private fun onShowDialogChange() {
         openAddCategoryDialog.value = !openAddCategoryDialog.value
+        categoryMenuExpanded.value = false
     }
 
     private fun onNewCategoryValueChange(value: String) {

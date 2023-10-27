@@ -173,6 +173,7 @@ private fun Content(
                 onExpandedChange = {
                     onEvent(AddInventoryItemEvent.OnExpandedChange)
                 },
+                category = uiState.category,
                 categories = uiState.categories,
                 onCategorySelected = {
                     onEvent(AddInventoryItemEvent.SetCategory(it))
@@ -233,6 +234,7 @@ private fun CategoryInput(
     onAddNewCategory: (String) -> Unit,
     onCloseDialog: () -> Unit,
     onExpandedChange: () -> Unit,
+    category: String,
     categories: ImmutableList<String>,
     onCategorySelected: (String) -> Unit
 ) {
@@ -242,25 +244,35 @@ private fun CategoryInput(
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CategoryRow(onExpandedChange = onExpandedChange)
+        CategoryRow(
+            category = category,
+            onExpandedChange = onExpandedChange
+        )
 
         CategoryDropdownMenu(
             expanded = expanded,
-            openAddCategoryDialog = openAddCategoryDialog,
-            newCategoryValue = newCategoryValue,
             onOpenCategoryDialog = onOpenCategoryDialog,
-            onNewCategoryValueChange = onNewCategoryValueChange,
-            onAddNewCategory = onAddNewCategory,
-            onCloseDialog = onCloseDialog,
             onExpandedChange = onExpandedChange,
             categories = categories,
             onCategorySelected = onCategorySelected
         )
+
+        if (openAddCategoryDialog) {
+            AddNewCategoryDialog(
+                newCategoryValue = newCategoryValue,
+                onNewCategoryValueChange = onNewCategoryValueChange,
+                onAddNewCategory = onAddNewCategory,
+                onCloseDialog = onCloseDialog
+            )
+        }
     }
 }
 
 @Composable
-private fun CategoryRow(onExpandedChange: () -> Unit) {
+private fun CategoryRow(
+    category: String,
+    onExpandedChange: () -> Unit
+) {
     Row(
         modifier = Modifier
             .width(OutlinedTextFieldDefaults.MinWidth)
@@ -279,7 +291,7 @@ private fun CategoryRow(onExpandedChange: () -> Unit) {
     ) {
         Text(
             modifier = Modifier.padding(start = 8.dp),
-            text = "Category: None"
+            text = "Category: $category"
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -294,12 +306,7 @@ private fun CategoryRow(onExpandedChange: () -> Unit) {
 @Composable
 private fun CategoryDropdownMenu(
     expanded: Boolean,
-    openAddCategoryDialog: Boolean,
-    newCategoryValue: String,
     onOpenCategoryDialog: () -> Unit,
-    onNewCategoryValueChange: (String) -> Unit,
-    onAddNewCategory: (String) -> Unit,
-    onCloseDialog: () -> Unit,
     onExpandedChange: () -> Unit,
     categories: ImmutableList<String>,
     onCategorySelected: (String) -> Unit
@@ -329,15 +336,6 @@ private fun CategoryDropdownMenu(
         AddCategoryDropdownMenuOption(
             onAddNewSelected = onOpenCategoryDialog
         )
-
-        if (openAddCategoryDialog) {
-            AddNewCategoryDialog(
-                newCategoryValue = newCategoryValue,
-                onNewCategoryValueChange = onNewCategoryValueChange,
-                onAddNewCategory = onAddNewCategory,
-                onCloseDialog = onCloseDialog
-            )
-        }
     }
 }
 
