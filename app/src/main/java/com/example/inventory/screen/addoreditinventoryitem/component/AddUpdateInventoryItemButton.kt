@@ -13,7 +13,7 @@ import com.example.inventory.R
 import com.example.inventory.screen.addoreditinventoryitem.AddEditInventoryItemEvent
 
 @Composable
-fun AddInventoryItemButton(
+fun AddUpdateInventoryItemButton(
     itemId: String?,
     onEvent: (AddEditInventoryItemEvent) -> Unit
 ) {
@@ -37,7 +37,7 @@ fun AddInventoryItemButton(
 @Preview(showBackground = true)
 @Composable
 private fun AddInventoryItemButtonPreview() {
-    AddInventoryItemButton(
+    AddUpdateInventoryItemButton(
         itemId = null,
         onEvent = {}
     )

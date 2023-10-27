@@ -16,7 +16,8 @@ import com.example.inventory.ui.theme.InventoryTheme
 @Composable
 fun CustomTopAppBar(
     navController: NavController?,
-    title: String
+    title: String,
+    action: (@Composable () -> Unit)? = null
 ) {
     CenterAlignedTopAppBar(
         title = {
@@ -31,6 +32,11 @@ fun CustomTopAppBar(
         navigationIcon = {
             BackButton {
                 navController?.popBackStack()
+            }
+        },
+        actions = {
+            if (action != null) {
+                action()
             }
         }
     )

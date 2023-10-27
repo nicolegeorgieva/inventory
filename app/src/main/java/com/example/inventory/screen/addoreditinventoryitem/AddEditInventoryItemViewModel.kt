@@ -137,6 +137,7 @@ class AddEditInventoryItemViewModel @Inject constructor(
 
             AddEditInventoryItemEvent.OnOpenCategoryDialog -> onShowDialogChange()
             is AddEditInventoryItemEvent.LoadItem -> loadItem(event.id)
+            AddEditInventoryItemEvent.DeleteItem -> deleteItem()
         }
     }
 
@@ -220,6 +221,17 @@ class AddEditInventoryItemViewModel @Inject constructor(
         }
 
         existingId = id
+    }
+
+    private fun deleteItem() {
+        viewModelScope.launch {
+            val item = inventoryRepository.getById(UUID.fromString(existingId))
+
+            if (item != null) {
+                inventoryRepository.delete(item)
+                navigator.back()
+            }
+        }
     }
 
     private fun addInventoryItem() {

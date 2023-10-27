@@ -6,7 +6,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,7 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.inventory.R
 import com.example.inventory.component.CustomTopAppBar
-import com.example.inventory.screen.addoreditinventoryitem.component.AddInventoryItemButton
+import com.example.inventory.screen.addoreditinventoryitem.component.AddUpdateInventoryItemButton
 import com.example.inventory.screen.addoreditinventoryitem.component.CategoryInput
 import com.example.inventory.screen.addoreditinventoryitem.component.InputRow
 import com.example.inventory.screen.addoreditinventoryitem.component.ItemImage
@@ -67,11 +71,21 @@ private fun AddEditInventoryItemUi(
                 } else {
                     "Edit Inventory Item"
                 },
-                navController = navController
+                navController = navController,
+                action = {
+                    IconButton(onClick = {
+                        onEvent(AddEditInventoryItemEvent.DeleteItem)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete"
+                        )
+                    }
+                }
             )
         },
         floatingActionButton = {
-            AddInventoryItemButton(
+            AddUpdateInventoryItemButton(
                 itemId = itemId,
                 onEvent = onEvent
             )
