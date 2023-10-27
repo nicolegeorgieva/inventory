@@ -93,7 +93,7 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.DecreaseQuantity -> onDecreaseQuantity(event.id)
             HomeEvent.OnAddButtonClicked -> onAddButtonClicked()
             is HomeEvent.OnSortOptionClicked -> onSortOptionClicked()
-            is HomeEvent.OnItemClicked -> onItemClicked()
+            is HomeEvent.OnItemClicked -> onItemClicked(event.id)
         }
     }
 
@@ -174,9 +174,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun onItemClicked() {
+    private fun onItemClicked(id: String) {
         viewModelScope.launch {
-            navigator.navigate("addInventoryItem")
+            navigator.navigate("addInventoryItem/$id")
         }
     }
 

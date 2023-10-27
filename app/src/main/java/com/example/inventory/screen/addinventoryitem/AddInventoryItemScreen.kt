@@ -27,7 +27,10 @@ import com.example.inventory.ui.theme.InventoryTheme
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun AddInventoryItemScreen(navController: NavController) {
+fun AddInventoryItemScreen(
+    navController: NavController,
+    itemId: String?
+) {
     val viewModel: AddInventoryItemViewModel = hiltViewModel()
     val uiState = viewModel.uiState()
 

@@ -10,10 +10,12 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.inventory.navigation.NavigationEvent
 import com.example.inventory.navigation.Navigator
 import com.example.inventory.screen.addinventoryitem.AddInventoryItemScreen
@@ -61,8 +63,16 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "home") {
                         composable("home") { HomeScreen(navController) }
                         composable("moreMenu") { MoreMenuScreen(navController) }
-                        composable("addInventoryItem") {
-                            AddInventoryItemScreen(navController)
+                        composable(
+                            route = "addInventoryItem/{itemId}",
+                            arguments = listOf(navArgument("itemId") {
+                                type = NavType.StringType
+                            })
+                        ) { backStackEntry ->
+                            AddInventoryItemScreen(
+                                navController,
+                                backStackEntry.arguments?.getString("userId")
+                            )
                         }
                     }
                 }
