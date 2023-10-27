@@ -48,7 +48,7 @@ fun CategoryInput(
     onExpandedChange: () -> Unit,
     category: String?,
     categories: ImmutableList<String>,
-    onCategorySelected: (String) -> Unit
+    onCategorySelected: (String?) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -57,7 +57,7 @@ fun CategoryInput(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CategoryRow(
-            category = category ?: "",
+            category = category ?: "None",
             onExpandedChange = onExpandedChange
         )
 
@@ -121,7 +121,7 @@ private fun CategoryDropdownMenu(
     onOpenCategoryDialog: () -> Unit,
     onExpandedChange: () -> Unit,
     categories: ImmutableList<String>,
-    onCategorySelected: (String) -> Unit
+    onCategorySelected: (String?) -> Unit
 ) {
     DropdownMenu(
         modifier = Modifier
@@ -131,8 +131,7 @@ private fun CategoryDropdownMenu(
         expanded = expanded,
         onDismissRequest = onExpandedChange
     ) {
-        CategoryDropdownMenuOption(
-            category = "None",
+        CategoryDropDownNoneOption(
             onCategorySelected = onCategorySelected,
             onMenuExpandedChange = onExpandedChange
         )
@@ -149,6 +148,23 @@ private fun CategoryDropdownMenu(
             onAddNewSelected = onOpenCategoryDialog
         )
     }
+}
+
+@Composable
+private fun CategoryDropDownNoneOption(
+    onCategorySelected: (String?) -> Unit,
+    onMenuExpandedChange: () -> Unit
+) {
+    DropdownMenuItem(
+        modifier = Modifier.padding(horizontal = 24.dp),
+        text = {
+            Text("None")
+        },
+        onClick = {
+            onCategorySelected(null)
+            onMenuExpandedChange()
+        }
+    )
 }
 
 @Composable

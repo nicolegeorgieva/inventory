@@ -26,7 +26,7 @@ class AddInventoryItemViewModel @Inject constructor(
     private val name = mutableStateOf<String?>(null)
     private val quantity = mutableStateOf<String?>(null)
     private val minQuantityTarget = mutableStateOf<String?>(null)
-    private val category = mutableStateOf("None")
+    private val category = mutableStateOf<String?>(null)
     private val categories = mutableStateOf<ImmutableList<String>>(persistentListOf())
     private val categoryMenuExpanded = mutableStateOf(false)
     private val description = mutableStateOf<String?>(null)
@@ -70,7 +70,7 @@ class AddInventoryItemViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getCategory(): String {
+    private fun getCategory(): String? {
         return category.value
     }
 
@@ -137,13 +137,12 @@ class AddInventoryItemViewModel @Inject constructor(
         }
     }
 
-    private fun setCategory(newCategory: String) {
+    private fun setCategory(newCategory: String?) {
         category.value = newCategory
+        if (newCategory == null) return
         categories.value = (categories.value + newCategory)
             .toSet()
-            .filter {
-                it != "None"
-            }.toImmutableList()
+            .toImmutableList()
         openAddCategoryDialog.value = false
     }
 

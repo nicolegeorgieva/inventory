@@ -4,7 +4,7 @@ sealed interface AddInventoryItemEvent {
     data class SetName(val newName: String) : AddInventoryItemEvent
     data class SetQuantity(val newQuantity: String) : AddInventoryItemEvent
     data class SetMinQuantityTarget(val newMinQuantityTarget: String) : AddInventoryItemEvent
-    data class SetCategory(val newCategory: String) : AddInventoryItemEvent
+    data class SetCategory(val newCategory: String?) : AddInventoryItemEvent
     data object OnExpandedChange : AddInventoryItemEvent
     data object OnOpenCategoryDialog : AddInventoryItemEvent
     data class OnNewCategoryValueChange(val newCategoryValue: String) : AddInventoryItemEvent

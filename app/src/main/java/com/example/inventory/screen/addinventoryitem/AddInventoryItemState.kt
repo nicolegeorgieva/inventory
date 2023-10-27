@@ -6,7 +6,7 @@ data class AddInventoryItemState(
     val name: String?,
     val quantity: String?,
     val minQuantityTarget: String?,
-    val category: String,
+    val category: String?,
     val categories: ImmutableList<String>,
     val expanded: Boolean,
     val openAddCategoryDialog: Boolean,
