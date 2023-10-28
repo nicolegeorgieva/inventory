@@ -3,6 +3,7 @@ package com.example.inventory.screen.home
 import androidx.compose.runtime.MutableState
 import com.example.inventory.data.model.InventoryItem
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 
@@ -26,6 +27,11 @@ class InventoryListProvider @Inject constructor() {
             InventoryItemType.Item(
                 item = it
             )
+        }
+
+        if (toBuy.isEmpty() && enough.isEmpty()) {
+            inventoryItemList.value = persistentListOf<InventoryItemType.Item>()
+            return
         }
 
         inventoryItemList.value = if (sortByAscending.value) {

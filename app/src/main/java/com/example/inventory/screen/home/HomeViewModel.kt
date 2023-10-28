@@ -216,12 +216,12 @@ class HomeViewModel @Inject constructor(
             inventoryItemList
         )
 
-        val list = mutableSetOf<String>()
+        val categories = mutableSetOf<String>()
 
         inventoryRepository.getAll().forEach {
-            if (it.category != null) list.add(it.category)
+            if (it.category != null) categories.add(it.category)
         }
 
-        categories.value = list.toPersistentSet().sorted().toPersistentList()
+        this.categories.value = categories.toPersistentSet().sorted().toPersistentList()
     }
 }
