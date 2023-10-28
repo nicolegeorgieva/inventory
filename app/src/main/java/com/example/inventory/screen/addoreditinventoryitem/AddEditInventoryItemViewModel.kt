@@ -257,6 +257,9 @@ class AddEditInventoryItemViewModel @Inject constructor(
 
         if (!validateMinQuantityTarget) {
             validMinQuantityTarget.value = false
+        }
+
+        if (!validateName || !validateQuantity || !validateMinQuantityTarget) {
             return
         }
 
