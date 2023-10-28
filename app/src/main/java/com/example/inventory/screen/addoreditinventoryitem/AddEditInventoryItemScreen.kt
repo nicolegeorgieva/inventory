@@ -6,11 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,6 +22,8 @@ import com.example.inventory.R
 import com.example.inventory.component.CustomTopAppBar
 import com.example.inventory.screen.addoreditinventoryitem.component.AddUpdateInventoryItemButton
 import com.example.inventory.screen.addoreditinventoryitem.component.CategoryInput
+import com.example.inventory.screen.addoreditinventoryitem.component.DeleteButton
+import com.example.inventory.screen.addoreditinventoryitem.component.DeleteItemConfirmationDialog
 import com.example.inventory.screen.addoreditinventoryitem.component.InputRow
 import com.example.inventory.screen.addoreditinventoryitem.component.ItemImage
 import com.example.inventory.ui.theme.InventoryTheme
@@ -74,14 +72,20 @@ private fun AddEditInventoryItemUi(
                 navController = navController,
                 action = {
                     if (itemId != null) {
-                        IconButton(onClick = {
-                            onEvent(AddEditInventoryItemEvent.DeleteItem)
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "Delete"
-                            )
-                        }
+                        DeleteButton(onClick = {
+                            onEvent(AddEditInventoryItemEvent.DeleteButtonPressed)
+                        })
+                    }
+
+                    if (uiState.showDeleteItemDialog) {
+                        DeleteItemConfirmationDialog(
+                            onConfirmDeleting = {
+                                onEvent(AddEditInventoryItemEvent.OnConfirmDeleting)
+                            },
+                            onCloseDeleteItemDialog = {
+                                onEvent(AddEditInventoryItemEvent.OnCloseDeleteItemDialog)
+                            }
+                        )
                     }
                 }
             )
@@ -175,7 +179,7 @@ private fun Content(
                     onEvent(AddEditInventoryItemEvent.SetCategory(it))
                 },
                 onCloseDialog = {
-                    onEvent(AddEditInventoryItemEvent.OnCloseDialog)
+                    onEvent(AddEditInventoryItemEvent.OnCloseAddCategoryDialog)
                 }
             )
         }
@@ -231,7 +235,8 @@ private fun AddWithoutRequiredPreview() {
                 openAddCategoryDialog = false,
                 validName = false,
                 validQuantity = false,
-                validMinQuantityTarget = false
+                validMinQuantityTarget = false,
+                showDeleteItemDialog = false
             ),
             onEvent = {}
         )
@@ -259,7 +264,8 @@ private fun FilledStatePreview() {
                 openAddCategoryDialog = false,
                 validName = true,
                 validQuantity = true,
-                validMinQuantityTarget = true
+                validMinQuantityTarget = true,
+                showDeleteItemDialog = false
             ),
             onEvent = {}
         )

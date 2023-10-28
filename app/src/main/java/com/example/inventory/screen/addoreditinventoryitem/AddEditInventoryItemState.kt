@@ -16,5 +16,6 @@ data class AddEditInventoryItemState(
     val link: String?,
     val validName: Boolean,
     val validQuantity: Boolean,
-    val validMinQuantityTarget: Boolean
+    val validMinQuantityTarget: Boolean,
+    val showDeleteItemDialog: Boolean
 )

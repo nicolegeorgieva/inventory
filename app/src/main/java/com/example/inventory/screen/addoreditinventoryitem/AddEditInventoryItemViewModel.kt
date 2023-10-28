@@ -38,6 +38,7 @@ class AddEditInventoryItemViewModel @Inject constructor(
     private val validName = mutableStateOf(true)
     private val validQuantity = mutableStateOf(true)
     private val validMinQuantityTarget = mutableStateOf(true)
+    private val showDeleteItemDialog = mutableStateOf(false)
     private var existingId: String? = null
 
     @Composable
@@ -56,7 +57,8 @@ class AddEditInventoryItemViewModel @Inject constructor(
             openAddCategoryDialog = getOpenAddCategoryDialog(),
             validName = getValidNameState(),
             validQuantity = getValidQuantityState(),
-            validMinQuantityTarget = getValidMinQuantityTargetState()
+            validMinQuantityTarget = getValidMinQuantityTargetState(),
+            showDeleteItemDialog = getShowDeleteItemDialogState()
         )
     }
 
@@ -130,6 +132,11 @@ class AddEditInventoryItemViewModel @Inject constructor(
         return validMinQuantityTarget.value
     }
 
+    @Composable
+    private fun getShowDeleteItemDialogState(): Boolean {
+        return showDeleteItemDialog.value
+    }
+
     override fun onEvent(event: AddEditInventoryItemEvent) {
         when (event) {
             is AddEditInventoryItemEvent.SetCategory -> setCategory(event.newCategory)
@@ -144,14 +151,16 @@ class AddEditInventoryItemViewModel @Inject constructor(
             is AddEditInventoryItemEvent.OnLinkValueChange -> onLinkValueChange(event.link)
             is AddEditInventoryItemEvent.SetLinkImage -> setLinkImage(event.newImage)
             AddEditInventoryItemEvent.OnExpandedChange -> onExpandedChange()
-            AddEditInventoryItemEvent.OnCloseDialog -> onShowDialogChange()
+            AddEditInventoryItemEvent.OnCloseAddCategoryDialog -> onShowDialogChange()
             is AddEditInventoryItemEvent.OnNewCategoryValueChange -> onNewCategoryValueChange(
                 event.newCategoryValue
             )
 
             AddEditInventoryItemEvent.OnOpenCategoryDialog -> onShowDialogChange()
             is AddEditInventoryItemEvent.LoadItem -> loadItem(event.id)
-            AddEditInventoryItemEvent.DeleteItem -> deleteItem()
+            AddEditInventoryItemEvent.DeleteButtonPressed -> onDeleteButtonPressed()
+            AddEditInventoryItemEvent.OnCloseDeleteItemDialog -> onCloseDeleteItemDialog()
+            AddEditInventoryItemEvent.OnConfirmDeleting -> deleteItem()
         }
     }
 
@@ -231,6 +240,10 @@ class AddEditInventoryItemViewModel @Inject constructor(
         existingId = id
     }
 
+    private fun onDeleteButtonPressed() {
+        showDeleteItemDialog.value = true
+    }
+
     private fun deleteItem() {
         viewModelScope.launch {
             val item = inventoryRepository.getById(UUID.fromString(existingId))
@@ -240,6 +253,10 @@ class AddEditInventoryItemViewModel @Inject constructor(
                 navigator.back()
             }
         }
+    }
+
+    private fun onCloseDeleteItemDialog() {
+        showDeleteItemDialog.value = false
     }
 
     private fun addInventoryItem() {
