@@ -73,13 +73,15 @@ private fun AddEditInventoryItemUi(
                 },
                 navController = navController,
                 action = {
-                    IconButton(onClick = {
-                        onEvent(AddEditInventoryItemEvent.DeleteItem)
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Delete"
-                        )
+                    if (itemId != null) {
+                        IconButton(onClick = {
+                            onEvent(AddEditInventoryItemEvent.DeleteItem)
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete"
+                            )
+                        }
                     }
                 }
             )
