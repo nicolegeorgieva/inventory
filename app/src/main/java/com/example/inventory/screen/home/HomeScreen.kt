@@ -44,7 +44,11 @@ private fun HomeUi(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            HomeTopAppBar(name = uiState.name, navController = navController)
+            HomeTopAppBar(
+                name = uiState.name,
+                quote = uiState.quote,
+                navController = navController
+            )
         },
         floatingActionButton = {
             AddButton(onAddButtonClicked = {
@@ -118,6 +122,7 @@ private fun HomeGenericEmptyPreview() {
             navController = null,
             uiState = HomeState(
                 name = null,
+                quote = "Keep your storage in balance",
                 sortByAscending = true,
                 categoryFilter = "All",
                 categories = persistentListOf("Groceries"),
@@ -137,6 +142,7 @@ private fun HomePersonalizedEmptyPreview() {
             navController = null,
             uiState = HomeState(
                 name = "Amy",
+                quote = "Keep your storage in balance",
                 sortByAscending = true,
                 categoryFilter = "All",
                 categories = persistentListOf("Groceries"),
@@ -247,6 +253,7 @@ private fun HomePersonalizedInventoryPreview() {
             navController = null,
             uiState = HomeState(
                 name = "Amy",
+                quote = "Keep your storage in balance",
                 sortByAscending = true,
                 categoryFilter = "All",
                 categories = persistentListOf("Groceries"),

@@ -16,8 +16,8 @@ class QuoteDataSource @Inject constructor(
 
     suspend fun fetchQuotes(): List<String> {
         return client.get(
-            "https://raw.githubusercontent.com/nicolegeorgieva/inventory/main/app/" +
-                    "src/main/java/com/example/inventory/quotes.json"
+            "https://raw.githubusercontent.com/nicolegeorgieva/inventory/main/app/src/" +
+                    "main/java/com/example/inventory/quotes.json"
         ).body<Quotes>().quotes
     }
 }

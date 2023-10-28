@@ -8,6 +8,7 @@ import com.example.inventory.ComposeViewModel
 import com.example.inventory.data.model.InventoryItem
 import com.example.inventory.data.repository.inventory.InventoryRepository
 import com.example.inventory.data.repository.name.NameRepository
+import com.example.inventory.data.repository.quote.QuoteRepository
 import com.example.inventory.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -21,11 +22,13 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val nameRepository: NameRepository,
+    private val quoteRepository: QuoteRepository,
     private val inventoryRepository: InventoryRepository,
     private val inventoryListProvider: InventoryListProvider,
     private val navigator: Navigator
 ) : ComposeViewModel<HomeState, HomeEvent>() {
     private val name = mutableStateOf<String?>(null)
+    private val quote = mutableStateOf<String?>(null)
     private val sortByAscending = mutableStateOf(true)
     private val categoryFilter = mutableStateOf("All")
     private val categories = mutableStateOf(persistentListOf<String>())
@@ -36,11 +39,18 @@ class HomeViewModel @Inject constructor(
     override fun uiState(): HomeState {
         LaunchedEffect(Unit) {
             name.value = nameRepository.getName()
+            val quotes = quoteRepository.getQuotes()
+
+            if (quotes.isNotEmpty()) {
+                quote.value = quotes.random()
+            }
+
             refreshInventoryList()
         }
 
         return HomeState(
             name = getName(),
+            quote = getQuote(),
             sortByAscending = getSortByAscending(),
             categoryFilter = getCategoryFilter(),
             categories = getCategories(),
@@ -52,6 +62,11 @@ class HomeViewModel @Inject constructor(
     @Composable
     private fun getName(): String? {
         return name.value
+    }
+
+    @Composable
+    private fun getQuote(): String? {
+        return quote.value
     }
 
     @Composable
