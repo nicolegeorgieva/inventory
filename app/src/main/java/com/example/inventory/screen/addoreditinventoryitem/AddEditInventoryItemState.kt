@@ -14,5 +14,7 @@ data class AddEditInventoryItemState(
     val description: String?,
     val imagePath: String?,
     val link: String?,
-    val addWithoutRequired: Boolean
+    val validName: Boolean,
+    val validQuantity: Boolean,
+    val validMinQuantityTarget: Boolean
 )

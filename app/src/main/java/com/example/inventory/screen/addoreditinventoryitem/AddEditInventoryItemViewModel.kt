@@ -33,9 +33,11 @@ class AddEditInventoryItemViewModel @Inject constructor(
     private val description = mutableStateOf<String?>(null)
     private val link = mutableStateOf<String?>(null)
     private val imagePath = mutableStateOf<String?>(null)
-    private val addWithoutRequired = mutableStateOf(false)
     private val newCategoryValue = mutableStateOf<String?>(null)
     private val openAddCategoryDialog = mutableStateOf(false)
+    private val validName = mutableStateOf(true)
+    private val validQuantity = mutableStateOf(true)
+    private val validMinQuantityTarget = mutableStateOf(true)
     private var existingId: String? = null
 
     @Composable
@@ -50,9 +52,11 @@ class AddEditInventoryItemViewModel @Inject constructor(
             description = getDescription(),
             link = getLink(),
             imagePath = getImagePath(),
-            addWithoutRequired = getAddWithoutRequiredState(),
             newCategoryValue = getNewCategoryValue(),
-            openAddCategoryDialog = getOpenAddCategoryDialog()
+            openAddCategoryDialog = getOpenAddCategoryDialog(),
+            validName = getValidNameState(),
+            validQuantity = getValidQuantityState(),
+            validMinQuantityTarget = getValidMinQuantityTargetState()
         )
     }
 
@@ -102,11 +106,6 @@ class AddEditInventoryItemViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getAddWithoutRequiredState(): Boolean {
-        return addWithoutRequired.value
-    }
-
-    @Composable
     private fun getNewCategoryValue(): String? {
         return newCategoryValue.value
     }
@@ -114,6 +113,21 @@ class AddEditInventoryItemViewModel @Inject constructor(
     @Composable
     private fun getOpenAddCategoryDialog(): Boolean {
         return openAddCategoryDialog.value
+    }
+
+    @Composable
+    private fun getValidNameState(): Boolean {
+        return validName.value
+    }
+
+    @Composable
+    private fun getValidQuantityState(): Boolean {
+        return validQuantity.value
+    }
+
+    @Composable
+    private fun getValidMinQuantityTargetState(): Boolean {
+        return validMinQuantityTarget.value
     }
 
     override fun onEvent(event: AddEditInventoryItemEvent) {
@@ -174,25 +188,19 @@ class AddEditInventoryItemViewModel @Inject constructor(
     private fun setName(newName: String) {
         name.value = newName
 
-        val validateInput = validateAddItemInput()
-
-        addWithoutRequired.value = !validateInput
+        validName.value = validateName()
     }
 
     private fun setQuantity(newQuantity: String) {
         quantity.value = newQuantity
 
-        val validateInput = validateAddItemInput()
-
-        addWithoutRequired.value = !validateInput
+        validQuantity.value = validateQuantity()
     }
 
     private fun setMinQuantityTarget(newMinQuantityTarget: String) {
         minQuantityTarget.value = newMinQuantityTarget
 
-        val validateInput = validateAddItemInput()
-
-        addWithoutRequired.value = !validateInput
+        validMinQuantityTarget.value = validateMinQuantityTarget()
     }
 
     private fun onLinkValueChange(linkValue: String?) {
@@ -235,43 +243,60 @@ class AddEditInventoryItemViewModel @Inject constructor(
     }
 
     private fun addInventoryItem() {
-        val validateInput = validateAddItemInput()
+        val validateName = validateName()
+        val validateQuantity = validateQuantity()
+        val validateMinQuantityTarget = validateMinQuantityTarget()
 
-        if (validateInput) {
-            viewModelScope.launch {
-                val checkExistingName = inventoryRepository.getAll().filter {
-                    it.name == name.value
-                }
+        if (!validateName) {
+            validName.value = false
+        }
 
-                val inventoryItem = InventoryItem(
-                    id = if (existingId == null) idProvider.generateId() else UUID.fromString(
-                        existingId
-                    ),
-                    name = name.value ?: "",
-                    quantity = quantity.value?.toIntOrNull() ?: 0,
-                    minQuantityTarget = minQuantityTarget.value?.toIntOrNull() ?: 0,
-                    category = category.value,
-                    description = description.value ?: "",
-                    imagePath = imagePath.value ?: ""
-                )
+        if (!validateQuantity) {
+            validQuantity.value = false
+        }
 
-                if (checkExistingName.isNotEmpty()) {
-                    inventoryRepository.update(inventoryItem)
-                } else {
-                    inventoryRepository.add(inventoryItem)
-                }
+        if (!validateMinQuantityTarget) {
+            validMinQuantityTarget.value = false
+            return
+        }
 
-                navigator.back()
+        viewModelScope.launch {
+            val checkExistingName = inventoryRepository.getAll().filter {
+                it.name == name.value
             }
-        } else {
-            addWithoutRequired.value = true
+
+            val inventoryItem = InventoryItem(
+                id = if (existingId == null) idProvider.generateId() else UUID.fromString(
+                    existingId
+                ),
+                name = name.value ?: "",
+                quantity = quantity.value?.toIntOrNull() ?: 0,
+                minQuantityTarget = minQuantityTarget.value?.toIntOrNull() ?: 0,
+                category = category.value,
+                description = description.value ?: "",
+                imagePath = imagePath.value ?: ""
+            )
+
+            if (checkExistingName.isNotEmpty()) {
+                inventoryRepository.update(inventoryItem)
+            } else {
+                inventoryRepository.add(inventoryItem)
+            }
+
+            navigator.back()
         }
     }
 
-    private fun validateAddItemInput(): Boolean {
-        return !name.value.isNullOrBlank() &&
-                quantity.value.isValidIntNumber() &&
-                minQuantityTarget.value.isValidIntNumber()
+    private fun validateName(): Boolean {
+        return !name.value.isNullOrBlank()
+    }
+
+    private fun validateQuantity(): Boolean {
+        return quantity.value.isValidIntNumber()
+    }
+
+    private fun validateMinQuantityTarget(): Boolean {
+        return minQuantityTarget.value.isValidIntNumber()
     }
 
     private fun String?.isValidIntNumber(): Boolean {

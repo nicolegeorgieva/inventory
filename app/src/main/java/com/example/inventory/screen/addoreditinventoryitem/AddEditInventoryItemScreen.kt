@@ -119,7 +119,7 @@ private fun Content(
                 label = stringResource(R.string.name_label),
                 input = uiState.name ?: "",
                 supportingText = stringResource(R.string.required_label),
-                addWithoutRequired = uiState.addWithoutRequired,
+                valid = uiState.validName,
                 onInputChange = {
                     onEvent(AddEditInventoryItemEvent.SetName(it))
                 }
@@ -132,7 +132,7 @@ private fun Content(
                 keyboardType = KeyboardType.Number,
                 input = uiState.quantity ?: "",
                 supportingText = stringResource(R.string.required_integer_number_label),
-                addWithoutRequired = uiState.addWithoutRequired,
+                valid = uiState.validQuantity,
                 onInputChange = {
                     onEvent(AddEditInventoryItemEvent.SetQuantity(it))
                 }
@@ -145,7 +145,7 @@ private fun Content(
                 keyboardType = KeyboardType.Number,
                 input = uiState.minQuantityTarget ?: "",
                 supportingText = stringResource(R.string.required_integer_number_label),
-                addWithoutRequired = uiState.addWithoutRequired,
+                valid = uiState.validMinQuantityTarget,
                 onInputChange = {
                     onEvent(AddEditInventoryItemEvent.SetMinQuantityTarget(it))
                 }
@@ -227,9 +227,11 @@ private fun AddWithoutRequiredPreview() {
                 description = null,
                 link = null,
                 imagePath = null,
-                addWithoutRequired = true,
                 newCategoryValue = "",
-                openAddCategoryDialog = false
+                openAddCategoryDialog = false,
+                validName = false,
+                validQuantity = false,
+                validMinQuantityTarget = false
             ),
             onEvent = {}
         )
@@ -253,9 +255,11 @@ private fun FilledStatePreview() {
                 description = null,
                 link = null,
                 imagePath = null,
-                addWithoutRequired = false,
                 newCategoryValue = "",
-                openAddCategoryDialog = false
+                openAddCategoryDialog = false,
+                validName = true,
+                validQuantity = true,
+                validMinQuantityTarget = true
             ),
             onEvent = {}
         )

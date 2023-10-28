@@ -21,7 +21,7 @@ fun InputRow(
     label: String? = null,
     input: String,
     supportingText: String? = null,
-    addWithoutRequired: Boolean = false,
+    valid: Boolean = true,
     onInputChange: (String) -> Unit
 ) {
     Row(
@@ -45,10 +45,10 @@ fun InputRow(
                 {
                     Text(
                         text = supportingText,
-                        color = if (addWithoutRequired) {
-                            MaterialTheme.colorScheme.error
-                        } else {
+                        color = if (valid) {
                             MaterialTheme.colorScheme.onBackground
+                        } else {
+                            MaterialTheme.colorScheme.error
                         }
                     )
                 }
