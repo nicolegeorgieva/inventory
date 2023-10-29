@@ -3,8 +3,7 @@ Inventory is an Android app for keeping track of storage with the option to **or
 
 When there're inventory items they're grouped into **2 sections - To buy and Enough** and sorted by ascending order - beginning with **To buy** section starting with the items that least match the criteria **quantity-minQuantityTarget** to those close to enough, moving to **Enough** section beginning with the items that're least enough to those that are most enough. The descending sort option applies the same rules but in descending order.
 
-The app follows [**the new MVI architecture recommended by Google**](https://developer.android.com/topic/architecture) dividing the app into **Data Layer(DataSources, Repositories)** and **UI Layer (States, Events, ViewModel and UI)**.
-It's unit tested.
+The app follows [**the recommended architecture by Google**](https://developer.android.com/topic/architecture) dividing the app into **Data Layer(DataSources, Repositories)** and **UI Layer (Compose UI + ViewModel)**. The UI Layer follows **the MVI architectural pattern (State, Event, ViewModel, UI)**. Everything except the Jetpack Compose UI is **unit tested** using **Kotest** and **Mockk**.
 
 |          |             |                |       |
 | :---:    |    :----:   |          :---: | :---: |
