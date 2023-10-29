@@ -1,5 +1,5 @@
 # inventory
-Inventory is an Android app for keeping track of storage with the option to organize it by categories and sort it by ascending or descending order.
+Inventory is an Android app for keeping track of storage with the option to **organize it by categories** and **sort it by ascending or descending order**.
 
 When there're inventory items they're grouped into **2 sections - To buy and Enough** and sorted by ascending order - starting from **To buy** section starting with the items that least match the criteria to those close to enough **quantity-minQuantityTarget** moving to **Enough** section starting with the items that're least enough to those that are most enough. The descending sort option applies the same rules but in descending order.
 
