@@ -36,4 +36,8 @@
     <string name="add_new_category">Add new category</string>
     <string name="new_category">New category</string>
     <string name="close">Close</string>
+    <string name="delete">Delete</string>
+    <string name="warning">Warning</string>
+    <string name="delete_item_warning_message">Deleting this item will remove it permanently from your inventory. Are you sure you want to delete it?</string>
+    <string name="cancel">Cancel</string>
 </resources>

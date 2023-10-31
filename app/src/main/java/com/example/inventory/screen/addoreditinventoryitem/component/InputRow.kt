@@ -12,17 +12,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
 fun InputRow(
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
-    label: String? = null,
     input: String,
+    onInputChange: (String) -> Unit,
+    label: String? = null,
     supportingText: String? = null,
-    valid: Boolean = true,
-    onInputChange: (String) -> Unit
+    valid: Boolean = true
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -61,10 +62,24 @@ fun InputRow(
 
 @Preview(showBackground = true)
 @Composable
-private fun InputRowPreview() {
-    InputRow(
-        input = "",
-        label = "Name",
-        onInputChange = {}
-    )
+private fun BlankInputRowPreview() {
+    InventoryTheme {
+        InputRow(
+            input = "",
+            label = "Name",
+            onInputChange = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun FilledInputRowPreview() {
+    InventoryTheme {
+        InputRow(
+            input = "Amy",
+            label = "Name",
+            onInputChange = {}
+        )
+    }
 }

@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.example.inventory.R
+import com.example.inventory.ui.theme.InventoryTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -258,17 +259,19 @@ private fun AddNewCategoryDialog(
 @Preview(showBackground = true)
 @Composable
 private fun CategoryInputPreview() {
-    CategoryInput(
-        categoryDropdownMenuExpanded = false,
-        openAddCategoryDialog = false,
-        newCategoryValue = "",
-        onOpenCategoryDialog = {},
-        onNewCategoryValueChange = {},
-        onAddNewCategory = {},
-        onCloseDialog = {},
-        onExpandedChange = {},
-        category = null,
-        categories = persistentListOf(),
-        onCategorySelected = {}
-    )
+    InventoryTheme {
+        CategoryInput(
+            categoryDropdownMenuExpanded = false,
+            openAddCategoryDialog = false,
+            newCategoryValue = "",
+            onOpenCategoryDialog = {},
+            onNewCategoryValueChange = {},
+            onAddNewCategory = {},
+            onCloseDialog = {},
+            onExpandedChange = {},
+            category = null,
+            categories = persistentListOf(),
+            onCategorySelected = {}
+        )
+    }
 }

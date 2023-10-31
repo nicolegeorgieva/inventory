@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.inventory.R
+import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
 fun ItemImage(
@@ -135,11 +136,13 @@ private fun ImageFromPath(path: String, onRemoveImageClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun ItemImagePreview() {
-    ItemImage(
-        imagePath = null,
-        link = "",
-        onLinkValueChange = {},
-        onAddLinkImageClick = {},
-        onRemoveImageClick = {}
-    )
+    InventoryTheme {
+        ItemImage(
+            imagePath = null,
+            link = "",
+            onLinkValueChange = {},
+            onAddLinkImageClick = {},
+            onRemoveImageClick = {}
+        )
+    }
 }

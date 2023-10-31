@@ -10,7 +10,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import com.example.inventory.screen.addoreditinventoryitem.component.DeleteButton
+import com.example.inventory.screen.addoreditinventoryitem.component.DeleteItemButton
 import com.example.inventory.ui.theme.InventoryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +62,7 @@ private fun CustomTopAppBarEditItemPreview() {
             navController = null,
             title = "Settings",
             action = {
-                DeleteButton(onClick = {})
+                DeleteItemButton(onClick = {})
             }
         )
     }

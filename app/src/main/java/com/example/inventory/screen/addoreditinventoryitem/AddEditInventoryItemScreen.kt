@@ -22,7 +22,7 @@ import com.example.inventory.R
 import com.example.inventory.component.CustomTopAppBar
 import com.example.inventory.screen.addoreditinventoryitem.component.AddUpdateInventoryItemButton
 import com.example.inventory.screen.addoreditinventoryitem.component.CategoryInput
-import com.example.inventory.screen.addoreditinventoryitem.component.DeleteButton
+import com.example.inventory.screen.addoreditinventoryitem.component.DeleteItemButton
 import com.example.inventory.screen.addoreditinventoryitem.component.DeleteItemConfirmationDialog
 import com.example.inventory.screen.addoreditinventoryitem.component.InputRow
 import com.example.inventory.screen.addoreditinventoryitem.component.ItemImage
@@ -72,7 +72,7 @@ private fun AddEditInventoryItemUi(
                 navController = navController,
                 action = {
                     if (itemId != null) {
-                        DeleteButton(onClick = {
+                        DeleteItemButton(onClick = {
                             onEvent(AddEditInventoryItemEvent.DeleteButtonPressed)
                         })
                     }

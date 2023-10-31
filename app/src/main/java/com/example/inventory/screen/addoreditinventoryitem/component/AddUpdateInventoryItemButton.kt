@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.inventory.R
 import com.example.inventory.screen.addoreditinventoryitem.AddEditInventoryItemEvent
+import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
 fun AddUpdateInventoryItemButton(
@@ -37,8 +38,10 @@ fun AddUpdateInventoryItemButton(
 @Preview(showBackground = true)
 @Composable
 private fun AddInventoryItemButtonPreview() {
-    AddUpdateInventoryItemButton(
-        itemId = null,
-        onEvent = {}
-    )
+    InventoryTheme {
+        AddUpdateInventoryItemButton(
+            itemId = null,
+            onEvent = {}
+        )
+    }
 }
