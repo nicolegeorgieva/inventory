@@ -29,7 +29,7 @@ fun AddUpdateInventoryItemButton(
                 contentDescription = stringResource(R.string.add)
             )
         } else {
-            Text(text = "Save")
+            Text(text = stringResource(R.string.save))
         }
     }
 }

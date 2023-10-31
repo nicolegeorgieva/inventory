@@ -27,4 +27,13 @@
     <string name="home_dropdown_menu">Dropdown menu</string>
     <string name="home_to_buy">To buy (%1$s)</string>
     <string name="home_enough">Enough (%1$s)</string>
+    <string name="save">Save</string>
+    <string name="none">None</string>
+    <string name="category">Category: %1$s</string>
+    <string name="category_dropdown_menu">Category dropdown menu</string>
+    <string name="add_new">Add new</string>
+    <string name="list">List</string>
+    <string name="add_new_category">Add new category</string>
+    <string name="new_category">New category</string>
+    <string name="close">Close</string>
 </resources>

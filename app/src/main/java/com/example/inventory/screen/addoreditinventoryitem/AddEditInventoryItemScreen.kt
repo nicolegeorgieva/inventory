@@ -158,7 +158,7 @@ private fun Content(
 
         item(key = "category") {
             CategoryInput(
-                expanded = uiState.expanded,
+                categoryDropdownMenuExpanded = uiState.expanded,
                 onExpandedChange = {
                     onEvent(AddEditInventoryItemEvent.OnExpandedChange)
                 },

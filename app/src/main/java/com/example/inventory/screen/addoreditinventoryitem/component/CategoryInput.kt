@@ -30,23 +30,25 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import com.example.inventory.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun CategoryInput(
-    expanded: Boolean,
+    categoryDropdownMenuExpanded: Boolean,
     openAddCategoryDialog: Boolean,
+    category: String?,
     newCategoryValue: String,
     onOpenCategoryDialog: () -> Unit,
     onNewCategoryValueChange: (String) -> Unit,
     onAddNewCategory: (String) -> Unit,
     onCloseDialog: () -> Unit,
     onExpandedChange: () -> Unit,
-    category: String?,
     categories: ImmutableList<String>,
     onCategorySelected: (String?) -> Unit
 ) {
@@ -57,12 +59,12 @@ fun CategoryInput(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CategoryRow(
-            category = category ?: "None",
+            category = category ?: stringResource(R.string.none),
             onExpandedChange = onExpandedChange
         )
 
         CategoryDropdownMenu(
-            expanded = expanded,
+            expanded = categoryDropdownMenuExpanded,
             onOpenCategoryDialog = onOpenCategoryDialog,
             onExpandedChange = onExpandedChange,
             categories = categories,
@@ -103,14 +105,14 @@ private fun CategoryRow(
     ) {
         Text(
             modifier = Modifier.padding(start = 8.dp),
-            text = "Category: $category"
+            text = stringResource(R.string.category, category)
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
         Icon(
             imageVector = Icons.Default.ArrowDropDown,
-            contentDescription = "Category dropdown menu"
+            contentDescription = stringResource(R.string.category_dropdown_menu)
         )
     }
 }
@@ -158,7 +160,7 @@ private fun CategoryDropDownNoneOption(
     DropdownMenuItem(
         modifier = Modifier.padding(horizontal = 24.dp),
         text = {
-            Text("None")
+            Text(stringResource(R.string.none))
         },
         onClick = {
             onCategorySelected(null)
@@ -192,13 +194,13 @@ private fun AddCategoryDropdownMenuOption(
     DropdownMenuItem(
         modifier = Modifier.padding(horizontal = 24.dp),
         text = {
-            Text("Add new")
+            Text(stringResource(R.string.add_new))
         },
         onClick = onAddNewSelected,
         trailingIcon = {
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = "Add new"
+                contentDescription = stringResource(R.string.add_new)
             )
         }
     )
@@ -214,17 +216,20 @@ private fun AddNewCategoryDialog(
     AlertDialog(
         onDismissRequest = onCloseDialog,
         icon = {
-            Icon(imageVector = Icons.Filled.List, contentDescription = "List")
+            Icon(
+                imageVector = Icons.Filled.List,
+                contentDescription = stringResource(R.string.list)
+            )
         },
         title = {
-            Text(text = "Add new category")
+            Text(text = stringResource(R.string.add_new_category))
         },
         text = {
             OutlinedTextField(
                 value = newCategoryValue,
                 onValueChange = onNewCategoryValueChange,
                 label = {
-                    Text("New category")
+                    Text(stringResource(R.string.new_category))
                 }
             )
         },
@@ -234,7 +239,7 @@ private fun AddNewCategoryDialog(
                     onAddNewCategory(newCategoryValue)
                 }
             ) {
-                Text("Add")
+                Text(stringResource(R.string.add))
             }
         },
         dismissButton = {
@@ -243,7 +248,7 @@ private fun AddNewCategoryDialog(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Close,
-                    contentDescription = "Close"
+                    contentDescription = stringResource(R.string.close)
                 )
             }
         }
@@ -254,7 +259,7 @@ private fun AddNewCategoryDialog(
 @Composable
 private fun CategoryInputPreview() {
     CategoryInput(
-        expanded = false,
+        categoryDropdownMenuExpanded = false,
         openAddCategoryDialog = false,
         newCategoryValue = "",
         onOpenCategoryDialog = {},
@@ -263,7 +268,7 @@ private fun CategoryInputPreview() {
         onCloseDialog = {},
         onExpandedChange = {},
         category = null,
-        categories = persistentListOf("Groceries"),
+        categories = persistentListOf(),
         onCategorySelected = {}
     )
 }
