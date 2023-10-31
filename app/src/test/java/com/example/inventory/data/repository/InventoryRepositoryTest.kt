@@ -5,7 +5,7 @@ import com.example.inventory.data.datasource.InventoryDataSource
 import com.example.inventory.data.model.InventoryItem
 import com.example.inventory.data.repository.inventory.InventoryRepositoryImpl
 import com.example.inventory.data.repository.mapper.InventoryMapper
-import com.example.inventory.fake.FakeDispatcherProvider
+import com.example.inventory.fake.dispatcher.FakeDispatcherProvider
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -23,7 +23,7 @@ class InventoryRepositoryTest : FreeSpec({
         val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
         val id = UUID.randomUUID()
         val id2 = UUID.randomUUID()
-        coEvery { dataSource.getAllOrderedByAscending() } returns listOf(
+        coEvery { dataSource.getAll() } returns listOf(
             InventoryEntity(
                 id = id,
                 name = "Watter bottles",
@@ -45,7 +45,7 @@ class InventoryRepositoryTest : FreeSpec({
         )
 
         // when
-        val inventoryItems = repository.getAllOrderedByAscending()
+        val inventoryItems = repository.getAll()
 
         // then
         inventoryItems shouldBe listOf(
@@ -160,7 +160,7 @@ class InventoryRepositoryTest : FreeSpec({
         val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
         val id = UUID.randomUUID()
         val id2 = UUID.randomUUID()
-        coEvery { dataSource.orderByAscending() } returns listOf(
+        coEvery { dataSource.orderByAscending(category = "Groceries") } returns listOf(
             InventoryEntity(
                 id = id2,
                 name = "Kitchen paper",
@@ -182,7 +182,7 @@ class InventoryRepositoryTest : FreeSpec({
         )
 
         // when
-        val inventoryItems = repository.orderByAscending()
+        val inventoryItems = repository.orderByAscending("Groceries")
 
         // then
         inventoryItems shouldBe listOf(
@@ -214,7 +214,7 @@ class InventoryRepositoryTest : FreeSpec({
         val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
         val id = UUID.randomUUID()
         val id2 = UUID.randomUUID()
-        coEvery { dataSource.orderByDescending() } returns listOf(
+        coEvery { dataSource.orderByDescending("Groceries") } returns listOf(
             InventoryEntity(
                 id = id,
                 name = "Watter bottles",
@@ -236,7 +236,7 @@ class InventoryRepositoryTest : FreeSpec({
         )
 
         // when
-        val inventoryItems = repository.orderByDescending()
+        val inventoryItems = repository.orderByDescending("Groceries")
 
         // then
         inventoryItems shouldBe listOf(
@@ -277,7 +277,7 @@ class InventoryRepositoryTest : FreeSpec({
                 description = null,
                 imagePath = null
             )
-            coEvery { dataSource.getAllOrderedByAscending() } returns listOf(
+            coEvery { dataSource.getAll() } returns listOf(
                 InventoryEntity(
                     id = UUID.randomUUID(),
                     name = "Kitchen roll",
@@ -333,7 +333,7 @@ class InventoryRepositoryTest : FreeSpec({
                 description = null,
                 imagePath = null
             )
-            coEvery { dataSource.getAllOrderedByAscending() } returns listOf(inventoryEntity)
+            coEvery { dataSource.getAll() } returns listOf(inventoryEntity)
             coEvery { dataSource.save(any()) } just runs
 
             // when
