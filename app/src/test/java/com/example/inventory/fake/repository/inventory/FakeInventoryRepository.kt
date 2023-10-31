@@ -6,9 +6,20 @@ import java.util.UUID
 
 class FakeInventoryRepository : InventoryRepository {
     private val items = mutableListOf<InventoryItem>()
+    override suspend fun getAll(): List<InventoryItem> {
+        return items.toList()
+    }
 
     override suspend fun getAllOrderedByAscending(): List<InventoryItem> {
-        return items
+        return items.sortedBy {
+            it.quantity < it.minQuantityTarget
+        }.toList()
+    }
+
+    override suspend fun getAllOrderedByDescending(): List<InventoryItem> {
+        return items.sortedBy {
+            it.quantity >= it.minQuantityTarget
+        }.toList()
     }
 
     override suspend fun getAllByCategory(category: String): List<InventoryItem> {
@@ -19,12 +30,20 @@ class FakeInventoryRepository : InventoryRepository {
         return items.find { it.id == id }
     }
 
-    override suspend fun orderByAscending(): List<InventoryItem> {
-        return items.sortedBy { it.quantity }
+    override suspend fun orderByAscending(category: String): List<InventoryItem> {
+        return items.filter {
+            it.category == category
+        }.sortedBy {
+            it.quantity < it.minQuantityTarget
+        }.toList()
     }
 
-    override suspend fun orderByDescending(): List<InventoryItem> {
-        return items.sortedByDescending { it.quantity }
+    override suspend fun orderByDescending(category: String): List<InventoryItem> {
+        return items.filter {
+            it.category == category
+        }.sortedBy {
+            it.quantity >= it.minQuantityTarget
+        }.toList()
     }
 
     override suspend fun add(inventoryItem: InventoryItem) {

@@ -70,6 +70,64 @@ class InventoryRepositoryTest : FreeSpec({
         )
     }
 
+    "get all ordered by ascending" {
+        // given
+        val dataSource = mockk<InventoryDataSource>()
+        val dispatchers = FakeDispatcherProvider()
+        val repository = InventoryRepositoryImpl(dataSource, InventoryMapper(), dispatchers)
+        val id = UUID.randomUUID()
+        val id2 = UUID.randomUUID()
+        coEvery { dataSource.getAllOrderedByAscending() } returns listOf(
+            InventoryEntity(
+                id = id,
+                name = "Watter bottles",
+                quantity = 1,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imagePath = null
+            ),
+            InventoryEntity(
+                id = id2,
+                name = "Kitchen paper",
+                quantity = 4,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imagePath = null
+            )
+        )
+
+        // when
+        val inventoryList = repository.getAllOrderedByAscending()
+
+        // then
+        inventoryList shouldBe listOf(
+            InventoryItem(
+                id = id,
+                name = "Watter bottles",
+                quantity = 1,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imagePath = null
+            ),
+            InventoryItem(
+                id = id2,
+                name = "Kitchen paper",
+                quantity = 4,
+                minQuantityTarget = 5,
+                category = "Groceries",
+                description = null,
+                imagePath = null
+            )
+        )
+    }
+
+    "get all ordered by descending" {
+
+    }
+
     "get all by category" {
         // given
         val dataSource = mockk<InventoryDataSource>()
