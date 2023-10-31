@@ -39,10 +39,7 @@ class HomeViewModelTest : FreeSpec({
             viewModel.runTest(events) {
                 it.name shouldBe null
                 it.quote shouldBe "Organization is power"
-                it.inventoryItemList shouldBe persistentListOf(
-                    InventoryItemType.Section(section = SectionType.TOBUY, count = 0),
-                    InventoryItemType.Section(section = SectionType.ENOUGH, count = 0)
-                )
+                it.inventoryItemList shouldBe persistentListOf()
             }
         }
 

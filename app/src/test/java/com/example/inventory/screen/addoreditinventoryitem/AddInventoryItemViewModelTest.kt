@@ -163,7 +163,7 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe null
             it.imagePath shouldBe null
             it.link shouldBe null
-            it.categories shouldBe persistentListOf()
+            it.categories shouldBe persistentListOf("Groceries")
             it.expanded shouldBe false
             it.newCategoryValue shouldBe null
             it.openAddCategoryDialog shouldBe false
