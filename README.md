@@ -9,8 +9,8 @@ criteria **quantity-minQuantityTarget** to those close to enough, moving to **En
 beginning with the items that're least enough to those that are most enough. The descending sort
 option applies the same rules but in descending order.
 
-The app follows [**the recommended architecture by Google
-**](https://developer.android.com/topic/architecture) dividing the app into **Data Layer(
+The app follows [the recommended architecture by Google
+](https://developer.android.com/topic/architecture) dividing the app into **Data Layer(
 DataSources, Repositories)** and **UI Layer (Compose UI + ViewModel)**. The UI Layer follows **the
 MVI architectural pattern (State, Event, ViewModel, UI)**. Everything except the Jetpack Compose UI
 is **unit tested** using **Kotest** and **Mockk**.
@@ -25,7 +25,7 @@ is **unit tested** using **Kotest** and **Mockk**.
 
 - **Languages:** `Kotlin`
 - **Architectures:** `MVVM`, `MVI`, `Clean`
-- **Android:** [**`Android Jetpack`
-  **](https://developer.android.com/jetpack), `Jetpack Compose`, `Hilt (DI)`, `Room DB`, `Kotlin Flow`, `Kotlin Coroutines`, `Kotest`, `DataStore`, `KotlinX Serialization`, `Ktor`, `Android SDK`
+- **Android:** [`Android Jetpack`
+  ](https://developer.android.com/jetpack), `Jetpack Compose`, `Hilt (DI)`, `Room DB`, `Kotlin Flow`, `Kotlin Coroutines`, `Kotest`, `DataStore`, `KotlinX Serialization`, `Ktor`, `Android SDK`
 - **Testing**: `Unit tests`, `Kotest`, `Mockk`
 - **Other**: `HTTP`, `REST APIs`, `JSON`
