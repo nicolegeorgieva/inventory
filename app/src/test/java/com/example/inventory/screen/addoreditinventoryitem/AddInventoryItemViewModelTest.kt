@@ -35,7 +35,7 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.imagePath shouldBe null
             it.link shouldBe null
             it.categories shouldBe persistentListOf()
-            it.expanded shouldBe null
+            it.expanded shouldBe false
             it.newCategoryValue shouldBe null
             it.openAddCategoryDialog shouldBe false
             it.showDeleteItemDialog shouldBe false
@@ -66,8 +66,8 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe null
             it.imagePath shouldBe null
             it.link shouldBe null
-            it.categories shouldBe null
-            it.expanded shouldBe null
+            it.categories shouldBe persistentListOf()
+            it.expanded shouldBe false
             it.newCategoryValue shouldBe null
             it.openAddCategoryDialog shouldBe false
             it.showDeleteItemDialog shouldBe false
@@ -99,8 +99,8 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe null
             it.imagePath shouldBe null
             it.link shouldBe null
-            it.categories shouldBe null
-            it.expanded shouldBe null
+            it.categories shouldBe persistentListOf()
+            it.expanded shouldBe false
             it.newCategoryValue shouldBe null
             it.openAddCategoryDialog shouldBe false
             it.showDeleteItemDialog shouldBe false
@@ -131,8 +131,8 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe null
             it.imagePath shouldBe null
             it.link shouldBe null
-            it.categories shouldBe null
-            it.expanded shouldBe null
+            it.categories shouldBe persistentListOf()
+            it.expanded shouldBe false
             it.newCategoryValue shouldBe null
             it.openAddCategoryDialog shouldBe false
             it.showDeleteItemDialog shouldBe false
@@ -163,8 +163,8 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe null
             it.imagePath shouldBe null
             it.link shouldBe null
-            it.categories shouldBe null
-            it.expanded shouldBe null
+            it.categories shouldBe persistentListOf()
+            it.expanded shouldBe false
             it.newCategoryValue shouldBe null
             it.openAddCategoryDialog shouldBe false
             it.showDeleteItemDialog shouldBe false
@@ -195,8 +195,8 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe "..."
             it.imagePath shouldBe null
             it.link shouldBe null
-            it.categories shouldBe null
-            it.expanded shouldBe null
+            it.categories shouldBe persistentListOf()
+            it.expanded shouldBe false
             it.newCategoryValue shouldBe null
             it.openAddCategoryDialog shouldBe false
             it.showDeleteItemDialog shouldBe false
@@ -233,8 +233,8 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.imagePath shouldBe "https://media.kitepackaging.co.uk/images/" +
                     "product/large/7x7x7l.jpg"
             it.link shouldBe null
-            it.categories shouldBe null
-            it.expanded shouldBe null
+            it.categories shouldBe persistentListOf()
+            it.expanded shouldBe false
             it.newCategoryValue shouldBe null
             it.openAddCategoryDialog shouldBe false
             it.showDeleteItemDialog shouldBe false
@@ -267,8 +267,8 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe null
             it.imagePath shouldBe null
             it.link shouldBe "https://media.kitepackaging.co.uk/images/product/large/7x7x7l.jpg"
-            it.categories shouldBe null
-            it.expanded shouldBe null
+            it.categories shouldBe persistentListOf()
+            it.expanded shouldBe false
             it.newCategoryValue shouldBe null
             it.openAddCategoryDialog shouldBe false
             it.showDeleteItemDialog shouldBe false
@@ -306,8 +306,8 @@ class AddInventoryItemViewModelTest : FreeSpec({
                 it.description shouldBe null
                 it.imagePath shouldBe null
                 it.link shouldBe null
-                it.categories shouldBe null
-                it.expanded shouldBe null
+                it.categories shouldBe persistentListOf()
+                it.expanded shouldBe false
                 it.newCategoryValue shouldBe null
                 it.openAddCategoryDialog shouldBe false
                 it.showDeleteItemDialog shouldBe false
@@ -340,8 +340,8 @@ class AddInventoryItemViewModelTest : FreeSpec({
                 it.description shouldBe null
                 it.imagePath shouldBe null
                 it.link shouldBe null
-                it.categories shouldBe null
-                it.expanded shouldBe null
+                it.categories shouldBe persistentListOf()
+                it.expanded shouldBe false
                 it.newCategoryValue shouldBe null
                 it.openAddCategoryDialog shouldBe false
                 it.showDeleteItemDialog shouldBe false
