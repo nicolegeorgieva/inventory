@@ -20,6 +20,7 @@ import com.example.inventory.screen.home.component.InventoryItemRow
 import com.example.inventory.screen.home.component.Section
 import com.example.inventory.screen.home.component.SortFilterRow
 import com.example.inventory.ui.theme.InventoryTheme
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
@@ -157,28 +158,30 @@ private fun HomePersonalizedEmptyPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun HomePersonalizedInventoryPreview() {
-    val toBuyList = persistentListOf(
-        InventoryItemUi(
-            id = "",
-            name = "Water bottles",
-            quantity = "5",
-            imagePath = null,
-            category = null
-        ),
-        InventoryItemUi(
-            id = "",
-            name = "Kitchen roll",
-            quantity = "4",
-            imagePath = null,
-            category = null
-        ),
-        InventoryItemUi(
-            id = "",
-            name = "Soap",
-            quantity = "6",
-            imagePath = null,
-            category = null
+    val inventoryItemList = sampleInventoryItemList()
+
+    InventoryTheme {
+        HomeUi(
+            navController = null,
+            uiState = HomeState(
+                name = "Amy",
+                quote = "Keep your storage in balance",
+                sortByAscending = true,
+                categoryFilter = "All",
+                categories = persistentListOf("Groceries"),
+                categoryFilterMenuExpanded = false,
+                inventoryItemList = inventoryItemList
+            ),
+            onEvent = {}
         )
+    }
+}
+
+fun sampleInventoryItemList(): ImmutableList<InventoryItemType> {
+    val toBuyList = persistentListOf(
+        sampleItem("Water bottles", "5"),
+        sampleItem("Kitchen roll", "10"),
+        sampleItem("Soap", "6")
     ).map {
         InventoryItemType.Item(
             item = it
@@ -186,55 +189,13 @@ private fun HomePersonalizedInventoryPreview() {
     }
 
     val enoughList = persistentListOf(
-        InventoryItemUi(
-            id = "",
-            name = "Shampoo",
-            quantity = "2",
-            imagePath = null,
-            category = null
-        ),
-        InventoryItemUi(
-            id = "",
-            name = "Liquid laundry detergent",
-            quantity = "1",
-            imagePath = null,
-            category = null
-        ),
-        InventoryItemUi(
-            id = "",
-            name = "Dishwasher tablets pack",
-            quantity = "1",
-            imagePath = null,
-            category = null
-        ),
-        InventoryItemUi(
-            id = "",
-            name = "Shower gel",
-            quantity = "3",
-            imagePath = null,
-            category = null
-        ),
-        InventoryItemUi(
-            id = "",
-            name = "Glass cleaner",
-            quantity = "1",
-            imagePath = null,
-            category = null
-        ),
-        InventoryItemUi(
-            id = "",
-            name = "Floor cleaner",
-            quantity = "1",
-            imagePath = null,
-            category = null
-        ),
-        InventoryItemUi(
-            id = "",
-            name = "Cotton buds pack",
-            quantity = "3",
-            imagePath = null,
-            category = null
-        )
+        sampleItem("Shampoo", "2"),
+        sampleItem("Liquid laundry detergent", "1"),
+        sampleItem("Dishwasher tablets pack", "1"),
+        sampleItem("Shower gel", "3"),
+        sampleItem("Glass cleaner", "1"),
+        sampleItem("Floor cleaner", "1"),
+        sampleItem("Cotton buds pack", "3")
     ).map {
         InventoryItemType.Item(
             item = it
@@ -248,19 +209,15 @@ private fun HomePersonalizedInventoryPreview() {
         addAll(enoughList)
     }.toImmutableList()
 
-    InventoryTheme {
-        HomeUi(
-            navController = null,
-            uiState = HomeState(
-                name = "Amy",
-                quote = "Keep your storage in balance",
-                sortByAscending = true,
-                categoryFilter = "All",
-                categories = persistentListOf("Groceries"),
-                categoryFilterMenuExpanded = false,
-                inventoryItemList = inventoryItemsList
-            ),
-            onEvent = {}
-        )
-    }
+    return inventoryItemsList
+}
+
+fun sampleItem(name: String, quantity: String): InventoryItemUi {
+    return InventoryItemUi(
+        id = "",
+        name = name,
+        quantity = quantity,
+        imagePath = null,
+        category = null
+    )
 }

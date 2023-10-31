@@ -78,10 +78,10 @@ private fun MoreMenuButton(navController: NavController?) {
 
 @Preview(showBackground = true)
 @Composable
-private fun HomeTopAppBarNamePreview() {
+private fun HomeTopAppBarNoNamePreview() {
     InventoryTheme {
         HomeTopAppBar(
-            name = "Amy",
+            name = null,
             quote = "Keep your storage in balance",
             navController = null
         )
@@ -90,10 +90,10 @@ private fun HomeTopAppBarNamePreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun HomeTopAppBarNoNamePreview() {
+private fun HomeTopAppBarNamePreview() {
     InventoryTheme {
         HomeTopAppBar(
-            name = null,
+            name = "Amy",
             quote = "Keep your storage in balance",
             navController = null
         )
