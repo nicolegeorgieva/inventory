@@ -35,7 +35,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
             // when
             repository.add(inventoryItem)
             repository.add(inventoryItem2)
-            val items = repository.getAllOrderedByAscending()
+            val items = repository.getAll()
 
             // then
             items shouldBe listOf(inventoryItem, inventoryItem2)
@@ -46,7 +46,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
             val repository: InventoryRepository = FakeInventoryRepository()
 
             // when
-            val items = repository.getAllOrderedByAscending()
+            val items = repository.getAll()
 
             // then
             items shouldBe emptyList()
@@ -138,20 +138,20 @@ class FakeInventoryRepositoryTest : FreeSpec({
         val id = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val inventoryItem = InventoryItem(
-            id = id2,
+            id = id,
             name = "Water bottles",
-            quantity = 5,
-            minQuantityTarget = 5,
+            quantity = 8,
+            minQuantityTarget = 9,
             category = "Groceries",
             description = "",
             imagePath = ""
         )
         val inventoryItem2 = InventoryItem(
-            id = id,
-            name = "Laptop",
+            id = id2,
+            name = "Kitchen roll",
             quantity = 1,
-            minQuantityTarget = 1,
-            category = "Tech",
+            minQuantityTarget = 10,
+            category = "Groceries",
             description = "",
             imagePath = ""
         )
@@ -159,10 +159,10 @@ class FakeInventoryRepositoryTest : FreeSpec({
         // when
         repository.add(inventoryItem)
         repository.add(inventoryItem2)
-        val items = repository.orderByAscending()
+        val items = repository.orderByAscending("Groceries")
 
         // then
-        items shouldBe listOf(inventoryItem2, inventoryItem)
+        items shouldBe listOf(inventoryItem, inventoryItem2)
     }
 
     "orderByDescending" {
@@ -172,10 +172,10 @@ class FakeInventoryRepositoryTest : FreeSpec({
         val id2 = UUID.randomUUID()
         val inventoryItem = InventoryItem(
             id = id,
-            name = "Laptop",
+            name = "Kitchen roll",
             quantity = 1,
-            minQuantityTarget = 1,
-            category = "Tech",
+            minQuantityTarget = 2,
+            category = "Groceries",
             description = "",
             imagePath = ""
         )
@@ -192,10 +192,10 @@ class FakeInventoryRepositoryTest : FreeSpec({
         // when
         repository.add(inventoryItem)
         repository.add(inventoryItem2)
-        val items = repository.orderByDescending()
+        val items = repository.orderByDescending("Groceries")
 
         // then
-        items shouldBe listOf(inventoryItem2, inventoryItem)
+        items shouldBe listOf(inventoryItem, inventoryItem2)
     }
 
     "add" - {
@@ -217,7 +217,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
             // when
             repository.add(inventoryItem)
             repository.add(inventoryItem2)
-            val items = repository.getAllOrderedByAscending()
+            val items = repository.getAll()
 
             // then
             items shouldBe listOf(inventoryItem)
@@ -245,7 +245,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
             // when
             repository.add(inventoryItem)
             repository.add(inventoryItem2)
-            val items = repository.getAllOrderedByAscending()
+            val items = repository.getAll()
 
             // then
             items shouldBe listOf(inventoryItem, inventoryItem2)
@@ -271,7 +271,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
             // when
             repository.add(inventoryItem2)
             repository.update(inventoryItem)
-            val inventoryList = repository.getAllOrderedByAscending()
+            val inventoryList = repository.getAll()
 
             // then
             inventoryList shouldBe listOf(inventoryItem2)
@@ -319,7 +319,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
         // when
         repository.add(inventoryItem)
         repository.delete(inventoryItem)
-        val items = repository.getAllOrderedByAscending()
+        val items = repository.getAll()
 
         // then
         items shouldBe emptyList()
@@ -353,7 +353,7 @@ class FakeInventoryRepositoryTest : FreeSpec({
         repository.add(inventoryItem)
         repository.add(inventoryItem2)
         repository.deleteAll()
-        val items = repository.getAllOrderedByAscending()
+        val items = repository.getAll()
 
         // then
         items shouldBe emptyList()

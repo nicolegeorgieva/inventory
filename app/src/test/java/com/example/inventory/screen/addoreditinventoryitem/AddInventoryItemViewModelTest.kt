@@ -11,6 +11,7 @@ import io.mockk.coEvery
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
+import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 class AddInventoryItemViewModelTest : FreeSpec({
@@ -33,7 +34,14 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe null
             it.imagePath shouldBe null
             it.link shouldBe null
-            it.addWithoutRequired shouldBe false
+            it.categories shouldBe persistentListOf()
+            it.expanded shouldBe null
+            it.newCategoryValue shouldBe null
+            it.openAddCategoryDialog shouldBe false
+            it.showDeleteItemDialog shouldBe false
+            it.validName shouldBe true
+            it.validQuantity shouldBe true
+            it.validMinQuantityTarget shouldBe true
         }
     }
 
@@ -58,7 +66,14 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe null
             it.imagePath shouldBe null
             it.link shouldBe null
-            it.addWithoutRequired shouldBe true
+            it.categories shouldBe null
+            it.expanded shouldBe null
+            it.newCategoryValue shouldBe null
+            it.openAddCategoryDialog shouldBe false
+            it.showDeleteItemDialog shouldBe false
+            it.validName shouldBe true
+            it.validQuantity shouldBe true
+            it.validMinQuantityTarget shouldBe true
         }
     }
 
@@ -84,7 +99,14 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe null
             it.imagePath shouldBe null
             it.link shouldBe null
-            it.addWithoutRequired shouldBe true
+            it.categories shouldBe null
+            it.expanded shouldBe null
+            it.newCategoryValue shouldBe null
+            it.openAddCategoryDialog shouldBe false
+            it.showDeleteItemDialog shouldBe false
+            it.validName shouldBe true
+            it.validQuantity shouldBe true
+            it.validMinQuantityTarget shouldBe true
         }
     }
 
@@ -109,7 +131,14 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe null
             it.imagePath shouldBe null
             it.link shouldBe null
-            it.addWithoutRequired shouldBe true
+            it.categories shouldBe null
+            it.expanded shouldBe null
+            it.newCategoryValue shouldBe null
+            it.openAddCategoryDialog shouldBe false
+            it.showDeleteItemDialog shouldBe false
+            it.validName shouldBe true
+            it.validQuantity shouldBe true
+            it.validMinQuantityTarget shouldBe true
         }
     }
 
@@ -134,7 +163,14 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe null
             it.imagePath shouldBe null
             it.link shouldBe null
-            it.addWithoutRequired shouldBe false
+            it.categories shouldBe null
+            it.expanded shouldBe null
+            it.newCategoryValue shouldBe null
+            it.openAddCategoryDialog shouldBe false
+            it.showDeleteItemDialog shouldBe false
+            it.validName shouldBe true
+            it.validQuantity shouldBe true
+            it.validMinQuantityTarget shouldBe true
         }
     }
 
@@ -159,7 +195,14 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe "..."
             it.imagePath shouldBe null
             it.link shouldBe null
-            it.addWithoutRequired shouldBe false
+            it.categories shouldBe null
+            it.expanded shouldBe null
+            it.newCategoryValue shouldBe null
+            it.openAddCategoryDialog shouldBe false
+            it.showDeleteItemDialog shouldBe false
+            it.validName shouldBe true
+            it.validQuantity shouldBe true
+            it.validMinQuantityTarget shouldBe true
         }
     }
 
@@ -190,7 +233,14 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.imagePath shouldBe "https://media.kitepackaging.co.uk/images/" +
                     "product/large/7x7x7l.jpg"
             it.link shouldBe null
-            it.addWithoutRequired shouldBe false
+            it.categories shouldBe null
+            it.expanded shouldBe null
+            it.newCategoryValue shouldBe null
+            it.openAddCategoryDialog shouldBe false
+            it.showDeleteItemDialog shouldBe false
+            it.validName shouldBe true
+            it.validQuantity shouldBe true
+            it.validMinQuantityTarget shouldBe true
         }
     }
 
@@ -217,7 +267,14 @@ class AddInventoryItemViewModelTest : FreeSpec({
             it.description shouldBe null
             it.imagePath shouldBe null
             it.link shouldBe "https://media.kitepackaging.co.uk/images/product/large/7x7x7l.jpg"
-            it.addWithoutRequired shouldBe false
+            it.categories shouldBe null
+            it.expanded shouldBe null
+            it.newCategoryValue shouldBe null
+            it.openAddCategoryDialog shouldBe false
+            it.showDeleteItemDialog shouldBe false
+            it.validName shouldBe true
+            it.validQuantity shouldBe true
+            it.validMinQuantityTarget shouldBe true
         }
     }
 
@@ -249,7 +306,14 @@ class AddInventoryItemViewModelTest : FreeSpec({
                 it.description shouldBe null
                 it.imagePath shouldBe null
                 it.link shouldBe null
-                it.addWithoutRequired shouldBe false
+                it.categories shouldBe null
+                it.expanded shouldBe null
+                it.newCategoryValue shouldBe null
+                it.openAddCategoryDialog shouldBe false
+                it.showDeleteItemDialog shouldBe false
+                it.validName shouldBe true
+                it.validQuantity shouldBe true
+                it.validMinQuantityTarget shouldBe true
             }
         }
         "invalid case" {
@@ -276,7 +340,14 @@ class AddInventoryItemViewModelTest : FreeSpec({
                 it.description shouldBe null
                 it.imagePath shouldBe null
                 it.link shouldBe null
-                it.addWithoutRequired shouldBe true
+                it.categories shouldBe null
+                it.expanded shouldBe null
+                it.newCategoryValue shouldBe null
+                it.openAddCategoryDialog shouldBe false
+                it.showDeleteItemDialog shouldBe false
+                it.validName shouldBe true
+                it.validQuantity shouldBe true
+                it.validMinQuantityTarget shouldBe true
             }
         }
     }
