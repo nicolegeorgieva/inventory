@@ -1,18 +1,11 @@
 package com.example.inventory.screen.moremenu
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.inventory.R
 import com.example.inventory.component.CustomTopAppBar
+import com.example.inventory.screen.moremenu.component.NameRow
 import com.example.inventory.ui.theme.InventoryTheme
 
 @Composable
@@ -68,27 +62,6 @@ private fun MoreMenuUi(
             }
         }
     )
-}
-
-@Composable
-private fun NameRow(
-    nameValue: String,
-    onNameChange: (String) -> Unit
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(text = stringResource(R.string.name_label))
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        OutlinedTextField(
-            modifier = Modifier.width(124.dp),
-            value = nameValue,
-            onValueChange = onNameChange
-        )
-    }
 }
 
 @Preview(showBackground = true)
