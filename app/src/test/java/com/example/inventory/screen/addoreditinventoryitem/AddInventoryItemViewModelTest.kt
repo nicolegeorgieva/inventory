@@ -346,7 +346,7 @@ class AddInventoryItemViewModelTest : FreeSpec({
                 it.openAddCategoryDialog shouldBe false
                 it.showDeleteItemDialog shouldBe false
                 it.validName shouldBe true
-                it.validQuantity shouldBe true
+                it.validQuantity shouldBe false
                 it.validMinQuantityTarget shouldBe true
             }
         }

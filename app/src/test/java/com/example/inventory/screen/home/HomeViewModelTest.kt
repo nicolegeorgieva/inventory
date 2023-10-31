@@ -10,6 +10,7 @@ import com.example.inventory.navigation.Navigator
 import com.example.inventory.runTest
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
@@ -29,6 +30,7 @@ class HomeViewModelTest : FreeSpec({
                 InventoryListProvider(),
                 navigator
             )
+            coEvery { quoteRepository.getQuotes() } returns listOf("Organization is power")
 
             // when
             val events = emptyList<HomeEvent>()
@@ -36,6 +38,7 @@ class HomeViewModelTest : FreeSpec({
             // then
             viewModel.runTest(events) {
                 it.name shouldBe null
+                it.quote shouldBe "Organization is power"
                 it.inventoryItemList shouldBe persistentListOf(
                     InventoryItemType.Section(section = SectionType.TOBUY, count = 0),
                     InventoryItemType.Section(section = SectionType.ENOUGH, count = 0)
@@ -66,6 +69,7 @@ class HomeViewModelTest : FreeSpec({
                 description = "",
                 imagePath = ""
             )
+            coEvery { quoteRepository.getQuotes() } returns listOf("Organization is power")
 
             // when
             nameRepository.setName("Amy")
@@ -82,6 +86,7 @@ class HomeViewModelTest : FreeSpec({
             )
             viewModel.runTest(events) {
                 it.name shouldBe "Amy"
+                it.quote shouldBe "Organization is power"
                 it.inventoryItemList shouldBe persistentListOf(
                     InventoryItemType.Section(section = SectionType.TOBUY, count = 1),
                     InventoryItemType.Item(inventoryUi),
@@ -110,6 +115,7 @@ class HomeViewModelTest : FreeSpec({
             description = "",
             imagePath = ""
         )
+        coEvery { quoteRepository.getQuotes() } returns listOf("Organization is power")
 
         // when
         nameRepository.setName("Amy")
@@ -129,6 +135,7 @@ class HomeViewModelTest : FreeSpec({
         )
         viewModel.runTest(events) {
             it.name shouldBe "Amy"
+            it.quote shouldBe "Organization is power"
             it.inventoryItemList shouldBe persistentListOf(
                 InventoryItemType.Section(section = SectionType.TOBUY, count = 0),
                 InventoryItemType.Section(section = SectionType.ENOUGH, count = 1),
@@ -156,6 +163,7 @@ class HomeViewModelTest : FreeSpec({
             description = "",
             imagePath = ""
         )
+        coEvery { quoteRepository.getQuotes() } returns listOf("Organization is power")
 
         // when
         inventoryRepository.add(inventoryItem)
@@ -171,6 +179,7 @@ class HomeViewModelTest : FreeSpec({
         )
         viewModel.runTest(events) {
             it.name shouldBe null
+            it.quote shouldBe "Organization is power"
             it.inventoryItemList shouldBe persistentListOf(
                 InventoryItemType.Section(section = SectionType.TOBUY, count = 1),
                 InventoryItemType.Item(inventoryUi),
