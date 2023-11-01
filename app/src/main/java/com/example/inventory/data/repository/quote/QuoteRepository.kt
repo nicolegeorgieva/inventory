@@ -10,7 +10,12 @@ class QuoteRepository @Inject constructor(
     private val remoteQuoteDataSource: RemoteQuoteDataSource,
     private val localQuoteDataSource: LocalQuoteDataSource
 ) {
-    suspend fun getQuote(): String {
+    /**
+     * It gets a random quote from the server and saves it in DataStore.
+     * @return random quote from the fetched quotes response or lastly saved quote from DataStore
+     * or a hard-coded default quote
+     */
+    suspend fun fetchQuote(): String {
         var quote: String
         val defaultQuote = "Organization is power"
 
@@ -27,7 +32,7 @@ class QuoteRepository @Inject constructor(
         return quote
     }
 
-    suspend fun setQuote(quote: String?) {
+    private suspend fun setQuote(quote: String?) {
         withContext(Dispatchers.IO) {
             if (quote != null) {
                 localQuoteDataSource.setQuote(quote)
