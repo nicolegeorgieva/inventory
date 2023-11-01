@@ -1,5 +1,6 @@
 package com.example.inventory.data.repository.quote
 
+import com.example.inventory.data.datasource.date.DateDataSource
 import com.example.inventory.data.datasource.quote.LocalQuoteDataSource
 import com.example.inventory.data.datasource.quote.RemoteQuoteDataSource
 import kotlinx.coroutines.Dispatchers
@@ -8,8 +9,17 @@ import javax.inject.Inject
 
 class QuoteRepository @Inject constructor(
     private val remoteQuoteDataSource: RemoteQuoteDataSource,
-    private val localQuoteDataSource: LocalQuoteDataSource
+    private val localQuoteDataSource: LocalQuoteDataSource,
+    private val dateDataSource: DateDataSource
 ) {
+    companion object {
+        private const val DEFAULT_QUOTE = "Organization is power"
+    }
+
+    suspend fun getQuote(): String {
+        return localQuoteDataSource.getQuote() ?: DEFAULT_QUOTE
+    }
+
     /**
      * It gets a random quote from the server and saves it in DataStore.
      * @return random quote from the fetched quotes response or lastly saved quote from DataStore
@@ -17,7 +27,6 @@ class QuoteRepository @Inject constructor(
      */
     suspend fun fetchQuote(): String {
         var quote: String
-        val defaultQuote = "Organization is power"
 
         withContext(Dispatchers.IO) {
             quote = try {
@@ -25,7 +34,7 @@ class QuoteRepository @Inject constructor(
                 setQuote(randomQuote)
                 randomQuote
             } catch (e: Exception) {
-                localQuoteDataSource.getQuote() ?: defaultQuote
+                localQuoteDataSource.getQuote() ?: DEFAULT_QUOTE
             }
         }
 
