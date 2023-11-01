@@ -20,6 +20,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -100,11 +102,20 @@ private fun RemoteImage(
     image: String,
     modifier: Modifier = Modifier
 ) {
-    AsyncImage(
-        modifier = modifier,
-        model = image,
-        contentDescription = stringResource(R.string.item_image)
-    )
+    val hasError = remember { mutableStateOf(false) }
+
+    if (!hasError.value) {
+        AsyncImage(
+            modifier = modifier,
+            model = image,
+            onError = {
+                hasError.value = true
+            },
+            contentDescription = stringResource(R.string.item_image)
+        )
+    } else {
+        DefaultImage(modifier = modifier)
+    }
 }
 
 @Composable

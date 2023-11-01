@@ -39,8 +39,8 @@ class HomeViewModel @Inject constructor(
     override fun uiState(): HomeState {
         LaunchedEffect(Unit) {
             name.value = nameRepository.getName()
-            quote.value = quoteRepository.getQuote()
-            quote.value = quoteRepository.fetchQuote()
+            quote.value = quoteRepository.getLocalOrDefaultQuote()
+            quote.value = quoteRepository.getQuoteWithRemoteCall()
 
             refreshInventoryList()
         }
