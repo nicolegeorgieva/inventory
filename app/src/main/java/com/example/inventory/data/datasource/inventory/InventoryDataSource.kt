@@ -1,4 +1,4 @@
-package com.example.inventory.data.datasource
+package com.example.inventory.data.datasource.inventory
 
 import com.example.inventory.data.database.dao.InventoryDao
 import com.example.inventory.data.database.entity.InventoryEntity

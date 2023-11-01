@@ -1,4 +1,4 @@
-package com.example.inventory.data.datasource
+package com.example.inventory.data.datasource.name
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -9,22 +9,22 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class NameDataSource @Inject constructor(
-    private val datastore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>
 ) {
     suspend fun getName(): String? {
-        return datastore.data.map {
+        return dataStore.data.map {
             it[NAME]
         }.firstOrNull()
     }
 
     suspend fun setName(newName: String) {
-        datastore.edit {
+        dataStore.edit {
             it[NAME] = newName
         }
     }
 
     suspend fun removeName() {
-        datastore.edit {
+        dataStore.edit {
             it.remove(NAME)
         }
     }

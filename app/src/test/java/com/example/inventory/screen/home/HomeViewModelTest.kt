@@ -30,7 +30,7 @@ class HomeViewModelTest : FreeSpec({
                 InventoryListProvider(),
                 navigator
             )
-            coEvery { quoteRepository.getQuotes() } returns listOf("Organization is power")
+            coEvery { quoteRepository.getQuote() } returns listOf("Organization is power")
 
             // when
             val events = emptyList<HomeEvent>()
@@ -66,7 +66,7 @@ class HomeViewModelTest : FreeSpec({
                 description = "",
                 imagePath = ""
             )
-            coEvery { quoteRepository.getQuotes() } returns listOf("Organization is power")
+            coEvery { quoteRepository.getQuote() } returns listOf("Organization is power")
 
             // when
             nameRepository.setName("Amy")
@@ -112,7 +112,7 @@ class HomeViewModelTest : FreeSpec({
             description = "",
             imagePath = ""
         )
-        coEvery { quoteRepository.getQuotes() } returns listOf("Organization is power")
+        coEvery { quoteRepository.getQuote() } returns listOf("Organization is power")
 
         // when
         nameRepository.setName("Amy")
@@ -160,7 +160,7 @@ class HomeViewModelTest : FreeSpec({
             description = "",
             imagePath = ""
         )
-        coEvery { quoteRepository.getQuotes() } returns listOf("Organization is power")
+        coEvery { quoteRepository.getQuote() } returns listOf("Organization is power")
 
         // when
         inventoryRepository.add(inventoryItem)

@@ -1,24 +1,35 @@
 package com.example.inventory.data.repository.quote
 
-import com.example.inventory.data.datasource.QuoteDataSource
+import com.example.inventory.data.datasource.quote.LocalQuoteDataSource
+import com.example.inventory.data.datasource.quote.RemoteQuoteDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class QuoteRepository @Inject constructor(
-    private val quoteDataSource: QuoteDataSource
+    private val remoteQuoteDataSource: RemoteQuoteDataSource,
+    private val localQuoteDataSource: LocalQuoteDataSource
 ) {
-    suspend fun getQuotes(): List<String> {
-        var quotes: List<String>
+    suspend fun getQuote(): String {
+        var quote: String
+        val defaultQuote = "Organization is power"
 
         withContext(Dispatchers.IO) {
-            quotes = try {
-                quoteDataSource.fetchQuotes()
+            quote = try {
+                remoteQuoteDataSource.fetchQuotes().random()
             } catch (e: Exception) {
-                listOf()
+                localQuoteDataSource.getQuote() ?: defaultQuote
             }
         }
 
-        return quotes
+        return quote
+    }
+
+    suspend fun setQuote(quote: String?) {
+        withContext(Dispatchers.IO) {
+            if (quote != null) {
+                localQuoteDataSource.setQuote(quote)
+            }
+        }
     }
 }

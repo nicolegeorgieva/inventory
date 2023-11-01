@@ -1,6 +1,6 @@
 package com.example.inventory.data.repository.name
 
-import com.example.inventory.data.datasource.NameDataSource
+import com.example.inventory.data.datasource.name.NameDataSource
 import com.example.inventory.dispatcher.DispatcherProvider
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

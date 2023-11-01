@@ -1,6 +1,6 @@
 package com.example.inventory.data.repository
 
-import com.example.inventory.data.datasource.NameDataSource
+import com.example.inventory.data.datasource.name.NameDataSource
 import com.example.inventory.data.repository.name.NameRepositoryImpl
 import com.example.inventory.fake.dispatcher.FakeDispatcherProvider
 import io.kotest.core.spec.style.FreeSpec

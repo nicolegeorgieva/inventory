@@ -1,7 +1,7 @@
 package com.example.inventory.data.repository
 
 import com.example.inventory.data.database.entity.InventoryEntity
-import com.example.inventory.data.datasource.InventoryDataSource
+import com.example.inventory.data.datasource.inventory.InventoryDataSource
 import com.example.inventory.data.model.InventoryItem
 import com.example.inventory.data.repository.inventory.InventoryRepositoryImpl
 import com.example.inventory.data.repository.mapper.InventoryMapper

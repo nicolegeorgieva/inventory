@@ -1,4 +1,4 @@
-package com.example.inventory.data.datasource
+package com.example.inventory.data.datasource.quote
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -6,7 +6,7 @@ import io.ktor.client.request.get
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
-class QuoteDataSource @Inject constructor(
+class RemoteQuoteDataSource @Inject constructor(
     private val client: HttpClient
 ) {
     @Serializable
