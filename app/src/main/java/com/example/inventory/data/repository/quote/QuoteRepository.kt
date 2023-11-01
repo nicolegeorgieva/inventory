@@ -16,7 +16,9 @@ class QuoteRepository @Inject constructor(
 
         withContext(Dispatchers.IO) {
             quote = try {
-                remoteQuoteDataSource.fetchQuotes().random()
+                val randomQuote = remoteQuoteDataSource.fetchQuotes().random()
+                setQuote(randomQuote)
+                randomQuote
             } catch (e: Exception) {
                 localQuoteDataSource.getQuote() ?: defaultQuote
             }

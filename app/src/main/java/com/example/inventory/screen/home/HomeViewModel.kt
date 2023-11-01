@@ -40,7 +40,6 @@ class HomeViewModel @Inject constructor(
         LaunchedEffect(Unit) {
             name.value = nameRepository.getName()
             quote.value = quoteRepository.getQuote()
-            quoteRepository.setQuote(quote.value)
 
             refreshInventoryList()
         }
