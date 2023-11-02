@@ -3,15 +3,16 @@ package com.example.inventory.data.repository.quote
 import com.example.inventory.data.datasource.date.DateDataSource
 import com.example.inventory.data.datasource.quote.LocalQuoteDataSource
 import com.example.inventory.data.datasource.quote.RemoteQuoteDataSource
+import com.example.inventory.domain.DateProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.Date
 import javax.inject.Inject
 
 class QuoteRepository @Inject constructor(
     private val remoteQuoteDataSource: RemoteQuoteDataSource,
     private val localQuoteDataSource: LocalQuoteDataSource,
-    private val dateDataSource: DateDataSource
+    private val dateDataSource: DateDataSource,
+    private val dateProvider: DateProvider
 ) {
     companion object {
         private const val DEFAULT_QUOTE = "Organization is power"
@@ -57,12 +58,12 @@ class QuoteRepository @Inject constructor(
         withContext(Dispatchers.IO) {
             if (quote != null) {
                 localQuoteDataSource.setQuote(quote)
-                dateDataSource.setDate(Date().time)
+                dateDataSource.setDate(dateProvider.provideCurrentDate())
             }
         }
     }
 
     private fun twentyFourHoursHavePassed(savedDate: Long): Boolean {
-        return Date().time >= savedDate + MILLIS_24_HOURS
+        return dateProvider.provideCurrentDate() >= savedDate + MILLIS_24_HOURS
     }
 }
