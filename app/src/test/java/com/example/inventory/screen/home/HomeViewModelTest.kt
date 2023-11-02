@@ -30,7 +30,10 @@ class HomeViewModelTest : FreeSpec({
                 InventoryListProvider(),
                 navigator
             )
-            coEvery { quoteRepository.getQuoteWithRemoteCall() } returns "Organization is power"
+            coEvery { quoteRepository.getLocalOrDefaultQuote() } returns
+                    QuoteRepository.DEFAULT_QUOTE
+            coEvery { quoteRepository.getQuoteWithRemoteCall() } returns
+                    QuoteRepository.DEFAULT_QUOTE
 
             // when
             val events = emptyList<HomeEvent>()
@@ -38,7 +41,7 @@ class HomeViewModelTest : FreeSpec({
             // then
             viewModel.runTest(events) {
                 it.name shouldBe null
-                it.quote shouldBe "Organization is power"
+                it.quote shouldBe QuoteRepository.DEFAULT_QUOTE
                 it.inventoryItemList shouldBe persistentListOf()
             }
         }
@@ -66,7 +69,10 @@ class HomeViewModelTest : FreeSpec({
                 description = "",
                 imagePath = ""
             )
-            coEvery { quoteRepository.getQuoteWithRemoteCall() } returns "Organization is power"
+            coEvery { quoteRepository.getLocalOrDefaultQuote() } returns
+                    QuoteRepository.DEFAULT_QUOTE
+            coEvery { quoteRepository.getQuoteWithRemoteCall() } returns
+                    QuoteRepository.DEFAULT_QUOTE
 
             // when
             nameRepository.setName("Amy")
@@ -83,7 +89,7 @@ class HomeViewModelTest : FreeSpec({
             )
             viewModel.runTest(events) {
                 it.name shouldBe "Amy"
-                it.quote shouldBe "Organization is power"
+                it.quote shouldBe QuoteRepository.DEFAULT_QUOTE
                 it.inventoryItemList shouldBe persistentListOf(
                     InventoryItemType.Section(section = SectionType.TOBUY, count = 1),
                     InventoryItemType.Item(inventoryUi),
@@ -112,7 +118,8 @@ class HomeViewModelTest : FreeSpec({
             description = "",
             imagePath = ""
         )
-        coEvery { quoteRepository.getQuoteWithRemoteCall() } returns "Organization is power"
+        coEvery { quoteRepository.getLocalOrDefaultQuote() } returns QuoteRepository.DEFAULT_QUOTE
+        coEvery { quoteRepository.getQuoteWithRemoteCall() } returns QuoteRepository.DEFAULT_QUOTE
 
         // when
         nameRepository.setName("Amy")
@@ -132,7 +139,7 @@ class HomeViewModelTest : FreeSpec({
         )
         viewModel.runTest(events) {
             it.name shouldBe "Amy"
-            it.quote shouldBe "Organization is power"
+            it.quote shouldBe QuoteRepository.DEFAULT_QUOTE
             it.inventoryItemList shouldBe persistentListOf(
                 InventoryItemType.Section(section = SectionType.TOBUY, count = 0),
                 InventoryItemType.Section(section = SectionType.ENOUGH, count = 1),
@@ -160,7 +167,8 @@ class HomeViewModelTest : FreeSpec({
             description = "",
             imagePath = ""
         )
-        coEvery { quoteRepository.getQuoteWithRemoteCall() } returns "Organization is power"
+        coEvery { quoteRepository.getLocalOrDefaultQuote() } returns QuoteRepository.DEFAULT_QUOTE
+        coEvery { quoteRepository.getQuoteWithRemoteCall() } returns QuoteRepository.DEFAULT_QUOTE
 
         // when
         inventoryRepository.add(inventoryItem)
@@ -176,7 +184,7 @@ class HomeViewModelTest : FreeSpec({
         )
         viewModel.runTest(events) {
             it.name shouldBe null
-            it.quote shouldBe "Organization is power"
+            it.quote shouldBe QuoteRepository.DEFAULT_QUOTE
             it.inventoryItemList shouldBe persistentListOf(
                 InventoryItemType.Section(section = SectionType.TOBUY, count = 1),
                 InventoryItemType.Item(inventoryUi),
