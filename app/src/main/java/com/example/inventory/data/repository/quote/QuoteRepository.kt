@@ -31,9 +31,9 @@ class QuoteRepository @Inject constructor(
      */
     suspend fun getQuoteWithRemoteCall(): String {
         return withContext(Dispatchers.IO) {
-            val getDate = dateDataSource.getDate()
+            val savedDate = dateDataSource.getDate()
 
-            if (getDate == null || Date().time >= getDate + MILLIS_24_HOURS) {
+            if (savedDate == null || twentyFourHoursHavePassed(savedDate)) {
                 fetchRandomRemoteQuote() ?: getLocalOrDefaultQuote()
             } else {
                 getLocalOrDefaultQuote()
@@ -60,5 +60,9 @@ class QuoteRepository @Inject constructor(
                 dateDataSource.setDate(Date().time)
             }
         }
+    }
+
+    private fun twentyFourHoursHavePassed(savedDate: Long): Boolean {
+        return Date().time >= savedDate + MILLIS_24_HOURS
     }
 }
