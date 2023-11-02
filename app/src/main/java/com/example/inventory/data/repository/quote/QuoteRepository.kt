@@ -3,12 +3,13 @@ package com.example.inventory.data.repository.quote
 import com.example.inventory.data.datasource.date.DateDataSource
 import com.example.inventory.data.datasource.quote.LocalQuoteDataSource
 import com.example.inventory.data.datasource.quote.RemoteQuoteDataSource
+import com.example.inventory.dispatcher.DispatcherProvider
 import com.example.inventory.domain.DateProvider
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class QuoteRepository @Inject constructor(
+    private val dispatchers: DispatcherProvider,
     private val remoteQuoteDataSource: RemoteQuoteDataSource,
     private val localQuoteDataSource: LocalQuoteDataSource,
     private val dateDataSource: DateDataSource,
@@ -20,7 +21,7 @@ class QuoteRepository @Inject constructor(
     }
 
     suspend fun getLocalOrDefaultQuote(): String {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatchers.io) {
             localQuoteDataSource.getQuote() ?: DEFAULT_QUOTE
         }
     }
@@ -31,7 +32,7 @@ class QuoteRepository @Inject constructor(
      * or a hard-coded default quote
      */
     suspend fun getQuoteWithRemoteCall(): String {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatchers.io) {
             val savedDate = dateDataSource.getDate()
 
             if (savedDate == null || twentyFourHoursHavePassed(savedDate)) {
@@ -55,7 +56,7 @@ class QuoteRepository @Inject constructor(
     }
 
     private suspend fun setQuote(quote: String?) {
-        withContext(Dispatchers.IO) {
+        withContext(dispatchers.io) {
             if (quote != null) {
                 localQuoteDataSource.setQuote(quote)
                 dateDataSource.setDate(dateProvider.provideCurrentDate())
