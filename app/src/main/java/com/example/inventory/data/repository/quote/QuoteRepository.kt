@@ -6,6 +6,9 @@ import com.example.inventory.data.datasource.quote.RemoteQuoteDataSource
 import com.example.inventory.dispatcher.DispatcherProvider
 import com.example.inventory.domain.DateProvider
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -34,18 +37,21 @@ class QuoteRepository @Inject constructor(
      * or a hard-coded default quote
      */
     suspend fun getQuoteWithRemoteCall(): Flow<String> {
-        return withContext(dispatchers.io) {
-            val savedDate = dateDataSource.getDate()
+        val savedDateFlow = dateDataSource.getDate()
+        val savedDate = savedDateFlow.first()
 
+        return flow {
             if (savedDate == null || twentyFourHoursHavePassed(savedDate)) {
-                fetchRandomRemoteQuote() ?: getLocalOrDefaultQuote()
+                fetchRandomRemoteQuote().map {
+                    it ?: getLocalOrDefaultQuote()
+                }
             } else {
                 getLocalOrDefaultQuote()
-            }
+            }.flowOn(dispatchers.io)
         }
     }
 
-    private suspend fun fetchRandomRemoteQuote(): Flow<String?> {
+    private suspend fun fetchRandomRemoteQuote(): String? {
         val quote = try {
             val randomQuote = remoteQuoteDataSource.fetchQuotes().random()
             setQuote(randomQuote)
