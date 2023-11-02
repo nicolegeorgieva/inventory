@@ -134,8 +134,37 @@ class QuoteRepositoryTest : FreeSpec({
             }
         }
 
-        "else" {
+        "returns local or default quote" {
+            // given
+            val remoteQuoteDataSource = mockk<RemoteQuoteDataSource>()
+            val localQuoteDataSource = mockk<LocalQuoteDataSource>()
+            val dateDataSource = mockk<DateDataSource>()
+            val dateProvider = mockk<DateProvider>()
+            val savedQuote = "Preparation is power"
+            val timeBefore = QuoteRepository.MILLIS_24_HOURS
+            val timeNow = timeBefore + 1000
 
+            val repository = QuoteRepository(
+                dispatchers = FakeDispatcherProvider(),
+                remoteQuoteDataSource = remoteQuoteDataSource,
+                localQuoteDataSource = localQuoteDataSource,
+                dateDataSource = dateDataSource,
+                dateProvider = dateProvider
+            )
+
+            coEvery { dateDataSource.getDate() } returns timeBefore
+            coEvery { localQuoteDataSource.getQuote() } returns savedQuote
+            coEvery { dateDataSource.setDate(any()) } just runs
+            coEvery { dateProvider.provideCurrentDate() } returns timeNow
+
+            // when
+            val quote = repository.getQuoteWithRemoteCall()
+
+            // then
+            quote shouldBe savedQuote
+            coVerify(exactly = 0) {
+                remoteQuoteDataSource.fetchQuotes()
+            }
         }
     }
 })
