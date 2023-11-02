@@ -16,8 +16,8 @@ class QuoteRepository @Inject constructor(
     private val dateProvider: DateProvider
 ) {
     companion object {
-        private const val DEFAULT_QUOTE = "Organization is power"
-        private const val MILLIS_24_HOURS = 86400000
+        const val DEFAULT_QUOTE = "Organization is power"
+        const val MILLIS_24_HOURS = 86400000
     }
 
     suspend fun getLocalOrDefaultQuote(): String {
