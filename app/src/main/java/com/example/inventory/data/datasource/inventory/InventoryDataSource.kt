@@ -2,37 +2,38 @@ package com.example.inventory.data.datasource.inventory
 
 import com.example.inventory.data.database.dao.InventoryDao
 import com.example.inventory.data.database.entity.InventoryEntity
+import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 import javax.inject.Inject
 
 class InventoryDataSource @Inject constructor(
     private val dao: InventoryDao
 ) {
-    suspend fun getAll(): List<InventoryEntity> {
+    fun getAll(): Flow<List<InventoryEntity>> {
         return dao.getAll()
     }
 
-    suspend fun getAllOrderedByAscending(): List<InventoryEntity> {
+    fun getAllOrderedByAscending(): Flow<List<InventoryEntity>> {
         return dao.getAllOrderedByAscending()
     }
 
-    suspend fun getAllOrderedByDescending(): List<InventoryEntity> {
+    fun getAllOrderedByDescending(): Flow<List<InventoryEntity>> {
         return dao.getAllOrderedByDescending()
     }
 
-    suspend fun getAllByCategory(category: String): List<InventoryEntity> {
+    fun getAllByCategory(category: String): Flow<List<InventoryEntity>> {
         return dao.getAllByCategory(category)
     }
 
-    suspend fun getById(id: UUID): InventoryEntity? {
+    fun getById(id: UUID): Flow<InventoryEntity?> {
         return dao.getById(id)
     }
 
-    suspend fun orderByAscending(category: String): List<InventoryEntity> {
+    fun orderByAscending(category: String): Flow<List<InventoryEntity>> {
         return dao.orderByAscending(category)
     }
 
-    suspend fun orderByDescending(category: String): List<InventoryEntity> {
+    fun orderByDescending(category: String): Flow<List<InventoryEntity>> {
         return dao.orderByDescending(category)
     }
 

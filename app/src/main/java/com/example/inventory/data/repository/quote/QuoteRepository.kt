@@ -5,6 +5,8 @@ import com.example.inventory.data.datasource.quote.LocalQuoteDataSource
 import com.example.inventory.data.datasource.quote.RemoteQuoteDataSource
 import com.example.inventory.dispatcher.DispatcherProvider
 import com.example.inventory.domain.DateProvider
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -20,9 +22,9 @@ class QuoteRepository @Inject constructor(
         const val MILLIS_24_HOURS = 86400000L
     }
 
-    suspend fun getLocalOrDefaultQuote(): String {
-        return withContext(dispatchers.io) {
-            localQuoteDataSource.getQuote() ?: DEFAULT_QUOTE
+    fun getLocalOrDefaultQuote(): Flow<String> {
+        return localQuoteDataSource.getQuote().map {
+            it ?: DEFAULT_QUOTE
         }
     }
 
@@ -31,7 +33,7 @@ class QuoteRepository @Inject constructor(
      * @return random quote from the fetched quotes response or lastly saved quote from DataStore
      * or a hard-coded default quote
      */
-    suspend fun getQuoteWithRemoteCall(): String {
+    suspend fun getQuoteWithRemoteCall(): Flow<String> {
         return withContext(dispatchers.io) {
             val savedDate = dateDataSource.getDate()
 
@@ -43,7 +45,7 @@ class QuoteRepository @Inject constructor(
         }
     }
 
-    private suspend fun fetchRandomRemoteQuote(): String? {
+    private suspend fun fetchRandomRemoteQuote(): Flow<String?> {
         val quote = try {
             val randomQuote = remoteQuoteDataSource.fetchQuotes().random()
             setQuote(randomQuote)
