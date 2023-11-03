@@ -1,20 +1,20 @@
 package com.example.inventory.screen.home
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewModelScope
 import com.example.inventory.ComposeViewModel
-import com.example.inventory.data.model.InventoryItem
 import com.example.inventory.data.repository.inventory.InventoryRepository
 import com.example.inventory.data.repository.name.NameRepository
 import com.example.inventory.data.repository.quote.QuoteRepository
 import com.example.inventory.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toPersistentList
-import kotlinx.collections.immutable.toPersistentSet
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -27,24 +27,12 @@ class HomeViewModel @Inject constructor(
     private val inventoryListProvider: InventoryListProvider,
     private val navigator: Navigator
 ) : ComposeViewModel<HomeState, HomeEvent>() {
-    private val name = mutableStateOf<String?>(null)
-    private val quote = mutableStateOf<String?>(null)
     private val sortByAscending = mutableStateOf(true)
     private val categoryFilter = mutableStateOf("All")
-    private val categories = mutableStateOf(persistentListOf<String>())
     private val categoryFilterMenuExpanded = mutableStateOf(false)
-    private val inventoryItemList = mutableStateOf<ImmutableList<InventoryItemType>?>(null)
 
     @Composable
     override fun uiState(): HomeState {
-        LaunchedEffect(Unit) {
-            name.value = nameRepository.getName()
-            quote.value = quoteRepository.getLocalOrDefaultQuote()
-            quote.value = quoteRepository.getQuoteWithRemoteCall()
-
-            refreshInventoryList()
-        }
-
         return HomeState(
             name = getName(),
             quote = getQuote(),
@@ -58,12 +46,16 @@ class HomeViewModel @Inject constructor(
 
     @Composable
     private fun getName(): String? {
-        return name.value
+        return remember {
+            nameRepository.getName()
+        }.collectAsState(initial = null).value
     }
 
     @Composable
     private fun getQuote(): String? {
-        return quote.value
+        return remember {
+            quoteRepository.getQuote()
+        }.collectAsState(initial = null).value
     }
 
     @Composable
@@ -78,7 +70,13 @@ class HomeViewModel @Inject constructor(
 
     @Composable
     private fun getCategories(): ImmutableList<String> {
-        return categories.value
+        return remember {
+            inventoryRepository.getAll().map {
+                it.mapNotNull { item ->
+                    item.category
+                }
+            }
+        }.collectAsState(initial = emptyList()).value.toSet().toImmutableList()
     }
 
     @Composable
@@ -87,8 +85,25 @@ class HomeViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getInventoryItemList(): ImmutableList<InventoryItemType>? {
-        return inventoryItemList.value
+    private fun getInventoryItemList(): ImmutableList<InventoryItemType> {
+        val sortByAscending = sortByAscending.value
+        val filter = categoryFilter.value
+
+        val items = remember(sortByAscending, filter) {
+            when {
+                filter == "All" && sortByAscending -> inventoryRepository.getAllOrderedByAscending()
+                filter == "All" && !sortByAscending ->
+                    inventoryRepository.getAllOrderedByDescending()
+
+                filter != "All" && sortByAscending -> inventoryRepository.orderByAscending(filter)
+                else -> inventoryRepository.orderByDescending(filter)
+            }
+        }.collectAsState(initial = null).value
+
+        return inventoryListProvider.generateInventoryList(
+            items ?: emptyList(),
+            sortByAscending
+        )
     }
 
     override fun onEvent(event: HomeEvent) {
@@ -111,10 +126,6 @@ class HomeViewModel @Inject constructor(
 
     private fun onSortOptionClicked() {
         sortByAscending.value = !sortByAscending.value
-
-        viewModelScope.launch {
-            refreshInventoryList()
-        }
     }
 
     private fun onCategoryFilterMenuExpandedChange(expanded: Boolean) {
@@ -123,32 +134,11 @@ class HomeViewModel @Inject constructor(
 
     private fun onCategoryFilterOptionSelected(option: String) {
         categoryFilter.value = option
-        var items: List<InventoryItem>
-
-        if (option != "All") {
-            viewModelScope.launch {
-                items = inventoryRepository.getAllByCategory(option)
-                inventoryListProvider.generateInventoryList(
-                    items,
-                    sortByAscending,
-                    inventoryItemList
-                )
-            }
-        } else {
-            viewModelScope.launch {
-                items = inventoryRepository.getAllOrderedByAscending()
-                inventoryListProvider.generateInventoryList(
-                    items,
-                    sortByAscending,
-                    inventoryItemList
-                )
-            }
-        }
     }
 
     private fun onIncreaseQuantity(id: String) {
         viewModelScope.launch {
-            val inventoryItem = inventoryRepository.getById(UUID.fromString(id))
+            val inventoryItem = inventoryRepository.getById(UUID.fromString(id)).first()
 
             if (inventoryItem != null) {
                 inventoryRepository.update(
@@ -156,15 +146,13 @@ class HomeViewModel @Inject constructor(
                         quantity = inventoryItem.quantity + 1
                     )
                 )
-
-                refreshInventoryList()
             }
         }
     }
 
     private fun onDecreaseQuantity(id: String) {
         viewModelScope.launch {
-            val inventoryItem = inventoryRepository.getById(UUID.fromString(id))
+            val inventoryItem = inventoryRepository.getById(UUID.fromString(id)).first()
 
             if (inventoryItem != null && inventoryItem.quantity > 0) {
                 inventoryRepository.update(
@@ -172,8 +160,6 @@ class HomeViewModel @Inject constructor(
                         quantity = inventoryItem.quantity - 1
                     )
                 )
-
-                refreshInventoryList()
             }
         }
     }
@@ -190,35 +176,5 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             navigator.navigate("addInventoryItem?itemId=$id")
         }
-    }
-
-    private suspend fun refreshInventoryList() {
-        val items = if (categoryFilter.value == "All") {
-            if (sortByAscending.value) {
-                inventoryRepository.getAllOrderedByAscending()
-            } else {
-                inventoryRepository.getAllOrderedByDescending()
-            }
-        } else {
-            if (sortByAscending.value) {
-                inventoryRepository.orderByAscending(categoryFilter.value)
-            } else {
-                inventoryRepository.orderByDescending(categoryFilter.value)
-            }
-        }
-
-        inventoryListProvider.generateInventoryList(
-            items,
-            sortByAscending,
-            inventoryItemList
-        )
-
-        val categories = mutableSetOf<String>()
-
-        inventoryRepository.getAll().forEach {
-            if (it.category != null) categories.add(it.category)
-        }
-
-        this.categories.value = categories.toPersistentSet().sorted().toPersistentList()
     }
 }

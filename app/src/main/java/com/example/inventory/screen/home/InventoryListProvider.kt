@@ -1,6 +1,5 @@
 package com.example.inventory.screen.home
 
-import androidx.compose.runtime.MutableState
 import com.example.inventory.data.model.InventoryItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -10,9 +9,8 @@ import javax.inject.Inject
 class InventoryListProvider @Inject constructor() {
     fun generateInventoryList(
         items: List<InventoryItem>,
-        sortByAscending: MutableState<Boolean>,
-        inventoryItemList: MutableState<ImmutableList<InventoryItemType>?>
-    ) {
+        sortByAscending: Boolean,
+    ): ImmutableList<InventoryItemType> {
         val toBuy = provideItemsBySection(
             items, SectionType.TOBUY
         ).map {
@@ -30,11 +28,10 @@ class InventoryListProvider @Inject constructor() {
         }
 
         if (toBuy.isEmpty() && enough.isEmpty()) {
-            inventoryItemList.value = persistentListOf<InventoryItemType.Item>()
-            return
+            return persistentListOf<InventoryItemType.Item>()
         }
 
-        inventoryItemList.value = if (sortByAscending.value) {
+        return if (sortByAscending) {
             buildList {
                 add(InventoryItemType.Section(SectionType.TOBUY, toBuy.size))
                 addAll(toBuy)

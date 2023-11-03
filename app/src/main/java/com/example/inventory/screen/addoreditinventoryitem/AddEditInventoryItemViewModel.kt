@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -147,7 +148,7 @@ class AddEditInventoryItemViewModel @Inject constructor(
 
             is AddEditInventoryItemEvent.SetName -> setName(event.newName)
             is AddEditInventoryItemEvent.SetQuantity -> setQuantity(event.newQuantity)
-            AddEditInventoryItemEvent.AddInventoryItem -> addInventoryItem()
+            AddEditInventoryItemEvent.AddInventoryItem -> addEditInventoryItem()
             is AddEditInventoryItemEvent.OnLinkValueChange -> onLinkValueChange(event.link)
             is AddEditInventoryItemEvent.SetLinkImage -> setLinkImage(event.newImage)
             AddEditInventoryItemEvent.OnExpandedChange -> onExpandedChange()
@@ -175,7 +176,7 @@ class AddEditInventoryItemViewModel @Inject constructor(
 
     private fun onExpandedChange() {
         viewModelScope.launch {
-            val savedCategories = inventoryRepository.getAll().mapNotNull {
+            val savedCategories = inventoryRepository.getAll().first().mapNotNull {
                 it.category
             }
 
@@ -227,7 +228,7 @@ class AddEditInventoryItemViewModel @Inject constructor(
 
     private fun loadItem(id: String) {
         viewModelScope.launch {
-            val item = inventoryRepository.getById(UUID.fromString(id))
+            val item = inventoryRepository.getById(UUID.fromString(id)).first()
 
             name.value = item?.name ?: ""
             quantity.value = item?.quantity.toString()
@@ -246,12 +247,13 @@ class AddEditInventoryItemViewModel @Inject constructor(
 
     private fun deleteItem() {
         viewModelScope.launch {
-            val item = inventoryRepository.getById(UUID.fromString(existingId))
+            val item = inventoryRepository.getById(UUID.fromString(existingId)).first()
 
             if (item != null) {
                 inventoryRepository.delete(item)
-                navigator.back()
             }
+
+            navigator.back()
         }
     }
 
@@ -259,7 +261,7 @@ class AddEditInventoryItemViewModel @Inject constructor(
         showDeleteItemDialog.value = false
     }
 
-    private fun addInventoryItem() {
+    private fun addEditInventoryItem() {
         val validateName = validateName()
         val validateQuantity = validateQuantity()
         val validateMinQuantityTarget = validateMinQuantityTarget()
@@ -281,7 +283,7 @@ class AddEditInventoryItemViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            val checkExistingName = inventoryRepository.getAll().filter {
+            val checkExistingName = inventoryRepository.getAll().first().filter {
                 it.name == name.value
             }
 
