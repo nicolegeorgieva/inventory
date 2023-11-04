@@ -128,19 +128,17 @@ class HomeViewModel @Inject constructor(
         if (option != "All") {
             viewModelScope.launch {
                 items = inventoryRepository.getAllByCategory(option)
-                inventoryListProvider.generateInventoryList(
+                inventoryItemList.value = inventoryListProvider.generateInventoryList(
                     items,
-                    sortByAscending,
-                    inventoryItemList
+                    sortByAscending.value
                 )
             }
         } else {
             viewModelScope.launch {
                 items = inventoryRepository.getAllOrderedByAscending()
-                inventoryListProvider.generateInventoryList(
+                inventoryItemList.value = inventoryListProvider.generateInventoryList(
                     items,
-                    sortByAscending,
-                    inventoryItemList
+                    sortByAscending.value
                 )
             }
         }
@@ -207,10 +205,9 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-        inventoryListProvider.generateInventoryList(
+        inventoryItemList.value = inventoryListProvider.generateInventoryList(
             items,
-            sortByAscending,
-            inventoryItemList
+            sortByAscending.value
         )
 
         val categories = mutableSetOf<String>()
