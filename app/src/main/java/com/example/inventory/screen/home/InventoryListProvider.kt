@@ -31,21 +31,7 @@ class InventoryListProvider @Inject constructor() {
             return persistentListOf<InventoryItemType.Item>()
         }
 
-        return if (sortByAscending) {
-            buildList {
-                add(InventoryItemType.Section(SectionType.TOBUY, toBuy.size))
-                addAll(toBuy)
-                add(InventoryItemType.Section(SectionType.ENOUGH, enough.size))
-                addAll(enough)
-            }.toImmutableList()
-        } else {
-            buildList {
-                add(InventoryItemType.Section(SectionType.ENOUGH, enough.size))
-                addAll(enough)
-                add(InventoryItemType.Section(SectionType.TOBUY, toBuy.size))
-                addAll(toBuy)
-            }.toImmutableList()
-        }
+        return provideSortedItemsList(sortByAscending, toBuy, enough)
     }
 
     private fun provideItemsBySection(
@@ -72,5 +58,33 @@ class InventoryListProvider @Inject constructor() {
                 category = it.category
             )
         }.toImmutableList()
+    }
+
+    private fun provideSortedItemsList(
+        sortByAscending: Boolean,
+        toBuy: List<InventoryItemType.Item>,
+        enough: List<InventoryItemType.Item>
+    ): ImmutableList<InventoryItemType> {
+        val toBuySection = buildList {
+            add(InventoryItemType.Section(SectionType.TOBUY, toBuy.size))
+            addAll(toBuy)
+        }
+
+        val enoughSection = buildList {
+            add(InventoryItemType.Section(SectionType.ENOUGH, enough.size))
+            addAll(enough)
+        }
+
+        return if (sortByAscending) {
+            buildList {
+                addAll(toBuySection)
+                addAll(enoughSection)
+            }.toImmutableList()
+        } else {
+            buildList {
+                addAll(enoughSection)
+                addAll(toBuySection)
+            }.toImmutableList()
+        }
     }
 }
