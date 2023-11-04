@@ -1,6 +1,8 @@
 package com.example.inventory.screen.home.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -40,7 +42,14 @@ fun HomeTopAppBar(
 
         if (quote != null) {
             Text(
-                modifier = Modifier.padding(start = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        bottom = 12.dp
+                    ),
                 text = quote,
                 fontStyle = FontStyle.Italic,
                 color = MaterialTheme.colorScheme.secondary
