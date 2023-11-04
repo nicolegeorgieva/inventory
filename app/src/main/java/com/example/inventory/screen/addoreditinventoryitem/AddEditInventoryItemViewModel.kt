@@ -289,12 +289,12 @@ class AddEditInventoryItemViewModel @Inject constructor(
                 id = if (existingId == null) idProvider.generateId() else UUID.fromString(
                     existingId
                 ),
-                name = name.value ?: "",
-                quantity = quantity.value?.toIntOrNull() ?: 0,
-                minQuantityTarget = minQuantityTarget.value?.toIntOrNull() ?: 0,
+                name = name.value!!,
+                quantity = quantity.value?.toInt()!!,
+                minQuantityTarget = minQuantityTarget.value?.toInt()!!,
                 category = category.value,
-                description = description.value ?: "",
-                imagePath = imagePath.value ?: ""
+                description = description.value,
+                imagePath = imagePath.value
             )
 
             if (checkExistingName.isNotEmpty()) {
