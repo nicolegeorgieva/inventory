@@ -260,23 +260,23 @@ class AddEditInventoryItemViewModel @Inject constructor(
     }
 
     private fun addInventoryItem() {
-        val validateName = validateName()
-        val validateQuantity = validateQuantity()
-        val validateMinQuantityTarget = validateMinQuantityTarget()
+        val validName = validateName()
+        val validQuantity = validateQuantity()
+        val validMinQuantityTarget = validateMinQuantityTarget()
 
-        if (!validateName) {
-            validName.value = false
+        if (!validName) {
+            this.validName.value = false
         }
 
-        if (!validateQuantity) {
-            validQuantity.value = false
+        if (!validQuantity) {
+            this.validQuantity.value = false
         }
 
-        if (!validateMinQuantityTarget) {
-            validMinQuantityTarget.value = false
+        if (!validMinQuantityTarget) {
+            this.validMinQuantityTarget.value = false
         }
 
-        if (!validateName || !validateQuantity || !validateMinQuantityTarget) {
+        if (!validName || !validQuantity || !validMinQuantityTarget) {
             return
         }
 
