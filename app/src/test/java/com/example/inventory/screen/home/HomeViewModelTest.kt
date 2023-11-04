@@ -72,7 +72,7 @@ class HomeViewModelTest : FreeSpec({
             coEvery { quoteRepository.getLocalOrDefaultQuote() } returns
                     QuoteRepository.DEFAULT_QUOTE
             coEvery { quoteRepository.getQuoteWithRemoteCall() } returns
-                    QuoteRepository.DEFAULT_QUOTE
+                    "Get better every day"
 
             // when
             nameRepository.setName("Amy")
@@ -89,7 +89,7 @@ class HomeViewModelTest : FreeSpec({
             )
             viewModel.runTest(events) {
                 it.name shouldBe "Amy"
-                it.quote shouldBe QuoteRepository.DEFAULT_QUOTE
+                it.quote shouldBe "Get better every day"
                 it.inventoryItemList shouldBe persistentListOf(
                     InventoryItemType.Section(section = SectionType.TOBUY, count = 1),
                     InventoryItemType.Item(inventoryUi),
