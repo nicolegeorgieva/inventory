@@ -7,6 +7,7 @@ import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 
 class InventoryListProvider @Inject constructor() {
+    // accepts already sorted list
     fun generateInventoryList(
         items: List<InventoryItem>,
         sortByAscending: Boolean,

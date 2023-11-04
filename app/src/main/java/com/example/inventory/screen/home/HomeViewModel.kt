@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.inventory.ComposeViewModel
-import com.example.inventory.data.model.InventoryItem
 import com.example.inventory.data.repository.inventory.InventoryRepository
 import com.example.inventory.data.repository.name.NameRepository
 import com.example.inventory.data.repository.quote.QuoteRepository
@@ -123,24 +122,9 @@ class HomeViewModel @Inject constructor(
 
     private fun onCategoryFilterOptionSelected(option: String) {
         categoryFilter.value = option
-        var items: List<InventoryItem>
 
-        if (option != "All") {
-            viewModelScope.launch {
-                items = inventoryRepository.getAllByCategory(option)
-                inventoryItemList.value = inventoryListProvider.generateInventoryList(
-                    items,
-                    sortByAscending.value
-                )
-            }
-        } else {
-            viewModelScope.launch {
-                items = inventoryRepository.getAllOrderedByAscending()
-                inventoryItemList.value = inventoryListProvider.generateInventoryList(
-                    items,
-                    sortByAscending.value
-                )
-            }
+        viewModelScope.launch {
+            refreshInventoryList()
         }
     }
 
